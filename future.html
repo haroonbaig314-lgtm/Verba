@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verba - Future Development</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #fafafa;
+            line-height: 1.6;
+            color: #2d3436;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Header - matching main site */
+        header {
+            background: rgba(30, 58, 46, 0.95);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-decoration: none;
+            color: white;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 2rem;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .future-section {
+            padding: 140px 2rem 100px;
+            background: linear-gradient(135deg, #1e3a2e 0%, #2d5a44 100%);
+            position: relative;
+            overflow: hidden;
+            min-height: 100vh;
+        }
+
+        .future-section::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+            top: -300px;
+            right: -300px;
+            border-radius: 50%;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(-50px, 50px) rotate(180deg); }
+        }
+
+        .future-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .future-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .coming-soon-badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #a5d6a7;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 1.5rem;
+        }
+
+        .future-header h2 {
+            font-size: 3rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .future-header p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2.5rem;
+        }
+
+        .feature-mockup {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            padding: 2.5rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .feature-mockup:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .feature-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #2d5a44, #1e3a2e);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            box-shadow: 0 4px 15px rgba(45, 90, 68, 0.4);
+        }
+
+        .feature-title {
+            flex: 1;
+        }
+
+        .feature-title h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e3a2e;
+            margin-bottom: 0.25rem;
+        }
+
+        .feature-title .status {
+            font-size: 0.8rem;
+            color: #2d5a44;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .feature-description {
+            color: #636e72;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-preview {
+            background: #f5f3ed;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .preview-title {
+            font-size: 0.85rem;
+            color: #636e72;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .marketplace-items {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .marketplace-card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .marketplace-card:hover {
+            border-color: #2d5a44;
+            transform: scale(1.02);
+        }
+
+        .marketplace-card .emoji {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .marketplace-card .pack-name {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #1e3a2e;
+            margin-bottom: 0.25rem;
+        }
+
+        .marketplace-card .pack-price {
+            font-size: 0.75rem;
+            color: #2d5a44;
+            font-weight: 700;
+        }
+
+        .voice-profiles {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .voice-profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 1rem;
+            transition: all 0.2s;
+        }
+
+        .voice-profile:hover {
+            border-color: #2d5a44;
+        }
+
+        .voice-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2d5a44, #3d6a54);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .voice-info {
+            flex: 1;
+        }
+
+        .voice-name {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #1e3a2e;
+        }
+
+        .voice-stats {
+            font-size: 0.75rem;
+            color: #636e72;
+        }
+
+        .voice-waveform {
+            width: 60px;
+            height: 30px;
+            background: linear-gradient(90deg, #e0e0e0 0%, #2d5a44 50%, #e0e0e0 100%);
+            border-radius: 5px;
+            opacity: 0.3;
+        }
+
+        .learning-modules {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .module-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 1rem;
+            transition: all 0.2s;
+        }
+
+        .module-item:hover {
+            border-color: #2d5a44;
+        }
+
+        .module-number {
+            width: 35px;
+            height: 35px;
+            background: #2d5a44;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .module-content {
+            flex: 1;
+        }
+
+        .module-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #1e3a2e;
+            margin-bottom: 0.25rem;
+        }
+
+        .module-duration {
+            font-size: 0.75rem;
+            color: #636e72;
+        }
+
+        .progress-bar {
+            width: 60px;
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #2d5a44;
+            border-radius: 3px;
+        }
+
+        .language-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
+        }
+
+        .language-option {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .language-option:hover {
+            border-color: #2d5a44;
+            background: #f5f3ed;
+        }
+
+        .language-flag {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .language-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #1e3a2e;
+        }
+
+        /* Footer */
+        footer {
+            background: #1e3a2e;
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        footer p {
+            margin-bottom: 0.5rem;
+            opacity: 0.9;
+        }
+
+        .footer-links {
+            margin-top: 1.5rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            margin: 0 1rem;
+            opacity: 0.8;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+            transform: translateY(-2px);
+            display: inline-block;
+        }
+
+        @media (max-width: 968px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .future-header h2 {
+                font-size: 2rem;
+            }
+
+            .marketplace-items {
+                grid-template-columns: 1fr;
+            }
+
+            .language-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">VERBA</a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="https://www.instagram.com/verbaspeech/" target="_blank">Instagram</a>
+            </div>
+        </nav>
+    </header>
+
+    <section class="future-section">
+        <div class="future-container">
+            <div class="future-header">
+                <div class="coming-soon-badge">Coming Soon</div>
+                <h2>The Future of Verba</h2>
+                <p>We're building powerful new features to make Verba the ultimate AI speaking coach for everyone, everywhere.</p>
+            </div>
+
+            <div class="features-grid">
+                <!-- Voice Differentiation -->
+                <div class="feature-mockup">
+                    <div class="feature-header">
+                        <div class="feature-icon">👥</div>
+                        <div class="feature-title">
+                            <h3>Voice Differentiation</h3>
+                            <div class="status">In Development</div>
+                        </div>
+                    </div>
+                    <p class="feature-description">
+                        Track individual progress for multiple users. Perfect for classrooms, study groups, and team presentations. Each voice profile maintains separate analytics and personalized improvement plans.
+                    </p>
+                    <div class="feature-preview">
+                        <div class="preview-title">Student Profiles</div>
+                        <div class="voice-profiles">
+                            <div class="voice-profile">
+                                <div class="voice-avatar">AS</div>
+                                <div class="voice-info">
+                                    <div class="voice-name">Alex Smith</div>
+                                    <div class="voice-stats">12 sessions • 67% improvement</div>
+                                </div>
+                                <div class="voice-waveform"></div>
+                            </div>
+                            <div class="voice-profile">
+                                <div class="voice-avatar">MJ</div>
+                                <div class="voice-info">
+                                    <div class="voice-name">Maria Johnson</div>
+                                    <div class="voice-stats">8 sessions • 54% improvement</div>
+                                </div>
+                                <div class="voice-waveform"></div>
+                            </div>
+                            <div class="voice-profile">
+                                <div class="voice-avatar">TC</div>
+                                <div class="voice-info">
+                                    <div class="voice-name">Tom Chen</div>
+                                    <div class="voice-stats">15 sessions • 82% improvement</div>
+                                </div>
+                                <div class="voice-waveform"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Coach Packs Marketplace -->
+                <div class="feature-mockup">
+                    <div class="feature-header">
+                        <div class="feature-icon">🛍️</div>
+                        <div class="feature-title">
+                            <h3>Coach Packs Marketplace</h3>
+                            <div class="status">Q2 2026</div>
+                        </div>
+                    </div>
+                    <p class="feature-description">
+                        Access specialized coaching for every scenario. From job interviews to sales pitches, wedding speeches to TED talks—downloadable coach packs tailored to your specific needs.
+                    </p>
+                    <div class="feature-preview">
+                        <div class="preview-title">Featured Coach Packs</div>
+                        <div class="marketplace-items">
+                            <div class="marketplace-card">
+                                <div class="emoji">💼</div>
+                                <div class="pack-name">Interview Pro</div>
+                                <div class="pack-price">$4.99</div>
+                            </div>
+                            <div class="marketplace-card">
+                                <div class="emoji">📊</div>
+                                <div class="pack-name">Presentation Master</div>
+                                <div class="pack-price">$4.99</div>
+                            </div>
+                            <div class="marketplace-card">
+                                <div class="emoji">💰</div>
+                                <div class="pack-name">Sales Pitch</div>
+                                <div class="pack-price">$6.99</div>
+                            </div>
+                            <div class="marketplace-card">
+                                <div class="emoji">🎤</div>
+                                <div class="pack-name">Public Speaking</div>
+                                <div class="pack-price">$5.99</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Learning Modules -->
+                <div class="feature-mockup">
+                    <div class="feature-header">
+                        <div class="feature-icon">📚</div>
+                        <div class="feature-title">
+                            <h3>Guided Learning Modules</h3>
+                            <div class="status">Q3 2026</div>
+                        </div>
+                    </div>
+                    <p class="feature-description">
+                        Structured curriculum with progressive lessons. Master one skill at a time with video tutorials, practice exercises, and milestone tracking. From beginner fundamentals to advanced techniques.
+                    </p>
+                    <div class="feature-preview">
+                        <div class="preview-title">Course Curriculum</div>
+                        <div class="learning-modules">
+                            <div class="module-item">
+                                <div class="module-number">1</div>
+                                <div class="module-content">
+                                    <div class="module-title">Eliminating Filler Words</div>
+                                    <div class="module-duration">15 min • 4 exercises</div>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 100%"></div>
+                                </div>
+                            </div>
+                            <div class="module-item">
+                                <div class="module-number">2</div>
+                                <div class="module-content">
+                                    <div class="module-title">Pacing & Rhythm Control</div>
+                                    <div class="module-duration">20 min • 5 exercises</div>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 60%"></div>
+                                </div>
+                            </div>
+                            <div class="module-item">
+                                <div class="module-number">3</div>
+                                <div class="module-content">
+                                    <div class="module-title">Vocal Clarity & Projection</div>
+                                    <div class="module-duration">18 min • 6 exercises</div>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Multiple Languages -->
+                <div class="feature-mockup">
+                    <div class="feature-header">
+                        <div class="feature-icon">🌍</div>
+                        <div class="feature-title">
+                            <h3>Multi-Language Support</h3>
+                            <div class="status">2027</div>
+                        </div>
+                    </div>
+                    <p class="feature-description">
+                        Practice public speaking in multiple languages. AI coaching adapted for Spanish, French, Mandarin, German, and more. Perfect for non-native speakers and language learners building confidence.
+                    </p>
+                    <div class="feature-preview">
+                        <div class="preview-title">Available Languages</div>
+                        <div class="language-grid">
+                            <div class="language-option">
+                                <div class="language-flag">🇺🇸</div>
+                                <div class="language-name">English</div>
+                            </div>
+                            <div class="language-option">
+                                <div class="language-flag">🇪🇸</div>
+                                <div class="language-name">Spanish</div>
+                            </div>
+                            <div class="language-option">
+                                <div class="language-flag">🇫🇷</div>
+                                <div class="language-name">French</div>
+                            </div>
+                            <div class="language-option">
+                                <div class="language-flag">🇨🇳</div>
+                                <div class="language-name">Mandarin</div>
+                            </div>
+                            <div class="language-option">
+                                <div class="language-flag">🇩🇪</div>
+                                <div class="language-name">German</div>
+                            </div>
+                            <div class="language-option">
+                                <div class="language-flag">🇯🇵</div>
+                                <div class="language-name">Japanese</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Verba. Built by Harrison Cribbins, Haroon Baig, Lucy Ostapovich, and Carleigh Bianco.</p>
+        <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="https://www.instagram.com/verbaspeech/" target="_blank">Instagram</a>
+            <a href="https://verba-mvp-c9fs.glide.page/dl/fd1519" target="_blank">Try MVP</a>
+        </div>
+    </footer>
+</body>
+</html>
