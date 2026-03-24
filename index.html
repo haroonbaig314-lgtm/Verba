@@ -389,6 +389,7 @@
             padding: 100px 2rem;
             max-width: 1200px;
             margin: 0 auto;
+            background: #f8f8f6;
         }
         .problem h2 {
             font-size: 2.5rem;
@@ -505,18 +506,11 @@
 
         /* ── Features ── */
         .features {
-            background: linear-gradient(135deg, #1e3a2e 0%, #2d5a44 100%);
-            color: white;
+            background: #ffffff;
             padding: 100px 2rem;
             position: relative;
         }
-        .features::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23fafafa" fill-opacity="1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,154.7C960,171,1056,181,1152,165.3C1248,149,1344,107,1392,85.3L1440,64L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path></svg>') no-repeat top;
-            background-size: cover;
-        }
+        .features::before { content: none; }
         .features-container { max-width: 1200px; margin: 0 auto; }
         .features h2 {
             font-size: 2.5rem;
@@ -696,7 +690,7 @@
         /* ── How It Works ── */
         .how-it-works {
             padding: 80px 2rem;
-            background: #fafafa;
+            background: #f8f8f6;
         }
         .how-it-works-inner {
             max-width: 1100px;
@@ -1210,7 +1204,7 @@
         /* ── Comparison ── */
         .comparison {
             padding: 100px 2rem;
-            background: #fafafa;
+            background: #f8f8f6;
         }
         .comparison-inner { max-width: 1100px; margin: 0 auto; }
         .comparison h2 {
@@ -1507,7 +1501,7 @@
         /* ── FAQ ── */
         .faq {
             padding: 80px 2rem;
-            background: #fafafa;
+            background: #ffffff;
         }
         .faq-inner {
             max-width: 800px;
@@ -1591,7 +1585,7 @@
 
         /* ── Footer ── */
         footer {
-            background: #1e3a2e;
+            background: #162d23;
             color: white;
             padding: 3rem 2rem;
             text-align: center;
@@ -1681,18 +1675,12 @@
         }
         /* ── Email Capture ── */
         .email-capture {
-            background: linear-gradient(135deg, #1e3a2e 0%, #2d5a44 100%);
+            background: #1e3a2e;
             padding: 100px 2rem;
             text-align: center;
             position: relative;
         }
-        .email-capture::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23fafafa" fill-opacity="1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,154.7C960,171,1056,181,1152,165.3C1248,149,1344,107,1392,85.3L1440,64L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path></svg>') no-repeat top;
-            background-size: cover;
-        }
+        .email-capture::before { content: none; }
         .email-capture-inner {
             max-width: 640px;
             margin: 0 auto;
@@ -1702,14 +1690,14 @@
         .email-capture h2 {
             font-size: 2.8rem;
             font-weight: 800;
-            color: #1a1a1a;
+            color: white;
             letter-spacing: -1.5px;
             margin-bottom: 0.75rem;
             line-height: 1.1;
         }
         .email-capture p {
             font-size: 1.05rem;
-            color: #1a1a1a;
+            color: rgba(255,255,255,0.82);
             margin-bottom: 2.25rem;
             line-height: 1.7;
         }
