@@ -894,10 +894,16 @@
             }
             .demo-section h2 { font-size: 2rem; }
             .final-cta h2 { font-size: 2.2rem; }
-            .demo-card { padding: 1.75rem 1.25rem; }
-            .stats-row { gap: 1.5rem; }
-            .timer, .wpm-value, .words-value { font-size: 1.9rem; }
-            .filler-counter-card { width: 90px; }
+            .demo-card { padding: 1.5rem 1rem; }
+            .stats-row { gap: 1.25rem; }
+            .timer, .wpm-value, .words-value { font-size: 1.8rem; }
+            .filler-counters { gap: 0.6rem; }
+            .filler-counter-card { flex: 1; width: auto; }
+            .filler-counter-number { font-size: 1.75rem; }
+            .filler-counter-label { font-size: 0.68rem; letter-spacing: 0.5px; }
+            .transcript-box { font-size: 0.9rem; padding: 1rem 1.1rem; }
+            .end-session-btn { width: 100%; padding: 0.9rem; border-radius: 14px; }
+            .browser-note { font-size: 0.76rem; padding: 0.4rem 0.9rem; }
             .testimonial-card { min-width: 290px; max-width: 290px; }
             .modal-card { padding: 1.75rem; }
             .modal-card h3 { font-size: 1.5rem; }
@@ -910,10 +916,24 @@
         }
         @media (max-width: 480px) {
             .hero h1 { font-size: 2.2rem; }
-            .filler-counter-number { font-size: 1.25rem; }
-            .filler-counter-label { font-size: 0.52rem; }
-            .stats-row { gap: 1rem; }
-            .timer, .wpm-value, .words-value { font-size: 1.6rem; }
+            /* Demo section - 390px iPhone layout */
+            .demo-card { padding: 1.25rem 0.875rem; }
+            .stats-row { gap: 0.75rem; }
+            .timer, .wpm-value, .words-value { font-size: 1.5rem; }
+            .stat-label { font-size: 0.62rem; letter-spacing: 0.8px; }
+            .filler-counters { gap: 0.5rem; }
+            .filler-counter-number { font-size: 1.5rem; }
+            .filler-counter-label { font-size: 0.65rem; }
+            .filler-counter-card { padding: 0.75rem 0.25rem; }
+            .transcript-box { min-height: 75px; font-size: 0.88rem; padding: 0.875rem 1rem; }
+            .mic-button { width: 84px; height: 84px; }
+            /* Modal - fits phone screen without horizontal scroll */
+            .modal-overlay { padding: 1rem; }
+            .modal-card { padding: 1.5rem 1.25rem; }
+            .modal-stat { padding: 0.9rem 0.75rem; }
+            .modal-stat-value { font-size: 1.4rem; }
+            .modal-card h3 { font-size: 1.35rem; margin-bottom: 1.25rem; }
+            .coaching-note { font-size: 0.88rem; padding: 1rem 1.1rem; }
         }
     </style>
 </head>
