@@ -1063,6 +1063,68 @@
             .beehiiv-card iframe { width: 100% !important; height: 230px !important; }
         }
 
+        /* ── Streak display ── */
+        .streak-display {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+        .streak-card {
+            background: white;
+            border: 1.5px solid #e8e8e8;
+            border-radius: 10px;
+            padding: 0.65rem 1.25rem;
+            text-align: center;
+            transition: border-color 0.2s, background 0.2s;
+            min-width: 180px;
+        }
+        .streak-card.active {
+            border-color: #86efac;
+            background: #f0fdf4;
+        }
+        .streak-emoji {
+            font-size: 1.2rem;
+            line-height: 1;
+            margin-bottom: 0.15rem;
+        }
+        .streak-text {
+            font-size: 1rem;
+            font-weight: 800;
+            color: #1e3a2e;
+            line-height: 1;
+        }
+        .streak-card.active .streak-text { color: #16a34a; }
+        @keyframes streak-shake {
+            0%, 100% { transform: translateX(0); }
+            20%       { transform: translateX(-5px); }
+            40%       { transform: translateX(5px); }
+            60%       { transform: translateX(-4px); }
+            80%       { transform: translateX(4px); }
+        }
+        .streak-card.shake { animation: streak-shake 0.4s ease; }
+
+        /* ── Session score ── */
+        .score-display {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .score-value {
+            font-size: 4rem;
+            font-weight: 800;
+            color: #1e3a2e;
+            line-height: 1;
+        }
+        .score-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 700;
+            color: #636e72;
+            margin-top: 0.4rem;
+        }
+
         /* ── Scroll entrance animations ── */
         @media (prefers-reduced-motion: no-preference) {
             .anim-hidden {
@@ -1086,6 +1148,10 @@
 <div class="modal-overlay" id="modalOverlay">
     <div class="modal-card">
         <h3>Session Summary</h3>
+        <div class="score-display">
+            <div class="score-value" id="scoreValue">—</div>
+            <div class="score-label" id="scoreLabel">&nbsp;</div>
+        </div>
         <div class="modal-stats">
             <div class="modal-stat">
                 <div class="modal-stat-value" id="summaryDuration">0:00</div>
@@ -1210,6 +1276,14 @@
             </div>
 
             <div class="filler-counters" id="fillerCounters"></div>
+
+            <div class="streak-display">
+                <div class="streak-card" id="streakCard">
+                    <div class="streak-emoji">🔥</div>
+                    <div class="streak-text" id="streakText">Current: 0 | Best: 0</div>
+                    <div class="filler-counter-label">Sentence Streak</div>
+                </div>
+            </div>
 
             <div class="transcript-box" id="transcript">
                 <span id="transcript-placeholder" class="transcript-placeholder">Waiting for speech input...</span><span id="transcript-final"></span><span id="transcript-interim" class="interim-text"></span>
@@ -1486,6 +1560,8 @@
     var accumulatedTranscript = '';
     var fillerCounts = {};
     FILLERS.forEach(function (f) { fillerCounts[f] = 0; });
+    var currentStreak = 0;
+    var bestStreak = 0;
 
     // ── Build filler counter cards ──
     var counterContainer = document.getElementById('fillerCounters');
@@ -1549,8 +1625,16 @@
                 fillerCounts[f] = newCounts[f];
             });
 
-            if (detected) triggerFillerAlert();
+            if (detected) {
+                triggerFillerAlert();
+                currentStreak = 0;
+                shakeStreak();
+            } else if (newFinal) {
+                currentStreak++;
+                if (currentStreak > bestStreak) bestStreak = currentStreak;
+            }
             incremented.forEach(function (f) { popCounter(f); });
+            renderStreak();
 
             renderTranscript(accumulatedTranscript, interim);
             renderCounters();
@@ -1598,6 +1682,53 @@
             result = result.replace(re, '<span class="filler-highlight">$1</span>');
         });
         return result;
+    }
+
+    // ── Streak ──
+    function renderStreak() {
+        var textEl = document.getElementById('streakText');
+        var card   = document.getElementById('streakCard');
+        if (textEl) textEl.textContent = 'Current: ' + currentStreak + ' | Best: ' + bestStreak;
+        if (card) {
+            if (currentStreak > 0) card.classList.add('active');
+            else card.classList.remove('active');
+        }
+    }
+
+    function shakeStreak() {
+        var card = document.getElementById('streakCard');
+        if (!card) return;
+        card.classList.remove('shake');
+        void card.offsetWidth;
+        card.classList.add('shake');
+    }
+
+    // ── Score ──
+    function calcScore(totalFillers, avgWPM) {
+        var score = 100;
+        score -= totalFillers * 3;
+        if (avgWPM > 0) {
+            if (avgWPM < 110 || avgWPM > 165) { score -= 10; }
+            else if (avgWPM >= 110 && avgWPM <= 129) { score -= 5; }
+            else if (avgWPM >= 130 && avgWPM <= 160) { score += 5; }
+        }
+        return Math.max(0, Math.min(100, score));
+    }
+
+    function scoreGrade(score) {
+        if (score >= 90) return 'Excellent';
+        if (score >= 75) return 'Strong';
+        if (score >= 60) return 'Good';
+        if (score >= 45) return 'Needs Work';
+        return 'Keep Practicing';
+    }
+
+    function scoreColor(score) {
+        if (score >= 90) return '#16a34a';
+        if (score >= 75) return '#2d5a44';
+        if (score >= 60) return '#d97706';
+        if (score >= 45) return '#ea580c';
+        return '#dc2626';
     }
 
     // ── Alert: flash + vibrate ──
@@ -1807,6 +1938,9 @@
         sessionDuration = 0;
         accumulatedTranscript = '';
         FILLERS.forEach(function (f) { fillerCounts[f] = 0; });
+        currentStreak = 0;
+        bestStreak = 0;
+        renderStreak();
 
         document.getElementById('timer').textContent = '0:00';
         document.getElementById('wpmDisplay').textContent = '--';
@@ -1846,6 +1980,25 @@
         }
 
         document.getElementById('coachingNote').textContent = buildNote(totalFillers, avgWPM, words, sessionDuration);
+
+        // Score
+        var score = calcScore(totalFillers, avgWPM);
+        var scoreEl = document.getElementById('scoreValue');
+        var scoreLabelEl = document.getElementById('scoreLabel');
+        var color = scoreColor(score);
+        scoreEl.style.color = color;
+        scoreLabelEl.textContent = scoreGrade(score);
+        var startTime = null;
+        var duration = 900;
+        function animateScore(ts) {
+            if (!startTime) startTime = ts;
+            var progress = Math.min((ts - startTime) / duration, 1);
+            var eased = 1 - Math.pow(1 - progress, 3);
+            scoreEl.textContent = Math.round(eased * score);
+            if (progress < 1) requestAnimationFrame(animateScore);
+        }
+        requestAnimationFrame(animateScore);
+
         document.getElementById('modalOverlay').classList.add('visible');
     }
 
