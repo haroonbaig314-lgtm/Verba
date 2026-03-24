@@ -2443,7 +2443,7 @@
         { id: 'price-coaching', end: 100, suffix: '+', duration: 3200, bold: false },
         { id: 'price-apps',     end: 45,  suffix: '',  duration: 3200, bold: false },
         { id: 'price-courses',  end: 12,  suffix: '+', duration: 3200, bold: false },
-        { id: 'price-verba',    end: 6,   suffix: '',  duration: 5100, bold: true  },
+        { id: 'price-verba',    end: 6,   suffix: '',  duration: 4900, bold: true  },
     ];
 
     var table = document.querySelector('.comparison-table table');
@@ -2482,6 +2482,7 @@
                         ? '<strong>$' + p.end + p.suffix + '</strong>'
                         : '$' + p.end + p.suffix;
                     if (p.bold) {
+                        void el.offsetWidth; // force reflow so animation fires immediately
                         el.classList.add('price-land');
                         setTimeout(function () { el.classList.remove('price-land'); }, 1000);
                     }
