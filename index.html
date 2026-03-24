@@ -309,6 +309,79 @@
             border-color: white;
         }
 
+        /* ── Hero: Filler Cycler ── */
+        .filler-cycler {
+            margin: 0 auto 2.5rem;
+            text-align: center;
+        }
+        .filler-label {
+            display: block;
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            color: rgba(255,255,255,0.42);
+            margin-bottom: 0.55rem;
+        }
+        .filler-word-wrap {
+            display: inline-block;
+            position: relative;
+            font-size: 1.5rem;
+            font-style: italic;
+            font-weight: 300;
+            color: rgba(255,255,255,0.65);
+            opacity: 1;
+            transition: opacity 0.35s ease;
+        }
+        .filler-strike {
+            position: absolute;
+            top: 54%;
+            left: -3px;
+            right: -3px;
+            height: 2px;
+            background: rgba(255,255,255,0.72);
+            border-radius: 1px;
+            transform: scaleX(0);
+            transform-origin: left center;
+            transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .filler-word-wrap.striking .filler-strike { transform: scaleX(1); }
+
+        /* ── Hero: Sound Wave Background ── */
+        .hero-wave-bg {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 160px;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .wave-layer {
+            position: absolute;
+            left: 0;
+            width: 200%;
+            height: 100%;
+            display: flex;
+        }
+        .wave-layer svg { width: 50%; height: 100%; flex-shrink: 0; }
+        .wave-layer-1 { bottom: 15px; animation: wave-move 10s linear infinite; }
+        .wave-layer-2 { bottom: 25px; animation: wave-move 16s linear infinite reverse; }
+        .wave-layer-3 { bottom: 8px;  animation: wave-move 7s  linear infinite; }
+        @keyframes wave-move {
+            from { transform: translateX(0); }
+            to   { transform: translateX(-50%); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .wave-layer { animation: none; }
+            .filler-strike { transition: none; }
+            .filler-word-wrap { transition: none; }
+        }
+        @media (max-width: 768px) {
+            .hero-wave-bg { height: 100px; opacity: 0.55; }
+            .filler-word-wrap { font-size: 1.2rem; }
+        }
+
         /* ── Problem ── */
         .problem {
             padding: 100px 2rem;
@@ -1282,10 +1355,31 @@
 </header>
 
 <section class="hero">
+    <div class="hero-wave-bg" aria-hidden="true">
+        <div class="wave-layer wave-layer-1">
+            <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,40 C96,28 144,28 240,40 C336,52 384,52 480,40 C576,28 624,28 720,40 C816,52 864,52 960,40 C1056,28 1104,28 1200,40 C1296,52 1344,52 1440,40" stroke="rgba(255,255,255,0.17)" stroke-width="1.5" fill="none"/></svg>
+            <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,40 C96,28 144,28 240,40 C336,52 384,52 480,40 C576,28 624,28 720,40 C816,52 864,52 960,40 C1056,28 1104,28 1200,40 C1296,52 1344,52 1440,40" stroke="rgba(255,255,255,0.17)" stroke-width="1.5" fill="none"/></svg>
+        </div>
+        <div class="wave-layer wave-layer-2">
+            <svg viewBox="0 0 1440 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,50 C144,30 216,30 360,50 C504,70 576,70 720,50 C864,30 936,30 1080,50 C1224,70 1296,70 1440,50" stroke="rgba(255,255,255,0.11)" stroke-width="2" fill="none"/></svg>
+            <svg viewBox="0 0 1440 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,50 C144,30 216,30 360,50 C504,70 576,70 720,50 C864,30 936,30 1080,50 C1224,70 1296,70 1440,50" stroke="rgba(255,255,255,0.11)" stroke-width="2" fill="none"/></svg>
+        </div>
+        <div class="wave-layer wave-layer-3">
+            <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,30 C58,22 86,22 144,30 C202,38 230,38 288,30 C346,22 374,22 432,30 C490,38 518,38 576,30 C634,22 662,22 720,30 C778,38 806,38 864,30 C922,22 950,22 1008,30 C1066,38 1094,38 1152,30 C1210,22 1238,22 1296,30 C1354,38 1382,38 1440,30" stroke="rgba(255,255,255,0.08)" stroke-width="1" fill="none"/></svg>
+            <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,30 C58,22 86,22 144,30 C202,38 230,38 288,30 C346,22 374,22 432,30 C490,38 518,38 576,30 C634,22 662,22 720,30 C778,38 806,38 864,30 C922,22 950,22 1008,30 C1066,38 1094,38 1152,30 C1210,22 1238,22 1296,30 C1354,38 1382,38 1440,30" stroke="rgba(255,255,255,0.08)" stroke-width="1" fill="none"/></svg>
+        </div>
+    </div>
     <div class="hero-content">
         <h1>VERBA</h1>
         <p class="tagline">Your Pocket-Sized AI Speaking Coach</p>
         <p class="hero-desc">Master public speaking with real-time AI feedback. Say goodbye to "um," "like," and nervous pacing.</p>
+        <div class="filler-cycler">
+            <span class="filler-label">Say goodbye to:</span>
+            <div class="filler-word-wrap" id="fillerWrap">
+                <span id="fillerWord">um...</span>
+                <span class="filler-strike"></span>
+            </div>
+        </div>
         <div class="cta-buttons">
             <a href="https://verba-mvp-c9fs.glide.page/dl/fd1519" class="btn btn-primary" target="_blank" rel="noopener">Try the MVP</a>
             <a href="https://www.instagram.com/verbaspeech/" class="btn btn-secondary" target="_blank">Follow @verbaspeech</a>
@@ -2332,6 +2426,38 @@
 
         obs.observe(section);
     });
+}());
+</script>
+<script>
+(function () {
+    var wordEl = document.getElementById('fillerWord');
+    var wrapEl = document.getElementById('fillerWrap');
+    if (!wordEl || !wrapEl) return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var words = ['um...', 'uh...', 'like...', 'you know...'];
+    var idx = 0;
+
+    function runCycle() {
+        // Hold visible for 900ms, then draw strikethrough
+        setTimeout(function () {
+            wrapEl.classList.add('striking');
+            // After strikethrough finishes (450ms), fade out
+            setTimeout(function () {
+                wrapEl.style.opacity = '0';
+                // After fade (350ms), swap word and fade back in
+                setTimeout(function () {
+                    idx = (idx + 1) % words.length;
+                    wordEl.textContent = words[idx];
+                    wrapEl.classList.remove('striking');
+                    wrapEl.style.opacity = '';
+                    runCycle();
+                }, 350);
+            }, 500);
+        }, 900);
+    }
+
+    runCycle();
 }());
 </script>
 </body>
