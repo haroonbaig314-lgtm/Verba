@@ -267,6 +267,16 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
+        .type-cursor {
+            -webkit-text-fill-color: rgba(255,255,255,0.8);
+            color: rgba(255,255,255,0.8);
+            margin-left: 2px;
+            animation: cursor-blink 0.7s step-end infinite;
+        }
+        @keyframes cursor-blink {
+            0%, 49% { opacity: 1; }
+            50%, 100% { opacity: 0; }
+        }
         .hero .tagline {
             font-size: 1.6rem;
             margin-bottom: 1.25rem;
@@ -2655,6 +2665,75 @@
             if (!rafId) rafId = requestAnimationFrame(tick);
         });
     });
+}());
+</script>
+<script>
+(function () {
+    var h1 = document.querySelector('.hero h1');
+    if (!h1) return;
+
+    var heroContent = document.querySelector('.hero-content');
+    var subs = heroContent
+        ? heroContent.querySelectorAll('.tagline, .hero-desc, .filler-cycler, .cta-buttons')
+        : [];
+
+    // Reduced motion: show everything immediately, no animation
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        [].forEach.call(subs, function (el) {
+            el.style.opacity = '1';
+            el.style.transform = 'none';
+        });
+        return;
+    }
+
+    // Hide sub-elements before first paint
+    [].forEach.call(subs, function (el) {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(10px)';
+    });
+
+    // Clear h1 and set up typed text node + cursor
+    h1.textContent = '';
+    var textNode = document.createTextNode('');
+    var cursor = document.createElement('span');
+    cursor.className = 'type-cursor';
+    cursor.setAttribute('aria-hidden', 'true');
+    cursor.textContent = '|';
+    h1.appendChild(textNode);
+    h1.appendChild(cursor);
+
+    var WORD = 'VERBA';
+    var idx  = 0;
+
+    function typeNext() {
+        if (idx < WORD.length) {
+            textNode.nodeValue += WORD[idx++];
+            setTimeout(typeNext, 150);
+        } else {
+            // Let cursor blink ~2 more times (≈1400ms) then fade it out
+            setTimeout(function () {
+                cursor.style.animation = 'none';
+                void cursor.offsetWidth; // flush
+                cursor.style.transition = 'opacity 0.4s ease';
+                cursor.style.opacity = '0';
+                setTimeout(function () { cursor.remove(); }, 450);
+            }, 1400);
+
+            // Fade in sub-elements with stagger after a short pause
+            [].forEach.call(subs, function (el, i) {
+                setTimeout(function () {
+                    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                    requestAnimationFrame(function () {
+                        el.style.opacity = '1';
+                        el.style.transform = 'translateY(0)';
+                    });
+                }, 200 + i * 200);
+            });
+        }
+    }
+
+    // Small pause before typing starts
+    setTimeout(typeNext, 250);
 }());
 </script>
 </body>
