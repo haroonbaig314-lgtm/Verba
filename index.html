@@ -2474,86 +2474,101 @@
 </script>
 <script>
 (function () {
-    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-    var others = [
-        { id: 'price-coaching', end: 100, suffix: '+', duration: 3200 },
-        { id: 'price-apps',     end: 45,  suffix: '',  duration: 3200 },
-        { id: 'price-courses',  end: 12,  suffix: '+', duration: 3200 },
-    ];
-
     var table = document.querySelector('.comparison-table table');
     if (!table) return;
 
+    var elCoaching = document.getElementById('price-coaching');
+    var elApps     = document.getElementById('price-apps');
+    var elCourses  = document.getElementById('price-courses');
+    var elVerba    = document.getElementById('price-verba');
+    if (!elCoaching || !elApps || !elCourses || !elVerba) return;
+
+    // Reduced-motion: show final values immediately, no animation
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        elCoaching.textContent = '$100+';
+        elApps.textContent     = '$12-45';
+        elCourses.textContent  = '$12+';
+        elVerba.innerHTML      = '<strong>$6</strong>';
+        elVerba.classList.add('price-land');
+        return;
+    }
+
+    // Hide all four cells until the table enters view
+    elCoaching.textContent = '';
+    elApps.textContent     = '';
+    elCourses.textContent  = '';
+    elVerba.innerHTML      = '';
+
     var triggered = false;
     var obs = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-            if (entry.isIntersecting && !triggered) {
-                triggered = true;
-                obs.unobserve(table);
-                run();
-            }
-        });
+        if (entries[0].isIntersecting && !triggered) {
+            triggered = true;
+            obs.unobserve(table);
+            runOthers();
+        }
     }, { threshold: 0.4 });
-
     obs.observe(table);
 
-    function run() {
+    // ── Phase 1: count Coaching, Apps, Courses over 1500ms simultaneously ──
+    function runOthers() {
+        var others = [
+            { el: elCoaching, end: 100, suffix: '+' },
+            { el: elApps,     end: 45,  suffix: ''  },
+            { el: elCourses,  end: 12,  suffix: '+' },
+        ];
+        var DURATION = 1500;
         var t0 = null;
         var done = 0;
 
-        others.forEach(function (p) {
-            var el = document.getElementById(p.id);
-            if (!el) return;
-            el.textContent = '$0';
+        function tick(ts) {
+            if (t0 === null) t0 = ts;
+            var elapsed = ts - t0;
+            var progress = Math.min(elapsed / DURATION, 1);
+            var eased = 1 - Math.pow(1 - progress, 3);
 
-            function tick(ts) {
-                if (t0 === null) t0 = ts;
-                var elapsed = ts - t0;
-                var progress = Math.min(elapsed / p.duration, 1);
-                var eased = 1 - Math.pow(1 - progress, 3);
+            others.forEach(function (p) {
                 var val = Math.round(eased * p.end);
+                p.el.textContent = '$' + val + (progress >= 1 ? p.suffix : '');
+            });
 
-                if (progress >= 1) {
-                    el.textContent = '$' + p.end + p.suffix;
-                    done++;
-                    if (done === others.length) startVerba();
-                } else {
-                    el.textContent = '$' + val;
-                    requestAnimationFrame(tick);
-                }
+            if (progress < 1) {
+                requestAnimationFrame(tick);
+            } else {
+                // Lock final values with suffixes, then start Verba
+                elCoaching.textContent = '$100+';
+                elApps.textContent     = '$12-45';
+                elCourses.textContent  = '$12+';
+                runVerba();
             }
+        }
 
-            requestAnimationFrame(tick);
-        });
+        requestAnimationFrame(tick);
     }
 
-    function startVerba() {
-        var el = document.getElementById('price-verba');
-        if (!el) return;
-        el.innerHTML = '<strong>$0</strong>';
+    // ── Phase 2: count Verba $0 → $6 over 3000ms, emphasis fires on landing ──
+    function runVerba() {
+        var DURATION = 3000;
+        var t0 = null;
         var landed = false;
-        var vt0 = null;
-        var duration = 1000;
 
         function tick(ts) {
-            if (vt0 === null) vt0 = ts;
-            var elapsed = ts - vt0;
-            var progress = Math.min(elapsed / duration, 1);
+            if (t0 === null) t0 = ts;
+            var elapsed = ts - t0;
+            var progress = Math.min(elapsed / DURATION, 1);
             var eased = 1 - Math.pow(1 - progress, 3);
             var val = Math.round(eased * 6);
 
-            if (progress >= 1) {
-                el.innerHTML = '<strong>$6</strong>';
-            } else {
-                el.innerHTML = '<strong>$' + val + '</strong>';
-                requestAnimationFrame(tick);
-            }
+            elVerba.innerHTML = '<strong>$' + val + '</strong>';
 
+            // Trigger emphasis the exact frame val first reaches 6
             if (!landed && val >= 6) {
                 landed = true;
-                el.classList.add('price-land');
-                setTimeout(function () { el.classList.remove('price-land'); }, 1000);
+                elVerba.classList.add('price-land');
+                setTimeout(function () { elVerba.classList.remove('price-land'); }, 1000);
+            }
+
+            if (progress < 1) {
+                requestAnimationFrame(tick);
             }
         }
 
