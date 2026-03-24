@@ -265,6 +265,11 @@
             grid-template-columns: repeat(2, 1fr);
             gap: 2rem;
         }
+        .features-grid .feature-mockup:last-child:nth-child(odd) {
+            grid-column: 1 / -1;
+            max-width: calc(50% - 1rem);
+            margin: 0 auto;
+        }
 
         .feature-mockup {
             background: white;
