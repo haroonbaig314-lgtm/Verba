@@ -2568,45 +2568,62 @@
             if (progress < 1) {
                 requestAnimationFrame(tick);
             } else {
-                // Lock final values with suffixes, then start Verba
+                // Lock final values with suffixes, then wait 1s before Verba
                 elCoaching.textContent = '$100+';
                 elApps.textContent     = '$12-45';
                 elCourses.textContent  = '$12+';
-                runVerba();
+                setTimeout(runVerba, 1000);
             }
         }
 
         requestAnimationFrame(tick);
     }
 
-    // ── Phase 2: count Verba $0 → $6 over 3000ms, emphasis fires on landing ──
+    // ── Phase 2: fade in Verba cell (0.3s), then count $0→$6 over 4000ms ──
     function runVerba() {
-        var DURATION = 3000;
-        var t0 = null;
+        var FADE_DURATION = 300;
+        var COUNT_DURATION = 4000;
         var landed = false;
 
-        function tick(ts) {
-            if (t0 === null) t0 = ts;
-            var elapsed = ts - t0;
-            var progress = Math.min(elapsed / DURATION, 1);
-            var eased = 1 - Math.pow(1 - progress, 3);
-            var val = Math.round(eased * 6);
+        // Fade in from invisible
+        elVerba.innerHTML = '<strong>$0</strong>';
+        elVerba.style.opacity = '0';
+        elVerba.style.transition = 'opacity ' + FADE_DURATION + 'ms ease';
 
-            elVerba.innerHTML = '<strong>$' + val + '</strong>';
+        requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+                elVerba.style.opacity = '1';
+            });
+        });
 
-            // Trigger emphasis the exact frame val first reaches 6
-            if (!landed && val >= 6) {
-                landed = true;
-                elVerba.classList.add('price-land');
-                setTimeout(function () { elVerba.classList.remove('price-land'); }, 1000);
+        // Start counter after fade completes
+        setTimeout(function () {
+            elVerba.style.transition = '';
+            var t0 = null;
+
+            function tick(ts) {
+                if (t0 === null) t0 = ts;
+                var elapsed = ts - t0;
+                var progress = Math.min(elapsed / COUNT_DURATION, 1);
+                var eased = 1 - Math.pow(1 - progress, 3);
+                var val = Math.round(eased * 6);
+
+                elVerba.innerHTML = '<strong>$' + val + '</strong>';
+
+                // Trigger emphasis the exact frame val first reaches 6
+                if (!landed && val >= 6) {
+                    landed = true;
+                    elVerba.classList.add('price-land');
+                    setTimeout(function () { elVerba.classList.remove('price-land'); }, 1000);
+                }
+
+                if (progress < 1) {
+                    requestAnimationFrame(tick);
+                }
             }
 
-            if (progress < 1) {
-                requestAnimationFrame(tick);
-            }
-        }
-
-        requestAnimationFrame(tick);
+            requestAnimationFrame(tick);
+        }, FADE_DURATION);
     }
 }());
 </script>
