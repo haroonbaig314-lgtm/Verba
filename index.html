@@ -1521,10 +1521,10 @@
                     </tr>
                     <tr>
                         <td>Monthly Price</td>
-                        <td>$100+</td>
-                        <td>$12-45</td>
-                        <td>$12+</td>
-                        <td class="highlight-col"><strong>$6</strong></td>
+                        <td id="price-coaching">$100+</td>
+                        <td id="price-apps">$12-45</td>
+                        <td id="price-courses">$12+</td>
+                        <td class="highlight-col" id="price-verba"><strong>$6</strong></td>
                     </tr>
                 </tbody>
             </table>
@@ -2416,6 +2416,63 @@
     }
 
     runCycle();
+}());
+</script>
+<script>
+(function () {
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var prices = [
+        { id: 'price-coaching', end: 100, suffix: '+', duration: 1200, bold: false },
+        { id: 'price-apps',     end: 45,  suffix: '',  duration: 1200, bold: false },
+        { id: 'price-courses',  end: 12,  suffix: '+', duration: 1200, bold: false },
+        { id: 'price-verba',    end: 6,   suffix: '',  duration: 1800, bold: true  },
+    ];
+
+    var table = document.querySelector('.comparison-table table');
+    if (!table) return;
+
+    var triggered = false;
+    var obs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            if (entry.isIntersecting && !triggered) {
+                triggered = true;
+                obs.unobserve(table);
+                run();
+            }
+        });
+    }, { threshold: 0.4 });
+
+    obs.observe(table);
+
+    function run() {
+        var t0 = null;
+
+        prices.forEach(function (p) {
+            var el = document.getElementById(p.id);
+            if (!el) return;
+            el.textContent = '$0';
+
+            function tick(ts) {
+                if (t0 === null) t0 = ts;
+                var elapsed = ts - t0;
+                var progress = Math.min(elapsed / p.duration, 1);
+                var eased = 1 - Math.pow(1 - progress, 3);
+                var val = Math.round(eased * p.end);
+
+                if (progress >= 1) {
+                    el.innerHTML = p.bold
+                        ? '<strong>$' + p.end + p.suffix + '</strong>'
+                        : '$' + p.end + p.suffix;
+                } else {
+                    el.textContent = '$' + val;
+                    requestAnimationFrame(tick);
+                }
+            }
+
+            requestAnimationFrame(tick);
+        });
+    }
 }());
 </script>
 </body>
