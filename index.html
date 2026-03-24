@@ -2476,11 +2476,10 @@
 (function () {
     if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    var prices = [
-        { id: 'price-coaching', end: 100, suffix: '+', duration: 3200, bold: false },
-        { id: 'price-apps',     end: 45,  suffix: '',  duration: 3200, bold: false },
-        { id: 'price-courses',  end: 12,  suffix: '+', duration: 3200, bold: false },
-        { id: 'price-verba',    end: 6,   suffix: '',  duration: 4900, bold: true  },
+    var others = [
+        { id: 'price-coaching', end: 100, suffix: '+', duration: 3200 },
+        { id: 'price-apps',     end: 45,  suffix: '',  duration: 3200 },
+        { id: 'price-courses',  end: 12,  suffix: '+', duration: 3200 },
     ];
 
     var table = document.querySelector('.comparison-table table');
@@ -2501,12 +2500,12 @@
 
     function run() {
         var t0 = null;
+        var done = 0;
 
-        prices.forEach(function (p) {
+        others.forEach(function (p) {
             var el = document.getElementById(p.id);
             if (!el) return;
             el.textContent = '$0';
-            var landed = false;
 
             function tick(ts) {
                 if (t0 === null) t0 = ts;
@@ -2516,23 +2515,49 @@
                 var val = Math.round(eased * p.end);
 
                 if (progress >= 1) {
-                    el.innerHTML = p.bold
-                        ? '<strong>$' + p.end + p.suffix + '</strong>'
-                        : '$' + p.end + p.suffix;
+                    el.textContent = '$' + p.end + p.suffix;
+                    done++;
+                    if (done === others.length) startVerba();
                 } else {
                     el.textContent = '$' + val;
                     requestAnimationFrame(tick);
-                }
-
-                if (p.bold && !landed && val >= p.end) {
-                    landed = true;
-                    el.classList.add('price-land');
-                    setTimeout(function () { el.classList.remove('price-land'); }, 1000);
                 }
             }
 
             requestAnimationFrame(tick);
         });
+    }
+
+    function startVerba() {
+        var el = document.getElementById('price-verba');
+        if (!el) return;
+        el.innerHTML = '<strong>$0</strong>';
+        var landed = false;
+        var vt0 = null;
+        var duration = 1000;
+
+        function tick(ts) {
+            if (vt0 === null) vt0 = ts;
+            var elapsed = ts - vt0;
+            var progress = Math.min(elapsed / duration, 1);
+            var eased = 1 - Math.pow(1 - progress, 3);
+            var val = Math.round(eased * 6);
+
+            if (progress >= 1) {
+                el.innerHTML = '<strong>$6</strong>';
+            } else {
+                el.innerHTML = '<strong>$' + val + '</strong>';
+                requestAnimationFrame(tick);
+            }
+
+            if (!landed && val >= 6) {
+                landed = true;
+                el.classList.add('price-land');
+                setTimeout(function () { el.classList.remove('price-land'); }, 1000);
+            }
+        }
+
+        requestAnimationFrame(tick);
     }
 }());
 </script>
