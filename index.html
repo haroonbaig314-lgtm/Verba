@@ -461,10 +461,13 @@
 
         /* Filler counters */
         .filler-counters {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 0.6rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
             margin-bottom: 1.5rem;
+        }
+        .filler-counter-card {
+            width: 100px;
         }
         .filler-counter-card {
             background: white;
@@ -854,7 +857,7 @@
             .demo-card { padding: 1.75rem 1.25rem; }
             .stats-row { gap: 1.5rem; }
             .timer, .wpm-value, .words-value { font-size: 1.9rem; }
-            .filler-counters { grid-template-columns: repeat(2, 1fr); }
+            .filler-counter-card { width: 90px; }
             .testimonial-card { min-width: 290px; max-width: 290px; }
             .modal-card { padding: 1.75rem; }
             .modal-card h3 { font-size: 1.5rem; }
