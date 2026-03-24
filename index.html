@@ -2519,7 +2519,6 @@
                         ? '<strong>$' + p.end + p.suffix + '</strong>'
                         : '$' + p.end + p.suffix;
                     if (p.bold) {
-                        void el.offsetWidth; // force reflow so animation fires immediately
                         el.classList.add('price-land');
                         setTimeout(function () { el.classList.remove('price-land'); }, 1000);
                     }
