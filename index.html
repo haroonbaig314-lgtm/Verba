@@ -674,9 +674,41 @@
             color: #636e72;
             margin-bottom: 3.5rem;
         }
+        .testimonials-scroll-wrapper {
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+        }
+        .testimonials-scroll-wrapper::before,
+        .testimonials-scroll-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 0; bottom: 0;
+            width: 120px;
+            z-index: 2;
+            pointer-events: none;
+        }
+        .testimonials-scroll-wrapper::before {
+            left: 0;
+            background: linear-gradient(to right, white, transparent);
+        }
+        .testimonials-scroll-wrapper::after {
+            right: 0;
+            background: linear-gradient(to left, white, transparent);
+        }
+        .testimonials-track {
+            display: flex;
+            gap: 2rem;
+            animation: scrollLeft 32s linear infinite;
+            width: fit-content;
+        }
+        .testimonials-track:hover { animation-play-state: paused; }
+        @keyframes scrollLeft {
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
         .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            display: flex;
             gap: 2rem;
         }
         .testimonial-card {
@@ -687,6 +719,9 @@
             transition: all 0.3s;
             display: flex;
             flex-direction: column;
+            min-width: 370px;
+            max-width: 370px;
+            flex-shrink: 0;
         }
         .testimonial-card:hover {
             transform: translateY(-5px);
@@ -820,7 +855,7 @@
             .stats-row { gap: 1.5rem; }
             .timer, .wpm-value, .words-value { font-size: 1.9rem; }
             .filler-counters { grid-template-columns: repeat(2, 1fr); }
-            .testimonials-grid { grid-template-columns: 1fr; }
+            .testimonial-card { min-width: 290px; max-width: 290px; }
             .modal-card { padding: 1.75rem; }
             .modal-card h3 { font-size: 1.5rem; }
             .modal-stat-value { font-size: 1.6rem; }
@@ -1059,48 +1094,98 @@
     <div class="testimonials-container">
         <h2>What People Are Saying</h2>
         <p class="testimonials-subtitle">See what students and educators think about the Verba concept</p>
-        <div class="testimonials-grid">
-            <div class="testimonial-card">
-                <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-                <p class="testimonial-text">"I used it for practice, and seeing the errors I was making was really eye opening."</p>
-                <div class="testimonial-footer">
-                    <div class="testimonial-avatar">DT</div>
-                    <div>
-                        <p class="testimonial-author">Danny T.</p>
-                        <p class="testimonial-role">3rd Year Student, Northeastern</p>
+    </div>
+    <div class="testimonials-scroll-wrapper">
+        <div class="testimonials-track">
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <p class="testimonial-text">"I used it for practice, and seeing the errors I was making was really eye opening."</p>
+                    <div class="testimonial-footer">
+                        <div class="testimonial-avatar">DT</div>
+                        <div>
+                            <p class="testimonial-author">Danny T.</p>
+                            <p class="testimonial-role">3rd Year Student, Northeastern</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <p class="testimonial-text">"I would like a ping or notification every time I use a filler when I practice, although not all the time."</p>
+                    <div class="testimonial-footer">
+                        <div class="testimonial-avatar">DL</div>
+                        <div>
+                            <p class="testimonial-author">David L.</p>
+                            <p class="testimonial-role">Student, Northeastern</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <p class="testimonial-text">"This is clearly a problem space."</p>
+                    <div class="testimonial-footer">
+                        <div class="testimonial-avatar">AG</div>
+                        <div>
+                            <p class="testimonial-author">Aleks Gollu</p>
+                            <p class="testimonial-role">Innovation Professor, Northeastern</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <p class="testimonial-text">"As a person who stutters a lot, I love the idea of Verba and would be willing to try it out."</p>
+                    <div class="testimonial-footer">
+                        <div class="testimonial-avatar">JB</div>
+                        <div>
+                            <p class="testimonial-author">Jacob B.</p>
+                            <p class="testimonial-role">1st Year Student, Northeastern</p>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="testimonial-card">
-                <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-                <p class="testimonial-text">"I would like a ping or notification every time I use a filler when I practice — this is exactly what I need."</p>
-                <div class="testimonial-footer">
-                    <div class="testimonial-avatar">DL</div>
-                    <div>
-                        <p class="testimonial-author">David L.</p>
-                        <p class="testimonial-role">Student, Northeastern</p>
+            <div class="testimonials-grid" aria-hidden="true">
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <p class="testimonial-text">"I used it for practice, and seeing the errors I was making was really eye opening."</p>
+                    <div class="testimonial-footer">
+                        <div class="testimonial-avatar">DT</div>
+                        <div>
+                            <p class="testimonial-author">Danny T.</p>
+                            <p class="testimonial-role">3rd Year Student, Northeastern</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="testimonial-card">
-                <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-                <p class="testimonial-text">"This is clearly a problem space — there's a real gap in the market for real-time speaking feedback."</p>
-                <div class="testimonial-footer">
-                    <div class="testimonial-avatar">AG</div>
-                    <div>
-                        <p class="testimonial-author">Aleks Gollu</p>
-                        <p class="testimonial-role">Innovation Professor, Northeastern</p>
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <p class="testimonial-text">"I would like a ping or notification every time I use a filler when I practice, although not all the time."</p>
+                    <div class="testimonial-footer">
+                        <div class="testimonial-avatar">DL</div>
+                        <div>
+                            <p class="testimonial-author">David L.</p>
+                            <p class="testimonial-role">Student, Northeastern</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="testimonial-card">
-                <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-                <p class="testimonial-text">"As a person who stutters a lot, I love the idea of Verba and would be willing to try it out."</p>
-                <div class="testimonial-footer">
-                    <div class="testimonial-avatar">JB</div>
-                    <div>
-                        <p class="testimonial-author">Jacob B.</p>
-                        <p class="testimonial-role">1st Year Student, Northeastern</p>
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <p class="testimonial-text">"This is clearly a problem space."</p>
+                    <div class="testimonial-footer">
+                        <div class="testimonial-avatar">AG</div>
+                        <div>
+                            <p class="testimonial-author">Aleks Gollu</p>
+                            <p class="testimonial-role">Innovation Professor, Northeastern</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <p class="testimonial-text">"As a person who stutters a lot, I love the idea of Verba and would be willing to try it out."</p>
+                    <div class="testimonial-footer">
+                        <div class="testimonial-avatar">JB</div>
+                        <div>
+                            <p class="testimonial-author">Jacob B.</p>
+                            <p class="testimonial-role">1st Year Student, Northeastern</p>
+                        </div>
                     </div>
                 </div>
             </div>
