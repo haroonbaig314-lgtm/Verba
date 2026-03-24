@@ -417,6 +417,87 @@
         }
         .problem-card p { color: #636e72; line-height: 1.8; }
 
+        /* ── Problem card strike animation ── */
+        .strike-word {
+            position: relative;
+            display: inline-block;
+        }
+        .strike-line {
+            position: absolute;
+            left: 0; top: 50%;
+            width: 100%; height: 2px;
+            background: #e53e3e;
+            transform: scaleX(0);
+            transform-origin: left center;
+            transition: transform 0.4s ease;
+        }
+        .strike-word.struck .strike-line { transform: scaleX(1); }
+        .problem-solution {
+            margin-top: 0.6rem;
+            font-size: 0.85rem;
+            font-style: italic;
+            color: #2d5a44;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .problem-solution.visible { opacity: 1; }
+        @media (prefers-reduced-motion: reduce) {
+            .strike-line { transition: none; }
+            .problem-solution { transition: none; }
+        }
+
+        /* ── Comparison table tooltips ── */
+        .feat-cell {
+            position: relative;
+            white-space: nowrap;
+        }
+        .feat-info {
+            display: inline-block;
+            width: 14px; height: 14px;
+            line-height: 14px;
+            text-align: center;
+            font-size: 0.65rem;
+            color: #2d5a44;
+            border: 1px solid #2d5a44;
+            border-radius: 50%;
+            cursor: pointer;
+            margin-left: 5px;
+            vertical-align: middle;
+            opacity: 0.7;
+            user-select: none;
+            flex-shrink: 0;
+        }
+        .feat-info:hover { opacity: 1; }
+        .feat-tooltip {
+            position: absolute;
+            bottom: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e3a2e;
+            color: #fff;
+            font-size: 0.75rem;
+            line-height: 1.4;
+            padding: 0.45rem 0.7rem;
+            border-radius: 6px;
+            white-space: normal;
+            width: 200px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .feat-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%; left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid transparent;
+            border-top-color: #1e3a2e;
+        }
+        .feat-cell:hover .feat-tooltip,
+        .feat-cell.tip-open .feat-tooltip { opacity: 1; }
+
         /* ── Features ── */
         .features {
             background: linear-gradient(135deg, #1e3a2e 0%, #2d5a44 100%);
@@ -1435,17 +1516,20 @@
 <section class="problem">
     <h2>The Problem We're Solving</h2>
     <div class="problem-grid">
-        <div class="problem-card">
+        <div class="problem-card" id="prob-card-0">
             <h3>Public Speaking Anxiety</h3>
-            <p>Lack of clarity and confidence are major barriers to effective communication. Most people struggle but have nowhere to turn for help.</p>
+            <p>Lack of clarity and confidence are major barriers to effective communication. Most people struggle but have nowhere to turn for help. The <span class="strike-word" id="prob-strike-0">anxiety<span class="strike-line"></span></span> is real.</p>
+            <p class="problem-solution" id="prob-sol-0">Verba builds your confidence</p>
         </div>
-        <div class="problem-card">
+        <div class="problem-card" id="prob-card-1">
             <h3>Common Speaking Issues</h3>
-            <p>Speakers battle with filler words like "like" and "um," inconsistent tone, poor pacing, and lack of vocal clarity that undermine even the best ideas.</p>
+            <p>Speakers battle with <span class="strike-word" id="prob-strike-1">filler words<span class="strike-line"></span></span> like "like" and "um," inconsistent tone, poor pacing, and lack of vocal clarity that undermine even the best ideas.</p>
+            <p class="problem-solution" id="prob-sol-1">Verba catches them in real time</p>
         </div>
-        <div class="problem-card">
+        <div class="problem-card" id="prob-card-2">
             <h3>Existing Tools Fall Short</h3>
-            <p>Current solutions provide delayed or fragmented feedback, missing the opportunity for immediate correction when it matters most.</p>
+            <p>Current solutions provide delayed or <span class="strike-word" id="prob-strike-2">fragmented feedback<span class="strike-line"></span></span>, missing the opportunity for immediate correction when it matters most.</p>
+            <p class="problem-solution" id="prob-sol-2">Verba coaches you instantly</p>
         </div>
     </div>
 </section>
@@ -1572,42 +1656,42 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Real-Time Feedback</td>
+                        <td class="feat-cell">Real-Time Feedback<span class="feat-info" aria-label="tooltip">i</span><span class="feat-tooltip">Verba detects filler words and pace issues the instant you speak.</span></td>
                         <td><span class="checkmark">&#10004;</span></td>
                         <td><span class="cross">&#10006;</span></td>
                         <td><span class="cross">&#10006;</span></td>
                         <td class="highlight-col"><span class="checkmark">&#10004;</span></td>
                     </tr>
                     <tr>
-                        <td>Personalized Analytics</td>
+                        <td class="feat-cell">Personalized Analytics<span class="feat-info" aria-label="tooltip">i</span><span class="feat-tooltip">Track your progress and speaking patterns over time.</span></td>
                         <td><span class="checkmark">&#10004;</span></td>
                         <td><span class="checkmark">&#10004;</span></td>
                         <td><span class="cross">&#10006;</span></td>
                         <td class="highlight-col"><span class="checkmark">&#10004;</span></td>
                     </tr>
                     <tr>
-                        <td>Cost Effective</td>
+                        <td class="feat-cell">Cost Effective<span class="feat-info" aria-label="tooltip">i</span><span class="feat-tooltip">Professional coaching quality at a fraction of the price.</span></td>
                         <td><span class="cross">&#10006;</span></td>
                         <td><span class="cross">&#10006;</span></td>
                         <td><span class="checkmark">&#10004;</span></td>
                         <td class="highlight-col"><span class="checkmark">&#10004;</span></td>
                     </tr>
                     <tr>
-                        <td>Accessible 24/7</td>
+                        <td class="feat-cell">Accessible 24/7<span class="feat-info" aria-label="tooltip">i</span><span class="feat-tooltip">Practice anytime, anywhere. No appointments needed.</span></td>
                         <td><span class="cross">&#10006;</span></td>
                         <td><span class="checkmark">&#10004;</span></td>
                         <td><span class="checkmark">&#10004;</span></td>
                         <td class="highlight-col"><span class="checkmark">&#10004;</span></td>
                     </tr>
                     <tr>
-                        <td>Haptic Feedback</td>
+                        <td class="feat-cell">Haptic Feedback<span class="feat-info" aria-label="tooltip">i</span><span class="feat-tooltip">Your phone vibrates when a filler word is detected, so you feel it instantly.</span></td>
                         <td><span class="cross">&#10006;</span></td>
                         <td><span class="cross">&#10006;</span></td>
                         <td><span class="cross">&#10006;</span></td>
                         <td class="highlight-col"><span class="checkmark">&#10004;</span></td>
                     </tr>
                     <tr>
-                        <td>Monthly Price</td>
+                        <td class="feat-cell">Monthly Price<span class="feat-info" aria-label="tooltip">i</span><span class="feat-tooltip">Verba plans to launch at just $6/month with a freemium option.</span></td>
                         <td id="price-coaching">$100+</td>
                         <td id="price-apps">$12-45</td>
                         <td id="price-courses">$12+</td>
@@ -2974,6 +3058,71 @@
         void overlay.offsetWidth;
         overlay.classList.add('cover');
         setTimeout(function () { window.location.href = href; }, DURATION);
+    });
+}());
+</script>
+<script>
+/* ── Problem section: animated strikethrough ── */
+(function () {
+    var section = document.querySelector('.problem');
+    if (!section) return;
+
+    var reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    var cards = [
+        { strike: document.getElementById('prob-strike-0'), sol: document.getElementById('prob-sol-0') },
+        { strike: document.getElementById('prob-strike-1'), sol: document.getElementById('prob-sol-1') },
+        { strike: document.getElementById('prob-strike-2'), sol: document.getElementById('prob-sol-2') },
+    ];
+
+    function animateCard(card) {
+        if (!card.strike || !card.sol) return;
+        if (reducedMotion) {
+            card.strike.classList.add('struck');
+            card.sol.classList.add('visible');
+            return;
+        }
+        card.strike.classList.add('struck');
+        setTimeout(function () { card.sol.classList.add('visible'); }, 400);
+    }
+
+    var triggered = false;
+    var obs = new IntersectionObserver(function (entries) {
+        if (entries[0].isIntersecting && !triggered) {
+            triggered = true;
+            obs.unobserve(section);
+            animateCard(cards[0]);
+            setTimeout(function () { animateCard(cards[1]); }, 500);
+            setTimeout(function () { animateCard(cards[2]); }, 1000);
+        }
+    }, { threshold: 0.3 });
+    obs.observe(section);
+}());
+</script>
+<script>
+/* ── Comparison table: tooltip hints ── */
+(function () {
+    var isTouchDevice = window.matchMedia && window.matchMedia('(hover: none)').matches;
+    if (!isTouchDevice) return; // hover handled by CSS; only need JS for touch
+
+    var openCell = null;
+
+    document.addEventListener('click', function (e) {
+        var info = e.target.closest('.feat-info');
+        if (info) {
+            var cell = info.closest('.feat-cell');
+            if (!cell) return;
+            if (openCell && openCell !== cell) openCell.classList.remove('tip-open');
+            cell.classList.toggle('tip-open');
+            openCell = cell.classList.contains('tip-open') ? cell : null;
+            e.stopPropagation();
+            return;
+        }
+        // Tap anywhere else closes open tooltip
+        if (openCell) {
+            openCell.classList.remove('tip-open');
+            openCell = null;
+        }
     });
 }());
 </script>
