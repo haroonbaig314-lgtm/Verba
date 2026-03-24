@@ -1079,8 +1079,12 @@
             cursor: not-allowed;
             pointer-events: none;
         }
+        @media (max-width: 768px) {
+            /* 16px minimum prevents iOS Safari auto-zoom on focus */
+            .lang-select { font-size: 1rem; }
+        }
         @media (max-width: 480px) {
-            .lang-select { font-size: 0.85rem; min-width: 150px; }
+            .lang-select { font-size: 1rem; min-width: 150px; }
         }
 
         /* Demo Buttons */
