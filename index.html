@@ -950,17 +950,26 @@
             padding: 2rem;
             border-radius: 16px;
             border: 1px solid #e8e8e8;
-            transition: all 0.3s;
+            transition: box-shadow 0.3s, border-color 0.3s;
             display: flex;
             flex-direction: column;
             min-width: 370px;
             max-width: 370px;
             flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
         }
         .testimonial-card:hover {
-            transform: translateY(-5px);
             box-shadow: 0 12px 32px rgba(0,0,0,0.09);
             border-color: #d0d0d0;
+        }
+        .card-shine {
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.4s ease;
         }
         .testimonial-stars {
             color: #fbbf24;
@@ -2473,6 +2482,50 @@
             requestAnimationFrame(tick);
         });
     }
+}());
+</script>
+<script>
+(function () {
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+    var MAX_TILT = 12;
+    var cards = document.querySelectorAll('.testimonial-card');
+
+    cards.forEach(function (card) {
+        var shine = document.createElement('div');
+        shine.className = 'card-shine';
+        card.appendChild(shine);
+
+        card.addEventListener('mouseenter', function () {
+            card.style.transition = 'transform 0.15s ease-out, box-shadow 0.3s, border-color 0.3s';
+        });
+
+        card.addEventListener('mousemove', function (e) {
+            var rect = card.getBoundingClientRect();
+            var cx = rect.left + rect.width / 2;
+            var cy = rect.top + rect.height / 2;
+            var dx = e.clientX - cx;
+            var dy = e.clientY - cy;
+            var rx = -(dy / (rect.height / 2)) * MAX_TILT;
+            var ry =  (dx / (rect.width  / 2)) * MAX_TILT;
+
+            card.style.transition = 'box-shadow 0.3s, border-color 0.3s';
+            card.style.transform = 'perspective(1000px) rotateX(' + rx + 'deg) rotateY(' + ry + 'deg) scale(1.02)';
+
+            var px = ((e.clientX - rect.left) / rect.width)  * 100;
+            var py = ((e.clientY - rect.top)  / rect.height) * 100;
+            var tiltStrength = Math.sqrt(rx * rx + ry * ry) / MAX_TILT;
+            shine.style.background = 'radial-gradient(circle at ' + px + '% ' + py + '%, rgba(255,255,255,' + (0.06 + tiltStrength * 0.14) + ') 0%, transparent 65%)';
+            shine.style.opacity = '1';
+        });
+
+        card.addEventListener('mouseleave', function () {
+            card.style.transition = 'transform 0.6s ease-out, box-shadow 0.3s, border-color 0.3s';
+            card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
+            shine.style.opacity = '0';
+        });
+    });
 }());
 </script>
 </body>
