@@ -1420,6 +1420,7 @@
             pointer-events: none;
             transform-origin: right center;
             will-change: transform;
+            display: none;
         }
         #page-sweep.reveal {
             animation: page-sweep-out 0.4s cubic-bezier(0.76, 0, 0.24, 1) forwards;
@@ -3041,10 +3042,16 @@
     var isMobile = window.matchMedia('(max-width: 768px)').matches;
     var DURATION = isMobile ? 300 : 400;
 
-    // Reveal page: sweep overlay off to the right on load
-    requestAnimationFrame(function () {
-        overlay.classList.add('reveal');
-    });
+    // Only reveal on load if we navigated here from future.html via the sweep
+    if (sessionStorage.getItem('verba-sweep') === 'from-future') {
+        sessionStorage.removeItem('verba-sweep');
+        overlay.style.display = 'block';
+        requestAnimationFrame(function () {
+            overlay.classList.add('reveal');
+        });
+    } else {
+        overlay.style.display = 'none';
+    }
 
     // Intercept future.html link clicks only
     document.addEventListener('click', function (e) {
@@ -3054,6 +3061,8 @@
         if (!href || a.target === '_blank' || href.indexOf('http') === 0 || href.indexOf('#') === 0) return;
         if (href !== 'future.html') return;
         e.preventDefault();
+        sessionStorage.setItem('verba-sweep', 'from-index');
+        overlay.style.display = 'block';
         overlay.classList.remove('reveal');
         void overlay.offsetWidth;
         overlay.classList.add('cover');
