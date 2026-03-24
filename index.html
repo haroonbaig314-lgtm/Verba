@@ -935,6 +935,18 @@
             .modal-card h3 { font-size: 1.35rem; margin-bottom: 1.25rem; }
             .coaching-note { font-size: 0.88rem; padding: 1rem 1.1rem; }
         }
+        /* ── Scroll entrance animations ── */
+        @media (prefers-reduced-motion: no-preference) {
+            .anim-hidden {
+                opacity: 0;
+                transform: translateY(30px);
+                transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            }
+            .anim-visible {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 </head>
 <body>
@@ -1717,6 +1729,73 @@
     // ── Init ──
     animateViz();
 })();
+
+// ── Scroll entrance animations (Intersection Observer) ──
+(function () {
+    // Skip entirely if user prefers reduced motion
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    // Skip if browser doesn't support IntersectionObserver
+    if (!('IntersectionObserver' in window)) return;
+
+    var STAGGER = 0.08; // seconds between each staggered child
+
+    // Each entry: the section to watch, and which children inside it to animate
+    var DEFS = [
+        {
+            root: '.problem',
+            items: 'h2, .problem-card'
+        },
+        {
+            root: '.features',
+            items: 'h2, .feature-card'
+        },
+        {
+            root: '.demo-section',
+            items: '.demo-badge, h2, .demo-subtitle, .browser-note, .demo-card'
+        },
+        {
+            root: '.comparison',
+            items: 'h2, .comparison-subtitle, .comparison-table'
+        },
+        {
+            root: '.testimonials',
+            items: '.testimonials-container h2, .testimonials-subtitle, .testimonials-scroll-wrapper'
+        },
+        {
+            root: '.final-cta',
+            items: 'h2, p, .cta-buttons'
+        }
+    ];
+
+    DEFS.forEach(function (def) {
+        var section = document.querySelector(def.root);
+        if (!section) return;
+
+        var items = Array.from(section.querySelectorAll(def.items));
+        if (!items.length) return;
+
+        // Mark each item as hidden with a staggered delay
+        items.forEach(function (el, i) {
+            el.classList.add('anim-hidden');
+            el.style.transitionDelay = (i * STAGGER).toFixed(2) + 's';
+        });
+
+        // Observe the section; when it enters the viewport, reveal all children
+        var obs = new IntersectionObserver(function (entries) {
+            if (entries[0].isIntersecting) {
+                items.forEach(function (el) {
+                    el.classList.add('anim-visible');
+                });
+                obs.disconnect(); // animate once only
+            }
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -40px 0px'
+        });
+
+        obs.observe(section);
+    });
+}());
 </script>
 </body>
 </html>
