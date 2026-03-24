@@ -718,6 +718,51 @@
             margin-bottom: 3rem;
         }
         .comparison-table { overflow-x: auto; }
+        /* Mobile-only Verba feature card */
+        .verba-feature-card { display: none; }
+        @media (max-width: 767px) {
+            .comparison-table { display: none; }
+            .verba-feature-card {
+                display: block;
+                max-width: 400px;
+                margin: 0 auto;
+                background: white;
+                border: 2px solid #2d5a44;
+                border-radius: 16px;
+                padding: 1.75rem 1.5rem;
+                box-shadow: 0 4px 20px rgba(45,90,68,0.12);
+            }
+            .verba-feature-card h3 {
+                font-size: 1.2rem;
+                font-weight: 800;
+                color: #1e3a2e;
+                margin-bottom: 1.25rem;
+                text-align: center;
+                letter-spacing: -0.3px;
+            }
+            .verba-feature-list {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+            .verba-feature-list li {
+                display: flex;
+                align-items: baseline;
+                gap: 0.65rem;
+                padding: 0.65rem 0;
+                border-bottom: 1px solid #f0f0f0;
+                font-size: 0.95rem;
+                color: #2d3436;
+                font-weight: 500;
+            }
+            .verba-feature-list li:last-child { border-bottom: none; }
+            .verba-feature-list .checkmark {
+                font-size: 1rem;
+                font-weight: 700;
+                color: #2d5a44;
+                flex-shrink: 0;
+            }
+        }
         table {
             width: 100%;
             border-collapse: separate;
@@ -993,11 +1038,6 @@
         }
         @media (max-width: 480px) {
             .hero h1 { font-size: 2.2rem; }
-            /* Comparison table — horizontal scroll on 390px */
-            .comparison { padding: 70px 1rem; }
-            .comparison-table { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-            table { min-width: 500px; font-size: 0.78rem; }
-            th, td { padding: 0.6rem 0.5rem; }
             /* Demo section - 390px iPhone layout */
             .demo-card { padding: 1.25rem 0.875rem; }
             .stats-row { gap: 0.75rem; }
@@ -1327,6 +1367,17 @@
     <div class="comparison-inner">
         <h2>Why Choose Verba?</h2>
         <p class="comparison-subtitle">See how Verba compares to traditional coaching and other apps</p>
+        <div class="verba-feature-card">
+            <h3>Why Verba Wins</h3>
+            <ul class="verba-feature-list">
+                <li><span class="checkmark">&#10004;</span> Real-Time Feedback</li>
+                <li><span class="checkmark">&#10004;</span> Personalized Analytics</li>
+                <li><span class="checkmark">&#10004;</span> Cost Effective — just $6/month</li>
+                <li><span class="checkmark">&#10004;</span> Accessible 24/7</li>
+                <li><span class="checkmark">&#10004;</span> Haptic Feedback</li>
+                <li><span class="checkmark">&#10004;</span> Only $6/month vs $100+ for coaching</li>
+            </ul>
+        </div>
         <div class="comparison-table">
             <table>
                 <thead>
