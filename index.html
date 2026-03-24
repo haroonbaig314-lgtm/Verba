@@ -1780,7 +1780,8 @@
             return 'Your session was very short. Try speaking for at least 30 seconds to get meaningful feedback.';
         }
 
-        var fillersPerMin = duration > 0 ? totalFillers / (duration / 60) : 0;
+        var fillersPerWord = words > 0 ? totalFillers / words : 0;
+        var highFillerRate = fillersPerWord > (1 / 20); // more than 1 filler per 20 words
 
         // Find most-used filler
         var topFiller = null, topCount = 0;
@@ -1788,31 +1789,54 @@
             if (fillerCounts[f] > topCount) { topFiller = f; topCount = fillerCounts[f]; }
         });
 
-        var note = '';
-
+        // ── Filler note ──
+        var fillerNote = '';
         if (totalFillers === 0) {
-            note = 'Outstanding: zero filler words detected. That is a rare achievement. ';
-        } else if (fillersPerMin < 2) {
-            note = 'Strong clarity! Your filler rate (' + fillersPerMin.toFixed(1) + '/min) is excellent. Pros aim for under 2 per minute. ';
-        } else if (fillersPerMin < 5) {
-            note = 'Good effort. You averaged ' + fillersPerMin.toFixed(1) + ' fillers/min. Try replacing "' + topFiller + '" with a brief confident pause. ';
-        } else {
-            note = 'Focus on fillers: "' + topFiller + '" appeared ' + topCount + ' time' + (topCount !== 1 ? 's' : '') + '. Practice pausing silently instead. Silence projects confidence. ';
-        }
-
-        if (avgWPM > 0) {
-            if (avgWPM > 165) {
-                note += 'At ' + avgWPM + ' WPM you are speaking too fast. Slow down to 130-165 WPM so your ideas land clearly.';
-            } else if (avgWPM < 100) {
-                note += 'Your pace (' + avgWPM + ' WPM) is slow. Try 120-150 WPM to keep your audience engaged.';
-            } else if (avgWPM >= 130 && avgWPM <= 165) {
-                note += 'Your pace (' + avgWPM + ' WPM) is in the expert sweet spot. Keep it up!';
+            fillerNote = 'No filler words detected — that takes real discipline and is genuinely uncommon at any experience level.';
+        } else if (highFillerRate) {
+            // Specific advice per filler word
+            if (topFiller === 'like') {
+                fillerNote = '"Like" appeared ' + topCount + ' time' + (topCount !== 1 ? 's' : '') + ' and is your most frequent filler — it tends to sneak in when you\'re bridging between ideas. Instead of reaching for it, let your last word land and pause before moving on.';
+            } else if (topFiller === 'um') {
+                fillerNote = '"Um" was your most common filler at ' + topCount + ' time' + (topCount !== 1 ? 's' : '') + ' — it usually surfaces when your brain is searching for the next word. Slowing down slightly gives your thoughts time to form without filling the gap out loud.';
+            } else if (topFiller === 'uh') {
+                fillerNote = '"Uh" showed up ' + topCount + ' time' + (topCount !== 1 ? 's' : '') + ' and is your main filler — it\'s a reflex that kicks in when you feel pressure to keep talking. A deliberate one-beat pause is always more confident than an "uh."';
             } else {
-                note += 'Your pace (' + avgWPM + ' WPM) is decent. The expert range is 130-165 WPM.';
+                fillerNote = '"' + topFiller + '" appeared ' + topCount + ' time' + (topCount !== 1 ? 's' : '') + ' and is your dominant filler. Replace it with a clean pause — silence holds attention better than any filler word.';
+            }
+        } else {
+            // Low filler rate — specific per filler
+            if (topFiller === 'like') {
+                fillerNote = 'Your most common filler was "like" — it tends to appear when transitioning between ideas. Try replacing it with a deliberate pause instead; your filler rate is low, so this is a small adjustment with a noticeable payoff.';
+            } else if (topFiller === 'um') {
+                fillerNote = 'You relied on "um" most — this usually happens when searching for the next word. Slowing down slightly gives your brain time to find it without filling the gap. Your rate is already low, so one more layer of awareness will sharpen this quickly.';
+            } else if (topFiller === 'uh') {
+                fillerNote = '"Uh" was your go-to filler — it\'s a natural stall while your next thought forms. Your count is low, but training yourself to pause silently instead will make your delivery noticeably cleaner.';
+            } else if (topFiller) {
+                fillerNote = '"' + topFiller + '" was your most frequent filler. Your rate is controlled overall — swap it for a purposeful pause and most listeners won\'t notice the gap at all.';
+            } else {
+                fillerNote = 'Very few filler words — your delivery is clean and controlled.';
             }
         }
 
-        return note;
+        // ── Pace note ──
+        var paceNote = '';
+        if (avgWPM > 0) {
+            if (avgWPM < 110) {
+                paceNote = 'At ' + avgWPM + ' WPM your pace sounds hesitant — push through your material with more forward momentum and trust that your audience is following along.';
+            } else if (avgWPM <= 130) {
+                paceNote = 'Your pace (' + avgWPM + ' WPM) is close to the ideal range — nudging slightly faster will give your delivery more energy without sacrificing clarity.';
+            } else if (avgWPM <= 160) {
+                paceNote = 'At ' + avgWPM + ' WPM your pace is confident and clear — right in the range where listeners can absorb what you\'re saying without working to keep up.';
+            } else {
+                paceNote = 'At ' + avgWPM + ' WPM you\'re moving faster than your audience can fully absorb — pull back and give your key points room to land.';
+            }
+        }
+
+        if (fillerNote && paceNote) {
+            return fillerNote + ' ' + paceNote;
+        }
+        return fillerNote || paceNote;
     }
 
     // ── Event listeners ──
