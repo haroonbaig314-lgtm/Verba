@@ -3084,27 +3084,45 @@
         { strike: document.getElementById('prob-strike-2'), sol: document.getElementById('prob-sol-2') },
     ];
 
+    var pendingTimers = [];
+
     function animateCard(card) {
         if (!card.strike || !card.sol) return;
-        if (reducedMotion) {
-            card.strike.classList.add('struck');
-            card.sol.classList.add('visible');
-            return;
-        }
         card.strike.classList.add('struck');
-        setTimeout(function () { card.sol.classList.add('visible'); }, 400);
+        if (reducedMotion) {
+            card.sol.classList.add('visible');
+        } else {
+            pendingTimers.push(setTimeout(function () { card.sol.classList.add('visible'); }, 400));
+        }
     }
 
-    var triggered = false;
+    function reset() {
+        // Cancel any in-flight stagger timers
+        pendingTimers.forEach(function (id) { clearTimeout(id); });
+        pendingTimers = [];
+        cards.forEach(function (card) {
+            if (card.strike) card.strike.classList.remove('struck');
+            if (card.sol)    card.sol.classList.remove('visible');
+        });
+    }
+
+    var active = false;
     var obs = new IntersectionObserver(function (entries) {
-        if (entries[0].isIntersecting && !triggered) {
-            triggered = true;
-            obs.unobserve(section);
-            animateCard(cards[0]);
-            setTimeout(function () { animateCard(cards[1]); }, 500);
-            setTimeout(function () { animateCard(cards[2]); }, 1000);
+        var isVisible = entries[0].isIntersecting;
+        if (isVisible && !active) {
+            active = true;
+            if (reducedMotion) {
+                cards.forEach(function (card) { animateCard(card); });
+            } else {
+                animateCard(cards[0]);
+                pendingTimers.push(setTimeout(function () { animateCard(cards[1]); }, 500));
+                pendingTimers.push(setTimeout(function () { animateCard(cards[2]); }, 1000));
+            }
+        } else if (!isVisible && active) {
+            active = false;
+            reset();
         }
-    }, { threshold: 0.3 });
+    }, { threshold: 0.4 });
     obs.observe(section);
 }());
 </script>
