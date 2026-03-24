@@ -2552,7 +2552,10 @@
         ];
         var DURATION = 1500;
         var t0 = null;
-        var done = 0;
+
+        // Show $0 in Verba from the start
+        elVerba.innerHTML = '<strong>$0</strong>';
+        elVerba.style.opacity = '1';
 
         function tick(ts) {
             if (t0 === null) t0 = ts;
@@ -2579,16 +2582,15 @@
         requestAnimationFrame(tick);
     }
 
-    // ── Phase 2: fade in Verba cell (0.3s), then count $0→$6 over 4000ms ──
+    // ── Phase 2: fade in Verba cell (0.3s), then count $0→$6 over 3600ms ──
     function runVerba() {
         var FADE_DURATION = 300;
-        var COUNT_DURATION = 4000;
+        var COUNT_DURATION = 3600;
         var landed = false;
 
-        // Fade in from invisible
-        elVerba.innerHTML = '<strong>$0</strong>';
-        elVerba.style.opacity = '0';
+        // Fade out then fade back in to signal count is starting
         elVerba.style.transition = 'opacity ' + FADE_DURATION + 'ms ease';
+        elVerba.style.opacity = '0';
 
         requestAnimationFrame(function () {
             requestAnimationFrame(function () {
