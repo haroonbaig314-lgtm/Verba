@@ -961,7 +961,7 @@
         /* ── Email Capture ── */
         .email-capture {
             padding: 100px 2rem;
-            background: linear-gradient(135deg, #0f1f17 0%, #1a3228 100%);
+            background: white;
             text-align: center;
         }
         .email-capture-inner {
@@ -971,14 +971,14 @@
         .email-capture h2 {
             font-size: 2.8rem;
             font-weight: 800;
-            color: white;
+            color: #1e3a2e;
             letter-spacing: -1.5px;
             margin-bottom: 0.75rem;
             line-height: 1.1;
         }
         .email-capture p {
             font-size: 1.05rem;
-            color: rgba(255,255,255,0.65);
+            color: #4b5563;
             margin-bottom: 2.25rem;
             line-height: 1.7;
         }
@@ -990,7 +990,7 @@
             background: #ffffff;
             border-radius: 28px;
             padding: 2rem 2rem 1.5rem;
-            box-shadow: 0 32px 64px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.06);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.10), 0 0 0 1px rgba(0,0,0,0.06);
             display: inline-flex;
             flex-direction: column;
             align-items: center;
@@ -1004,7 +1004,9 @@
             .email-capture { padding: 70px 1.5rem; }
             .email-capture h2 { font-size: 2rem; letter-spacing: -0.5px; }
             .beehiiv-card { padding: 1.5rem 1rem 1rem; border-radius: 20px; width: 100%; }
-            .beehiiv-card iframe { width: 100% !important; height: 220px !important; }
+        }
+        @media (max-width: 600px) {
+            .beehiiv-card iframe { width: 100% !important; height: 230px !important; }
         }
 
         /* ── Scroll entrance animations ── */
