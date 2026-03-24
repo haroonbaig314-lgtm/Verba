@@ -753,8 +753,41 @@
             box-shadow: 0 8px 30px rgba(220, 38, 38, 0.1);
         }
 
-        /* Visualizer */
+        /* Visualizer (legacy bar row — hidden, replaced by mic ring viz) */
         .visualizer-container {
+            display: none;
+        }
+        /* ── Mic ring visualizer ── */
+        .mic-viz-wrap {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 200px;
+            height: 200px;
+        }
+        #micVizCanvas {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            width: 200px;
+            height: 200px;
+        }
+        .mic-viz-wrap .mic-button {
+            position: relative;
+            z-index: 1;
+        }
+        @media (max-width: 768px) {
+            .mic-viz-wrap { width: 160px; height: 160px; }
+            #micVizCanvas { width: 160px; height: 160px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            #micVizCanvas { display: none; }
+        }
+        /* Legacy visualizer (kept for hidden div ── */
+        .visualizer-container-hidden {
             height: 60px;
             display: flex;
             align-items: center;
@@ -1792,14 +1825,17 @@
             </div>
 
             <div class="demo-buttons">
-                <button class="mic-button" id="micButton" aria-label="Start recording">
-                    <svg class="mic-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
-                        <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
-                        <line x1="12" y1="19" x2="12" y2="23"/>
-                        <line x1="8" y1="23" x2="16" y2="23"/>
-                    </svg>
-                </button>
+                <div class="mic-viz-wrap">
+                    <canvas id="micVizCanvas" aria-hidden="true"></canvas>
+                    <button class="mic-button" id="micButton" aria-label="Start recording">
+                        <svg class="mic-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                            <line x1="12" y1="19" x2="12" y2="23"/>
+                            <line x1="8" y1="23" x2="16" y2="23"/>
+                        </svg>
+                    </button>
+                </div>
                 <div class="button-label-row">
                     <span class="status-dot" id="statusDot"></span>
                     <p class="button-label" id="buttonLabel">Tap to Start</p>
@@ -3310,6 +3346,137 @@
         }
     }, { threshold: 0.4 });
     obs.observe(section);
+}());
+</script>
+<script>
+/* ── Mic ring visualizer: real Web Audio API ── */
+(function () {
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!window.AudioContext && !window.webkitAudioContext) return;
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return;
+
+    var canvas = document.getElementById('micVizCanvas');
+    var card   = document.getElementById('demoCard');
+    if (!canvas || !card) return;
+
+    var isMobile = window.matchMedia('(max-width: 768px)').matches;
+    var SIZE     = isMobile ? 160 : 200;
+    var BAR_W    = isMobile ? 3 : 4;
+    var MIN_H    = isMobile ? 6 : 8;
+    var MAX_H    = isMobile ? 28 : 40;
+    var INNER_R  = isMobile ? 36 : 52; // gap from center to bar base
+    var NUM_BARS = 12;
+
+    var dpr = window.devicePixelRatio || 1;
+    canvas.width  = SIZE * dpr;
+    canvas.height = SIZE * dpr;
+    canvas.style.width  = SIZE + 'px';
+    canvas.style.height = SIZE + 'px';
+    var ctx = canvas.getContext('2d');
+    ctx.scale(dpr, dpr);
+    var CX = SIZE / 2, CY = SIZE / 2;
+
+    // Smoothed bar heights (persisted across frames)
+    var heights = new Array(NUM_BARS).fill(0);
+    var idlePhase = 0;
+
+    var audioCtx = null, analyser = null, micStream = null, rafId = null;
+    var isActive = false;
+
+    function setup(stream) {
+        var AC = window.AudioContext || window.webkitAudioContext;
+        audioCtx = new AC();
+        analyser = audioCtx.createAnalyser();
+        analyser.fftSize = 256;
+        analyser.smoothingTimeConstant = 0.75;
+        var source = audioCtx.createMediaStreamSource(stream);
+        source.connect(analyser);
+        micStream = stream;
+        isActive = true;
+        rafId = requestAnimationFrame(draw);
+    }
+
+    function teardown() {
+        isActive = false;
+        // Let draw() animate bars to zero, then it stops itself
+    }
+
+    function drawBar(angle, h) {
+        ctx.save();
+        ctx.translate(CX, CY);
+        ctx.rotate(angle);
+        var x = -BAR_W / 2;
+        var y = -(INNER_R + h);
+        ctx.beginPath();
+        var r = BAR_W / 2;
+        if (ctx.roundRect) {
+            ctx.roundRect(x, y, BAR_W, h, [r, r, 0, 0]);
+        } else {
+            // Fallback: arc top, rect body
+            ctx.arc(x + r, y + r, r, Math.PI, 0);
+            ctx.lineTo(x + BAR_W, y + h);
+            ctx.lineTo(x, y + h);
+            ctx.closePath();
+        }
+        ctx.fill();
+        ctx.restore();
+    }
+
+    function draw() {
+        ctx.clearRect(0, 0, SIZE, SIZE);
+
+        var freqData = null;
+        if (isActive && analyser) {
+            freqData = new Uint8Array(analyser.frequencyBinCount);
+            analyser.getByteFrequencyData(freqData);
+        }
+
+        idlePhase += 0.04;
+        var idlePulse = (Math.sin(idlePhase) * 0.5 + 0.5) * 4; // 0–4px gentle sway
+
+        var allZero = true;
+        for (var i = 0; i < NUM_BARS; i++) {
+            var target;
+            if (isActive && freqData) {
+                var binsPerBar = Math.floor(freqData.length / NUM_BARS);
+                var sum = 0;
+                for (var j = 0; j < binsPerBar; j++) sum += freqData[i * binsPerBar + j];
+                var avg = sum / binsPerBar; // 0–255
+                target = MIN_H + idlePulse + (avg / 255) * (MAX_H - MIN_H);
+                heights[i] += (target - heights[i]) * 0.35; // fast attack
+            } else {
+                heights[i] *= 0.88; // smooth decay to zero
+            }
+            if (heights[i] > 0.5) allZero = false;
+        }
+
+        ctx.fillStyle = '#2d5a44';
+        for (var i = 0; i < NUM_BARS; i++) {
+            var angle = (i / NUM_BARS) * Math.PI * 2 - Math.PI / 2;
+            drawBar(angle, Math.max(0, heights[i]));
+        }
+
+        if (isActive || !allZero) {
+            rafId = requestAnimationFrame(draw);
+        } else {
+            // Fully decayed — clean up audio resources
+            if (audioCtx) { try { audioCtx.close(); } catch (e) {} audioCtx = null; }
+            if (micStream) { micStream.getTracks().forEach(function (t) { t.stop(); }); micStream = null; }
+            analyser = null;
+        }
+    }
+
+    // Watch demoCard for recording class changes
+    new MutationObserver(function () {
+        var recording = card.classList.contains('recording');
+        if (recording && !isActive && !audioCtx) {
+            navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+                .then(setup)
+                .catch(function () {}); // silently skip if denied
+        } else if (!recording && isActive) {
+            teardown();
+        }
+    }).observe(card, { attributes: true, attributeFilter: ['class'] });
 }());
 </script>
 <script>
