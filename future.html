@@ -504,50 +504,44 @@
         }
 
         /* Interview Simulator */
-        .interview-question {
+        .interview-q-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
             background: white;
             border: 1.5px solid #e8ede9;
             border-radius: 12px;
-            padding: 0.75rem 1rem;
-            font-size: 0.82rem;
-            color: #636e72;
-            margin-bottom: 0.85rem;
+            padding: 0.9rem 1rem;
+            transition: all 0.2s;
+            margin-bottom: 0.7rem;
         }
-        .interview-scores {
-            display: flex;
-            flex-direction: column;
-            gap: 0.6rem;
-            margin-bottom: 1rem;
+        .interview-q-row:hover {
+            border-color: #2d5a44;
         }
-        .score-row {
+        .interview-q-badge {
+            width: 32px;
+            height: 32px;
+            background: #2d5a44;
+            border-radius: 50%;
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-        }
-        .score-label {
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: #1e3a2e;
-            width: 90px;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 0.82rem;
             flex-shrink: 0;
         }
-        .score-bar {
+        .interview-q-text {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: #1e3a2e;
             flex: 1;
-            height: 5px;
-            background: #e0e0e0;
-            border-radius: 3px;
-            overflow: hidden;
         }
-        .score-fill {
-            height: 100%;
-            background: #2d5a44;
-            border-radius: 3px;
-        }
-        .score-pct {
-            font-size: 0.78rem;
+        .interview-pct {
+            font-size: 0.72rem;
             font-weight: 700;
             color: #2d5a44;
-            width: 36px;
+            width: 32px;
             text-align: right;
             flex-shrink: 0;
         }
@@ -555,6 +549,7 @@
             display: flex;
             flex-wrap: wrap;
             gap: 0.5rem;
+            margin-top: 0.85rem;
         }
         .category-pill {
             font-size: 0.72rem;
@@ -564,6 +559,12 @@
             border: 1.5px solid #c8ddd0;
             border-radius: 50px;
             padding: 0.3rem 0.75rem;
+            transition: all 0.2s;
+        }
+        .category-pill:hover {
+            background: #2d5a44;
+            color: white;
+            border-color: #2d5a44;
         }
 
         /* Language grid */
@@ -929,22 +930,37 @@
                 </p>
                 <div class="feature-preview">
                     <div class="preview-title">Sample Session</div>
-                    <div class="interview-question">Q: Tell me about yourself</div>
-                    <div class="interview-scores">
-                        <div class="score-row">
-                            <span class="score-label">Clarity</span>
-                            <div class="score-bar"><div class="score-fill" style="width: 87%"></div></div>
-                            <span class="score-pct">87%</span>
+                    <div class="interview-q-row">
+                        <div class="interview-q-badge">Q</div>
+                        <div class="interview-q-text">Tell me about yourself</div>
+                    </div>
+                    <div class="learning-modules">
+                        <div class="module-item">
+                            <div class="module-content">
+                                <div class="module-title">Clarity</div>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 87%"></div>
+                            </div>
+                            <div class="interview-pct">87%</div>
                         </div>
-                        <div class="score-row">
-                            <span class="score-label">Pace</span>
-                            <div class="score-bar"><div class="score-fill" style="width: 92%"></div></div>
-                            <span class="score-pct">92%</span>
+                        <div class="module-item">
+                            <div class="module-content">
+                                <div class="module-title">Pace</div>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 92%"></div>
+                            </div>
+                            <div class="interview-pct">92%</div>
                         </div>
-                        <div class="score-row">
-                            <span class="score-label">Filler Words</span>
-                            <div class="score-bar"><div class="score-fill" style="width: 94%"></div></div>
-                            <span class="score-pct">94%</span>
+                        <div class="module-item">
+                            <div class="module-content">
+                                <div class="module-title">Filler Words</div>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 94%"></div>
+                            </div>
+                            <div class="interview-pct">94%</div>
                         </div>
                     </div>
                     <div class="interview-categories">
