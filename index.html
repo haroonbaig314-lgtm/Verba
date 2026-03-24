@@ -2506,6 +2506,7 @@
             var el = document.getElementById(p.id);
             if (!el) return;
             el.textContent = '$0';
+            var landed = false;
 
             function tick(ts) {
                 if (t0 === null) t0 = ts;
@@ -2518,13 +2519,15 @@
                     el.innerHTML = p.bold
                         ? '<strong>$' + p.end + p.suffix + '</strong>'
                         : '$' + p.end + p.suffix;
-                    if (p.bold) {
-                        el.classList.add('price-land');
-                        setTimeout(function () { el.classList.remove('price-land'); }, 1000);
-                    }
                 } else {
                     el.textContent = '$' + val;
                     requestAnimationFrame(tick);
+                }
+
+                if (p.bold && !landed && val >= p.end) {
+                    landed = true;
+                    el.classList.add('price-land');
+                    setTimeout(function () { el.classList.remove('price-land'); }, 1000);
                 }
             }
 
