@@ -620,6 +620,25 @@
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(220, 38, 38, 0.35);
         }
+        .browser-unsupported {
+            display: none;
+            background: #fffbeb;
+            border: 1.5px solid #fcd34d;
+            border-radius: 14px;
+            padding: 1.5rem 1.75rem;
+            text-align: center;
+            color: #78350f;
+            font-size: 0.9rem;
+            line-height: 1.75;
+            max-width: 460px;
+            margin: 0 auto;
+        }
+        .browser-unsupported strong {
+            display: block;
+            margin-bottom: 0.4rem;
+            font-size: 0.95rem;
+            color: #92400e;
+        }
 
         /* ── Comparison ── */
         .comparison {
@@ -1099,6 +1118,10 @@
                 <p class="button-label" id="buttonLabel">Tap to Start</p>
                 <button class="end-session-btn" id="endSessionBtn">End Session</button>
             </div>
+            <div class="browser-unsupported" id="browserUnsupported">
+                <strong>Your browser does not support live speech recognition.</strong>
+                For the best experience with our live demo, please open this page in Chrome or Edge. On Android, Chrome works great. On iPhone, try Chrome or Safari.
+            </div>
         </div>
     </div>
 </section>
@@ -1367,6 +1390,14 @@
 
     // ── Speech Recognition ──
     var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    // Show unsupported message on browsers that lack the Web Speech API
+    if (!SR) {
+        document.getElementById('micButton').style.display = 'none';
+        document.getElementById('buttonLabel').style.display = 'none';
+        document.getElementById('browserUnsupported').style.display = 'block';
+    }
+
     if (SR) {
         recognition = new SR();
         recognition.continuous = true;
