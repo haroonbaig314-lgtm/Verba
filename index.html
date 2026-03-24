@@ -2226,7 +2226,7 @@
         <p class="faq-subtitle">Everything you need to know about Verba.</p>
         <div class="faq-list">
             <div class="faq-item">
-                <div class="faq-question" role="button" aria-expanded="true">
+                <div class="faq-question" role="button" aria-expanded="false">
                     <span class="faq-question-text">Is Verba free to use?</span>
                     <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span>
                 </div>
@@ -2992,9 +2992,6 @@
 (function () {
     var items = Array.from(document.querySelectorAll('.faq-item'));
     if (!items.length) return;
-    // Open first item by default
-    items[0].classList.add('open');
-    items[0].querySelector('.faq-question').setAttribute('aria-expanded', 'true');
     items.forEach(function (item) {
         item.querySelector('.faq-question').addEventListener('click', function () {
             var isOpen = item.classList.contains('open');
