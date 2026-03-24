@@ -307,6 +307,10 @@
             transform: translateY(-3px);
             box-shadow: 0 14px 40px rgba(0,0,0,0.4);
         }
+        [data-magnetic] {
+            transition: box-shadow 0.3s, background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+        [data-magnetic]:hover { transform: none; }
         .btn-secondary {
             background: transparent;
             color: white;
@@ -1379,7 +1383,7 @@
             </div>
         </div>
         <div class="cta-buttons">
-            <a href="https://verba-mvp-c9fs.glide.page/dl/fd1519" class="btn btn-primary" target="_blank" rel="noopener">Try the MVP</a>
+            <a href="https://verba-mvp-c9fs.glide.page/dl/fd1519" class="btn btn-primary" target="_blank" rel="noopener" data-magnetic>Try the MVP</a>
             <a href="https://www.instagram.com/verbaspeech/" class="btn btn-secondary" target="_blank">Follow @verbaspeech</a>
         </div>
     </div>
@@ -1757,7 +1761,7 @@
     <h2>Ready to Speak with Confidence?</h2>
     <p>Join hundreds of students and professionals who are transforming their communication skills with Verba. Start practicing today.</p>
     <div class="cta-buttons">
-        <a href="https://verba-mvp-c9fs.glide.page/dl/fd1519" class="btn btn-primary" target="_blank" rel="noopener">Try Verba Now</a>
+        <a href="https://verba-mvp-c9fs.glide.page/dl/fd1519" class="btn btn-primary" target="_blank" rel="noopener" data-magnetic>Try Verba Now</a>
     </div>
     <p class="pricing-note">Planned pricing: $6/month with freemium option</p>
 </section>
@@ -2596,6 +2600,61 @@
             ticking = true;
         }
     }, { passive: true });
+}());
+</script>
+<script>
+(function () {
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+    var RADIUS   = 80;
+    var MAX_MOVE = 12;
+    var LERP     = 0.12;
+
+    var buttons = document.querySelectorAll('[data-magnetic]');
+
+    buttons.forEach(function (btn) {
+        var cx = 0, cy = 0, cs = 1;
+        var tx = 0, ty = 0, ts = 1;
+        var rafId = null;
+
+        function tick() {
+            cx += (tx - cx) * LERP;
+            cy += (ty - cy) * LERP;
+            cs += (ts - cs) * LERP;
+
+            var done = Math.abs(tx - cx) < 0.05 && Math.abs(ty - cy) < 0.05 && Math.abs(ts - cs) < 0.002;
+            if (done) {
+                cx = tx; cy = ty; cs = ts;
+                btn.style.transform = (tx === 0 && ty === 0 && ts === 1)
+                    ? '' : 'translate(' + cx + 'px,' + cy + 'px) scale(' + cs + ')';
+                rafId = null;
+                return;
+            }
+
+            btn.style.transform = 'translate(' + cx + 'px,' + cy + 'px) scale(' + cs + ')';
+            rafId = requestAnimationFrame(tick);
+        }
+
+        document.addEventListener('mousemove', function (e) {
+            var rect = btn.getBoundingClientRect();
+            var ocx  = rect.left + rect.width  / 2 - cx;
+            var ocy  = rect.top  + rect.height / 2 - cy;
+            var dx   = e.clientX - ocx;
+            var dy   = e.clientY - ocy;
+            var dist = Math.sqrt(dx * dx + dy * dy);
+
+            if (dist < RADIUS) {
+                tx = (dx / RADIUS) * MAX_MOVE;
+                ty = (dy / RADIUS) * MAX_MOVE;
+                ts = 1.05;
+            } else {
+                tx = 0; ty = 0; ts = 1;
+            }
+
+            if (!rafId) rafId = requestAnimationFrame(tick);
+        });
+    });
 }());
 </script>
 </body>
