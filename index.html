@@ -958,6 +958,39 @@
             .modal-card h3 { font-size: 1.35rem; margin-bottom: 1.25rem; }
             .coaching-note { font-size: 0.88rem; padding: 1rem 1.1rem; }
         }
+        /* ── Email Capture ── */
+        .email-capture {
+            padding: 100px 2rem;
+            background: linear-gradient(135deg, #1e3a2e 0%, #2d5a44 100%);
+            text-align: center;
+        }
+        .email-capture-inner {
+            max-width: 620px;
+            margin: 0 auto;
+        }
+        .email-capture h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: white;
+            letter-spacing: -1px;
+            margin-bottom: 0.75rem;
+        }
+        .email-capture p {
+            font-size: 1.05rem;
+            color: rgba(255,255,255,0.72);
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+        .beehiiv-wrapper {
+            display: flex;
+            justify-content: center;
+        }
+        @media (max-width: 768px) {
+            .email-capture { padding: 70px 1.5rem; }
+            .email-capture h2 { font-size: 2rem; }
+            .beehiiv-wrapper iframe { width: 100% !important; }
+        }
+
         /* ── Scroll entrance animations ── */
         @media (prefers-reduced-motion: no-preference) {
             .anim-hidden {
@@ -1074,6 +1107,16 @@
                 <h3>Coach Packs Marketplace</h3>
                 <p>Access specialized coaching for different scenarios: interviews, presentations, sales pitches, and more.</p>
             </div>
+        </div>
+    </div>
+</section>
+
+<section class="email-capture">
+    <div class="email-capture-inner">
+        <h2>Get Early Access</h2>
+        <p>Join students already using Verba. Be first to know when we launch.</p>
+        <div class="beehiiv-wrapper">
+            <script async src="https://subscribe-forms.beehiiv.com/embed.js"></script><iframe src="https://subscribe-forms.beehiiv.com/27967354-32d3-4765-a6e6-d813693a2ecf" class="beehiiv-embed" data-test-id="beehiiv-embed" frameborder="0" scrolling="no" style="width: 560px; height: 291px; margin: 0; border-radius: 0px 0px 0px 0px !important; background-color: transparent; box-shadow: 0 0 #0000; max-width: 100%;"></iframe>
         </div>
     </div>
 </section>
