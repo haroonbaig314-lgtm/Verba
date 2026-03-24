@@ -914,6 +914,33 @@
         .transcript-box.filler-pulse {
             animation: transcript-border-pulse 0.45s ease-out forwards;
         }
+        /* ── Typing indicator dots ── */
+        .typing-dots {
+            display: none;
+            align-items: flex-end;
+            gap: 6px;
+            padding: 2px 0;
+        }
+        .typing-dots.visible {
+            display: inline-flex;
+        }
+        .typing-dots span {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #2d5a44;
+            flex-shrink: 0;
+            animation: dot-bounce 1s ease-in-out infinite;
+        }
+        .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes dot-bounce {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-6px); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .typing-dots span { animation: none; }
+        }
         @keyframes transcript-border-pulse {
             0%   { border-color: rgba(220,38,38,0.75); box-shadow: inset 0 1px 4px rgba(0,0,0,0.03), 0 0 0 2px rgba(220,38,38,0.2); }
             100% { border-color: #e0e0e0; box-shadow: inset 0 1px 4px rgba(0,0,0,0.03); }
@@ -1821,7 +1848,7 @@
             </div>
 
             <div class="transcript-box" id="transcript">
-                <span id="transcript-placeholder" class="transcript-placeholder">Waiting for speech input...</span><span id="transcript-final"></span><span id="transcript-interim" class="interim-text"></span>
+                <div class="typing-dots" id="typingDots" aria-hidden="true"><span></span><span></span><span></span></div><span id="transcript-placeholder" class="transcript-placeholder">Waiting for speech input...</span><span id="transcript-final"></span><span id="transcript-interim" class="interim-text"></span>
             </div>
 
             <div class="demo-buttons">
@@ -2138,6 +2165,8 @@
     FILLERS.forEach(function (f) { fillerCounts[f] = 0; });
     var currentStreak = 0;
     var bestStreak = 0;
+    var dotsEl = document.getElementById('typingDots');
+    var typingDotsTimer = null;
     var lastActivityTime = 0;
     var watchdogInterval = null;
     var isRestarting = false;
@@ -2371,6 +2400,26 @@
     }
 
     // ── Render helpers ──
+    function showDots() {
+        clearTimeout(typingDotsTimer);
+        typingDotsTimer = null;
+        if (dotsEl) dotsEl.classList.add('visible');
+    }
+
+    function hideDots() {
+        clearTimeout(typingDotsTimer);
+        typingDotsTimer = null;
+        if (dotsEl) dotsEl.classList.remove('visible');
+        // Restore placeholder if not recording and no text is showing
+        if (!isRecording) {
+            var finalEl = document.getElementById('transcript-final');
+            if (finalEl && !finalEl.textContent.trim()) {
+                var ph = document.getElementById('transcript-placeholder');
+                if (ph) ph.style.display = '';
+            }
+        }
+    }
+
     function renderTranscript(finalText, interimText) {
         var box = document.getElementById('transcript');
         var placeholderEl = document.getElementById('transcript-placeholder');
@@ -2379,10 +2428,20 @@
         var hasFinal = finalText && finalText.trim();
         var hasInterim = interimText && interimText.trim();
         if (!hasFinal && !hasInterim) {
-            placeholderEl.style.display = '';
             finalEl.innerHTML = '';
             interimEl.textContent = '';
+            if (isRecording) {
+                // Dots replace placeholder while actively listening
+                placeholderEl.style.display = 'none';
+                if (dotsEl && !dotsEl.classList.contains('visible') && !typingDotsTimer) {
+                    typingDotsTimer = setTimeout(showDots, 1500);
+                }
+            } else {
+                hideDots();
+                placeholderEl.style.display = '';
+            }
         } else {
+            hideDots();
             placeholderEl.style.display = 'none';
             finalEl.innerHTML = highlightFillers(finalText || '');
             interimEl.textContent = interimText || '';
@@ -2495,6 +2554,7 @@
         document.getElementById('buttonLabel').textContent = 'Listening...';
         document.getElementById('endSessionBtn').style.display = 'inline-block';
         document.getElementById('demoCard').classList.add('recording');
+        showDots();
 
         isRestarting = false;
         try { recognition.start(); } catch (e) {}
@@ -2523,6 +2583,7 @@
         btn.setAttribute('aria-label', 'Resume recording');
         document.getElementById('buttonLabel').textContent = 'Paused - tap to resume';
         document.getElementById('demoCard').classList.remove('recording');
+        hideDots();
         animateViz();
     }
 
@@ -2530,6 +2591,7 @@
         isRecording = true;
         isRestarting = false;
         document.getElementById('demoCard').classList.add('recording');
+        if (!accumulatedTranscript.trim()) { showDots(); }
         var btn = document.getElementById('micButton');
         btn.classList.add('active');
         btn.innerHTML = MIC_SVG_ON;
@@ -2581,6 +2643,7 @@
         btn.innerHTML = MIC_SVG_OFF;
         btn.setAttribute('aria-label', 'Start recording');
 
+        hideDots();
         renderTranscript('', '');
         renderCounters();
         animateViz();
