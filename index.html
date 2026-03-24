@@ -1031,6 +1031,58 @@
             animation: counter-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
+        /* Language Selector */
+        .lang-selector-wrap {
+            margin-bottom: 1.25rem;
+            text-align: center;
+        }
+        .lang-selector-label {
+            display: block;
+            font-size: 0.75rem;
+            color: #9ca3af;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.3px;
+        }
+        .lang-select-row {
+            display: inline-flex;
+            align-items: center;
+            position: relative;
+        }
+        .lang-select {
+            -webkit-appearance: none;
+            appearance: none;
+            background: white;
+            border: 1.5px solid #d0d7d2;
+            border-radius: 10px;
+            padding: 0.55rem 2.2rem 0.55rem 0.85rem;
+            font-size: 0.9rem;
+            font-family: inherit;
+            color: #1e3a2e;
+            font-weight: 500;
+            cursor: pointer;
+            outline: none;
+            transition: border-color 0.2s;
+            min-width: 168px;
+        }
+        .lang-select:focus { border-color: #2d5a44; }
+        .lang-select-arrow {
+            position: absolute;
+            right: 0.7rem;
+            pointer-events: none;
+            color: #636e72;
+            font-size: 0.7rem;
+            line-height: 1;
+        }
+        .lang-selector-wrap.locked .lang-select {
+            opacity: 0.45;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+        @media (max-width: 480px) {
+            .lang-select { font-size: 0.85rem; min-width: 150px; }
+        }
+
         /* Demo Buttons */
         .demo-buttons {
             display: flex;
@@ -2038,6 +2090,23 @@
                 <div class="typing-dots" id="typingDots" aria-hidden="true"><span></span><span></span><span></span></div><span id="transcript-placeholder" class="transcript-placeholder">Waiting for speech input...</span><span id="transcript-final"></span><span id="transcript-interim" class="interim-text"></span>
             </div>
 
+            <div class="lang-selector-wrap" id="langSelectorWrap">
+                <span class="lang-selector-label">Select your language before starting</span>
+                <div class="lang-select-row">
+                    <select class="lang-select" id="langSelect" aria-label="Select language">
+                        <option value="en-US">&#127482;&#127480; English</option>
+                        <option value="es-ES">&#127466;&#127480; Spanish</option>
+                        <option value="fr-FR">&#127467;&#127479; French</option>
+                        <option value="zh-CN">&#127464;&#127475; Mandarin</option>
+                        <option value="de-DE">&#127465;&#127466; German</option>
+                        <option value="ja-JP">&#127471;&#127477; Japanese</option>
+                        <option value="ar-SA">&#127462;&#127466; Arabic</option>
+                        <option value="hi-IN">&#127470;&#127475; Hindi</option>
+                    </select>
+                    <span class="lang-select-arrow" aria-hidden="true">&#9660;</span>
+                </div>
+            </div>
+
             <div class="demo-buttons">
                 <div class="mic-viz-wrap">
                     <canvas id="micVizCanvas" aria-hidden="true"></canvas>
@@ -2391,8 +2460,20 @@
 
 <script>
 (function () {
+    // ── Language config ──
+    var LANG_CONFIG = {
+        'en-US': { fillers: ['um', 'uh', 'like'],                               labels: ['UM', 'UH', 'LIKE'] },
+        'es-ES': { fillers: ['este', 'bueno', 'o sea', 'pues'],                 labels: ['ESTE', 'BUENO', 'O SEA', 'PUES'] },
+        'fr-FR': { fillers: ['euh', 'bah', 'genre', 'voila'],                   labels: ['EUH', 'BAH', 'GENRE', 'VOILA'] },
+        'zh-CN': { fillers: ['\u90a3\u4e2a', '\u5c31\u662f', '\u7136\u540e'],   labels: ['\u90a3\u4e2a', '\u5c31\u662f', '\u7136\u540e'] },
+        'de-DE': { fillers: ['\u00e4hm', 'halt', 'eigentlich', 'genau'],        labels: ['\u00c4HM', 'HALT', 'EIGENTLICH', 'GENAU'] },
+        'ja-JP': { fillers: ['\u3048\u30fc\u3068', '\u307e\u3042', '\u306a\u3093\u304b'], labels: ['\u3048\u30fc\u3068', '\u307e\u3042', '\u306a\u3093\u304b'] },
+        'ar-SA': { fillers: ['\u064a\u0639\u0646\u064a', '\u0627\u0645\u0645\u0645', '\u0635\u062d', '\u0637\u064a\u0628'], labels: ['\u064a\u0639\u0646\u064a', '\u0627\u0645\u0645\u0645', '\u0635\u062d', '\u0637\u064a\u0628'] },
+        'hi-IN': { fillers: ['\u092e\u0924\u0932\u092c', '\u0909\u092e', '\u092c\u0938', '\u0924\u094b'], labels: ['\u092e\u0924\u0932\u092c', '\u0909\u092e', '\u092c\u0938', '\u0924\u094b'] }
+    };
+    var currentLang = 'en-US';
     // ── Filler list (multi-word first, then single-word) ──
-    var FILLERS = ['um', 'uh', 'like'];
+    var FILLERS = LANG_CONFIG[currentLang].fillers.slice();
 
     // ── State ──
     var isRecording = false;
@@ -2414,16 +2495,21 @@
 
     // ── Build filler counter cards ──
     var counterContainer = document.getElementById('fillerCounters');
-    FILLERS.forEach(function (filler) {
-        var id = filler.replace(/\s+/g, '-');
-        var card = document.createElement('div');
-        card.className = 'filler-counter-card';
-        card.id = 'card-' + id;
-        card.innerHTML =
-            '<div class="filler-counter-number" id="count-' + id + '">0</div>' +
-            '<div class="filler-counter-label">' + filler + '</div>';
-        counterContainer.appendChild(card);
-    });
+    function buildCounterCards() {
+        counterContainer.innerHTML = '';
+        var cfg = LANG_CONFIG[currentLang];
+        FILLERS.forEach(function (filler, i) {
+            var id = 'fc-' + i;
+            var card = document.createElement('div');
+            card.className = 'filler-counter-card';
+            card.id = 'card-' + id;
+            card.innerHTML =
+                '<div class="filler-counter-number" id="count-' + id + '">0</div>' +
+                '<div class="filler-counter-label">' + cfg.labels[i] + '</div>';
+            counterContainer.appendChild(card);
+        });
+    }
+    buildCounterCards();
 
     // ── Build visualizer bars ──
     var vizEl = document.getElementById('visualizer');
@@ -2517,26 +2603,36 @@
     }
 
     // ── Filler counting ──
+    function isNonLatin(fillers) {
+        return /[^\u0000-\u007F]/.test(fillers.join(''));
+    }
+
+    function fillerRegex(filler, nonLatin) {
+        if (nonLatin) {
+            return new RegExp(filler.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&'), 'g');
+        }
+        var escaped = filler.replace(/\s+/g, '\\s+');
+        return new RegExp('\\b' + escaped + '\\b', 'gi');
+    }
+
     function countFillers(text) {
-        var lower = text.toLowerCase();
         var counts = {};
+        var nonLatin = isNonLatin(FILLERS);
+        var src = nonLatin ? text : text.toLowerCase();
         FILLERS.forEach(function (filler) {
-            var escaped = filler.replace(/\s+/g, '\\s+');
-            var re = new RegExp('\\b' + escaped + '\\b', 'gi');
-            var m = lower.match(re);
+            var re = fillerRegex(filler, nonLatin);
+            var m = src.match(re);
             counts[filler] = m ? m.length : 0;
         });
         return counts;
     }
 
     function highlightFillers(text) {
-        // Sort longest first so "you know" is highlighted before "know"
         var sorted = FILLERS.slice().sort(function (a, b) { return b.length - a.length; });
+        var nonLatin = isNonLatin(sorted);
         var result = text;
-        // Use unique placeholders to avoid double-replacement
         sorted.forEach(function (filler, idx) {
-            var escaped = filler.replace(/\s+/g, '\\s+');
-            var re = new RegExp('\\b' + escaped + '\\b', 'gi');
+            var re = fillerRegex(filler, nonLatin);
             result = result.replace(re, '\u0000' + idx + '\u0001$&\u0002');
         });
         sorted.forEach(function (filler, idx) {
@@ -2632,8 +2728,9 @@
     }
 
     function popCounter(filler) {
-        var id = filler.replace(/\s+/g, '-');
-        var cardEl = document.getElementById('card-' + id);
+        var i = FILLERS.indexOf(filler);
+        if (i === -1) return;
+        var cardEl = document.getElementById('card-fc-' + i);
         if (!cardEl) return;
         cardEl.classList.remove('pop');
         void cardEl.offsetWidth;
@@ -2691,8 +2788,8 @@
     }
 
     function renderCounters() {
-        FILLERS.forEach(function (filler) {
-            var id = filler.replace(/\s+/g, '-');
+        FILLERS.forEach(function (filler, i) {
+            var id = 'fc-' + i;
             var numEl = document.getElementById('count-' + id);
             var cardEl = document.getElementById('card-' + id);
             if (numEl) numEl.textContent = fillerCounts[filler];
@@ -2758,6 +2855,32 @@
         });
     }
 
+    // ── Language application ──
+    function applyLanguage(langCode) {
+        currentLang = langCode;
+        var cfg = LANG_CONFIG[langCode];
+        FILLERS = cfg.fillers.slice();
+        fillerCounts = {};
+        FILLERS.forEach(function (f) { fillerCounts[f] = 0; });
+        buildCounterCards();
+        if (recognition) recognition.lang = langCode;
+        var box = document.getElementById('transcript');
+        if (box) {
+            if (langCode === 'ar-SA') { box.setAttribute('dir', 'rtl'); }
+            else                       { box.removeAttribute('dir'); }
+        }
+    }
+
+    var langSelectEl = document.getElementById('langSelect');
+    if (langSelectEl) {
+        langSelectEl.addEventListener('change', function () {
+            if (!sessionActive) { applyLanguage(this.value); }
+        });
+    }
+
+    function lockLangSelector()   { var w = document.getElementById('langSelectorWrap'); if (w) w.classList.add('locked'); }
+    function unlockLangSelector() { var w = document.getElementById('langSelectorWrap'); if (w) w.classList.remove('locked'); }
+
     // ── Recording control ──
     var MIC_SVG_OFF = '<svg class="mic-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">' +
         '<path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>' +
@@ -2795,9 +2918,11 @@
         document.getElementById('buttonLabel').textContent = 'Listening...';
         document.getElementById('endSessionBtn').style.display = 'inline-block';
         document.getElementById('demoCard').classList.add('recording');
+        lockLangSelector();
         showDots();
 
         isRestarting = false;
+        if (recognition) recognition.lang = currentLang;
         try { recognition.start(); } catch (e) {}
         startWatchdog();
 
@@ -2884,6 +3009,7 @@
         btn.innerHTML = MIC_SVG_OFF;
         btn.setAttribute('aria-label', 'Start recording');
 
+        unlockLangSelector();
         hideDots();
         renderTranscript('', '');
         renderCounters();
