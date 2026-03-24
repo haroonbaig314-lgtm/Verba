@@ -2768,8 +2768,8 @@
         var DURATION = 1500;
         var t0 = null;
 
-        // Show $0 in Verba from the start
-        elVerba.innerHTML = '<strong>$0</strong>';
+        // Show "..." in Verba while others are counting
+        elVerba.innerHTML = '<strong>...</strong>';
         elVerba.style.opacity = '1';
 
         function tick(ts) {
