@@ -1230,7 +1230,7 @@
     <div class="modal-card">
         <h3>Session Summary</h3>
         <div class="score-display">
-            <div class="score-value" id="scoreValue">—</div>
+            <div class="score-value" id="scoreValue">--</div>
             <div class="score-label" id="scoreLabel">&nbsp;</div>
         </div>
         <div class="modal-stats">
@@ -1401,7 +1401,7 @@
             <ul class="verba-feature-list">
                 <li><span class="checkmark">&#10004;</span> Real-Time Feedback</li>
                 <li><span class="checkmark">&#10004;</span> Personalized Analytics</li>
-                <li><span class="checkmark">&#10004;</span> Cost Effective — just $6/month</li>
+                <li><span class="checkmark">&#10004;</span> Cost Effective, just $6/month</li>
                 <li><span class="checkmark">&#10004;</span> Accessible 24/7</li>
                 <li><span class="checkmark">&#10004;</span> Haptic Feedback</li>
                 <li><span class="checkmark">&#10004;</span> Only $6/month vs $100+ for coaching</li>
@@ -1457,7 +1457,7 @@
                     <tr>
                         <td>Monthly Price</td>
                         <td>$100+</td>
-                        <td>$12&ndash;45</td>
+                        <td>$12-45</td>
                         <td>$12+</td>
                         <td class="highlight-col"><strong>$6</strong></td>
                     </tr>
@@ -2163,30 +2163,30 @@
         // ── Filler note ──
         var fillerNote = '';
         if (totalFillers === 0) {
-            fillerNote = 'No filler words detected — that takes real discipline and is genuinely uncommon at any experience level.';
+            fillerNote = 'No filler words detected. That takes real discipline and is genuinely uncommon at any experience level.';
         } else if (highFillerRate) {
             // Specific advice per filler word
             if (topFiller === 'like') {
-                fillerNote = '"Like" appeared ' + topCount + ' time' + (topCount !== 1 ? 's' : '') + ' and is your most frequent filler — it tends to sneak in when you\'re bridging between ideas. Instead of reaching for it, let your last word land and pause before moving on.';
+                fillerNote = '"Like" appeared ' + topCount + ' time' + (topCount !== 1 ? 's' : '') + ' and is your most frequent filler. It tends to sneak in when you\'re bridging between ideas. Instead of reaching for it, let your last word land and pause before moving on.';
             } else if (topFiller === 'um') {
-                fillerNote = '"Um" was your most common filler at ' + topCount + ' time' + (topCount !== 1 ? 's' : '') + ' — it usually surfaces when your brain is searching for the next word. Slowing down slightly gives your thoughts time to form without filling the gap out loud.';
+                fillerNote = '"Um" was your most common filler at ' + topCount + ' time' + (topCount !== 1 ? 's' : '') + '. It usually surfaces when your brain is searching for the next word. Slowing down slightly gives your thoughts time to form without filling the gap out loud.';
             } else if (topFiller === 'uh') {
-                fillerNote = '"Uh" showed up ' + topCount + ' time' + (topCount !== 1 ? 's' : '') + ' and is your main filler — it\'s a reflex that kicks in when you feel pressure to keep talking. A deliberate one-beat pause is always more confident than an "uh."';
+                fillerNote = '"Uh" showed up ' + topCount + ' time' + (topCount !== 1 ? 's' : '') + ' and is your main filler. It\'s a reflex that kicks in when you feel pressure to keep talking. A deliberate one-beat pause is always more confident than an "uh."';
             } else {
-                fillerNote = '"' + topFiller + '" appeared ' + topCount + ' time' + (topCount !== 1 ? 's' : '') + ' and is your dominant filler. Replace it with a clean pause — silence holds attention better than any filler word.';
+                fillerNote = '"' + topFiller + '" appeared ' + topCount + ' time' + (topCount !== 1 ? 's' : '') + ' and is your dominant filler. Replace it with a clean pause. Silence holds attention better than any filler word.';
             }
         } else {
             // Low filler rate — specific per filler
             if (topFiller === 'like') {
-                fillerNote = 'Your most common filler was "like" — it tends to appear when transitioning between ideas. Try replacing it with a deliberate pause instead; your filler rate is low, so this is a small adjustment with a noticeable payoff.';
+                fillerNote = 'Your most common filler was "like". It tends to appear when transitioning between ideas. Try replacing it with a deliberate pause instead; your filler rate is low, so this is a small adjustment with a noticeable payoff.';
             } else if (topFiller === 'um') {
-                fillerNote = 'You relied on "um" most — this usually happens when searching for the next word. Slowing down slightly gives your brain time to find it without filling the gap. Your rate is already low, so one more layer of awareness will sharpen this quickly.';
+                fillerNote = 'You relied on "um" most. This usually happens when searching for the next word. Slowing down slightly gives your brain time to find it without filling the gap. Your rate is already low, so one more layer of awareness will sharpen this quickly.';
             } else if (topFiller === 'uh') {
-                fillerNote = '"Uh" was your go-to filler — it\'s a natural stall while your next thought forms. Your count is low, but training yourself to pause silently instead will make your delivery noticeably cleaner.';
+                fillerNote = '"Uh" was your go-to filler. It\'s a natural stall while your next thought forms. Your count is low, but training yourself to pause silently instead will make your delivery noticeably cleaner.';
             } else if (topFiller) {
-                fillerNote = '"' + topFiller + '" was your most frequent filler. Your rate is controlled overall — swap it for a purposeful pause and most listeners won\'t notice the gap at all.';
+                fillerNote = '"' + topFiller + '" was your most frequent filler. Your rate is controlled overall. Swap it for a purposeful pause and most listeners won\'t notice the gap at all.';
             } else {
-                fillerNote = 'Very few filler words — your delivery is clean and controlled.';
+                fillerNote = 'Very few filler words. Your delivery is clean and controlled.';
             }
         }
 
@@ -2194,13 +2194,13 @@
         var paceNote = '';
         if (avgWPM > 0) {
             if (avgWPM < 110) {
-                paceNote = 'At ' + avgWPM + ' WPM your pace sounds hesitant — push through your material with more forward momentum and trust that your audience is following along.';
+                paceNote = 'At ' + avgWPM + ' WPM your pace sounds hesitant. Push through your material with more forward momentum and trust that your audience is following along.';
             } else if (avgWPM <= 130) {
-                paceNote = 'Your pace (' + avgWPM + ' WPM) is close to the ideal range — nudging slightly faster will give your delivery more energy without sacrificing clarity.';
+                paceNote = 'Your pace (' + avgWPM + ' WPM) is close to the ideal range. Nudging slightly faster will give your delivery more energy without sacrificing clarity.';
             } else if (avgWPM <= 160) {
-                paceNote = 'At ' + avgWPM + ' WPM your pace is confident and clear — right in the range where listeners can absorb what you\'re saying without working to keep up.';
+                paceNote = 'At ' + avgWPM + ' WPM your pace is confident and clear, right in the range where listeners can absorb what you\'re saying without working to keep up.';
             } else {
-                paceNote = 'At ' + avgWPM + ' WPM you\'re moving faster than your audience can fully absorb — pull back and give your key points room to land.';
+                paceNote = 'At ' + avgWPM + ' WPM you\'re moving faster than your audience can fully absorb. Pull back and give your key points room to land.';
             }
         }
 
