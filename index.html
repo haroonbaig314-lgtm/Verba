@@ -560,6 +560,88 @@
         }
         .feature-card p { line-height: 1.8; color: #636e72; font-size: 0.95rem; }
 
+        /* ── Feature card 3D flip ── */
+        .feature-flip {
+            perspective: 1000px;
+            height: 300px;
+        }
+        .feature-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.6s ease-in-out;
+        }
+        .feature-flip:hover .feature-card-inner,
+        .feature-flip.flipped .feature-card-inner {
+            transform: rotateY(180deg);
+        }
+        /* Front face: existing .feature-card styles apply; fix positioning */
+        .feature-flip .feature-card {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        .feature-flip .feature-card:hover { transform: none; }
+        .feature-flip .feature-card:hover::before { opacity: 0; }
+        /* Back face */
+        .feature-back {
+            position: absolute;
+            inset: 0;
+            border-radius: 12px;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            transform: rotateY(180deg);
+            background: linear-gradient(135deg, #1e3a2e 0%, #2d5a44 100%);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow-y: auto;
+        }
+        .feature-back p {
+            color: rgba(255,255,255,0.92);
+            font-size: 0.9rem;
+            line-height: 1.7;
+            margin: 0;
+        }
+        .flip-hint {
+            font-size: 0.68rem;
+            color: rgba(130,130,130,0.75);
+            text-align: center;
+            margin-top: auto;
+            padding-top: 0.5rem;
+            letter-spacing: 0.02em;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .feature-card-inner { transition: none; }
+            .feature-flip:hover .feature-card-inner,
+            .feature-flip.flipped .feature-card-inner { transform: none; }
+            .feature-back {
+                transform: none;
+                opacity: 0;
+                backface-visibility: visible;
+                -webkit-backface-visibility: visible;
+                transition: opacity 0.2s ease;
+            }
+            .feature-front {
+                backface-visibility: visible;
+                -webkit-backface-visibility: visible;
+                transition: opacity 0.2s ease;
+            }
+            .feature-flip:hover .feature-back,
+            .feature-flip.flipped .feature-back { opacity: 1; }
+            .feature-flip:hover .feature-front,
+            .feature-flip.flipped .feature-front { opacity: 0; }
+        }
+        @media (max-width: 768px) {
+            .flip-hint { display: none; }
+            .feature-flip { height: 320px; }
+        }
+
         /* ── Demo Section ── */
         .demo-section {
             padding: 60px 2rem;
@@ -1539,29 +1621,77 @@
     <div class="features-container">
         <h2>How Verba Helps You Speak Better</h2>
         <div class="features-grid">
-            <div class="feature-card">
-                <h3>Real-Time Feedback</h3>
-                <p>Instant detection of filler words and pacing issues as you speak, with gentle haptic cues to help you self-correct.</p>
+            <div class="feature-flip">
+                <div class="feature-card-inner">
+                    <div class="feature-card feature-front">
+                        <h3>Real-Time Feedback</h3>
+                        <p>Instant detection of filler words and pacing issues as you speak, with gentle haptic cues to help you self-correct.</p>
+                        <span class="flip-hint">hover to learn more</span>
+                    </div>
+                    <div class="feature-back">
+                        <p>While you speak, Verba listens. The moment you say um, uh, or like, your phone vibrates and the screen flashes, so you catch it as it happens, not after.</p>
+                    </div>
+                </div>
             </div>
-            <div class="feature-card">
-                <h3>Personalized Analytics</h3>
-                <p>Track your progress over time with detailed insights on your speaking patterns and improvement areas.</p>
+            <div class="feature-flip">
+                <div class="feature-card-inner">
+                    <div class="feature-card feature-front">
+                        <h3>Personalized Analytics</h3>
+                        <p>Track your progress over time with detailed insights on your speaking patterns and improvement areas.</p>
+                        <span class="flip-hint">hover to learn more</span>
+                    </div>
+                    <div class="feature-back">
+                        <p>After each session you get your filler count, words per minute, and a coaching note based on what you actually said, not generic advice.</p>
+                    </div>
+                </div>
             </div>
-            <div class="feature-card">
-                <h3>AI-Powered Coaching</h3>
-                <p>Powered by AI to provide tailored feedback specific to your speaking style and goals.</p>
+            <div class="feature-flip">
+                <div class="feature-card-inner">
+                    <div class="feature-card feature-front">
+                        <h3>AI-Powered Coaching</h3>
+                        <p>Powered by AI to provide tailored feedback specific to your speaking style and goals.</p>
+                        <span class="flip-hint">hover to learn more</span>
+                    </div>
+                    <div class="feature-back">
+                        <p>Our full MVP uses Whisper to transcribe your speech and GPT to analyze it. The browser demo gives you real-time detection right on this page.</p>
+                    </div>
+                </div>
             </div>
-            <div class="feature-card">
-                <h3>Mobile-First Design</h3>
-                <p>Practice anywhere, anytime. Verba fits in your pocket and works seamlessly on any mobile device.</p>
+            <div class="feature-flip">
+                <div class="feature-card-inner">
+                    <div class="feature-card feature-front">
+                        <h3>Mobile-First Design</h3>
+                        <p>Practice anywhere, anytime. Verba fits in your pocket and works seamlessly on any mobile device.</p>
+                        <span class="flip-hint">hover to learn more</span>
+                    </div>
+                    <div class="feature-back">
+                        <p>Built for your phone. The mic button is thumb-friendly, the stats are readable at a glance, and the haptic buzz works on any Android or iPhone.</p>
+                    </div>
+                </div>
             </div>
-            <div class="feature-card">
-                <h3>Affordable Access</h3>
-                <p>At just $6/month with a planned freemium model, get professional coaching at a fraction of traditional costs.</p>
+            <div class="feature-flip">
+                <div class="feature-card-inner">
+                    <div class="feature-card feature-front">
+                        <h3>Affordable Access</h3>
+                        <p>At just $6/month with a planned freemium model, get professional coaching at a fraction of traditional costs.</p>
+                        <span class="flip-hint">hover to learn more</span>
+                    </div>
+                    <div class="feature-back">
+                        <p>Most speaking coaches charge $100 an hour. We're building Verba to cost $6 a month, or free for basic use. Good feedback shouldn't be expensive.</p>
+                    </div>
+                </div>
             </div>
-            <div class="feature-card">
-                <h3>Coach Packs Marketplace</h3>
-                <p>Access specialized coaching for different scenarios: interviews, presentations, sales pitches, and more.</p>
+            <div class="feature-flip">
+                <div class="feature-card-inner">
+                    <div class="feature-card feature-front">
+                        <h3>Coach Packs Marketplace</h3>
+                        <p>Access specialized coaching for different scenarios: interviews, presentations, sales pitches, and more.</p>
+                        <span class="flip-hint">hover to learn more</span>
+                    </div>
+                    <div class="feature-back">
+                        <p>Down the road we want to add specialized modes: job interview prep, pitch practice, classroom presentations. Different goals need different coaching.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -2509,7 +2639,7 @@
         },
         {
             root: '.features',
-            items: 'h2, .feature-card'
+            items: 'h2, .feature-flip'
         },
         {
             root: '.demo-section',
@@ -3124,6 +3254,17 @@
         }
     }, { threshold: 0.4 });
     obs.observe(section);
+}());
+</script>
+<script>
+/* ── Feature card flip: tap to flip on touch devices ── */
+(function () {
+    if (!window.matchMedia('(hover: none)').matches) return; // desktop uses CSS :hover
+    document.querySelectorAll('.feature-flip').forEach(function (card) {
+        card.addEventListener('click', function () {
+            card.classList.toggle('flipped');
+        });
+    });
 }());
 </script>
 <script>
