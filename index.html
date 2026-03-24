@@ -228,6 +228,15 @@
             position: relative;
             overflow: hidden;
         }
+        .hero-bg {
+            position: absolute;
+            top: -40%;
+            left: 0;
+            right: 0;
+            height: 180%;
+            background: linear-gradient(135deg, #1e3a2e 0%, #2d5a44 50%, #3d6a54 100%);
+            will-change: transform;
+        }
         .hero::after {
             content: '';
             position: absolute;
@@ -1344,6 +1353,7 @@
 </header>
 
 <section class="hero">
+    <div class="hero-bg" aria-hidden="true"></div>
     <div class="hero-content">
         <h1>VERBA</h1>
         <p class="tagline">Your Pocket-Sized AI Speaking Coach</p>
@@ -2539,6 +2549,40 @@
             shine.style.opacity = '0';
         });
     });
+}());
+</script>
+<script>
+(function () {
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (window.matchMedia('(max-width: 768px)').matches) return;
+
+    var heroBg = document.querySelector('.hero-bg');
+    var hero   = document.querySelector('.hero');
+    if (!heroBg || !hero) return;
+
+    var heroBottom = 0;
+    var ticking    = false;
+
+    function measure() {
+        heroBottom = hero.offsetTop + hero.offsetHeight;
+    }
+
+    function update() {
+        var scrollY = window.scrollY || window.pageYOffset;
+        if (scrollY < heroBottom) {
+            heroBg.style.transform = 'translateY(' + (scrollY * 0.4) + 'px)';
+        }
+        ticking = false;
+    }
+
+    measure();
+    window.addEventListener('resize', measure, { passive: true });
+    window.addEventListener('scroll', function () {
+        if (!ticking) {
+            requestAnimationFrame(update);
+            ticking = true;
+        }
+    }, { passive: true });
 }());
 </script>
 </body>
