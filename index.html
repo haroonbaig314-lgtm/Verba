@@ -1051,22 +1051,26 @@
             border-radius: 28px;
             padding: 2rem 2rem 1.5rem;
             box-shadow: 0 8px 32px rgba(0,0,0,0.10), 0 0 0 1px rgba(0,0,0,0.06);
-            display: inline-flex;
-            flex-direction: column;
-            align-items: center;
-            max-width: 100%;
+            display: block;
+            width: 100%;
+            max-width: 560px;
+            box-sizing: border-box;
+            overflow: visible;
         }
         .beehiiv-card iframe {
             display: block;
             box-shadow: none !important;
+            width: 100% !important;
+            height: 260px !important;
+            margin-top: -40px;
         }
         @media (max-width: 768px) {
             .email-capture { padding: 70px 1.5rem; }
             .email-capture h2 { font-size: 2rem; letter-spacing: -0.5px; }
-            .beehiiv-card { padding: 1.5rem 1rem 1rem; border-radius: 20px; width: 100%; }
+            .beehiiv-card { padding: 1.5rem 0.5rem 1rem; border-radius: 20px; width: 100%; }
         }
         @media (max-width: 600px) {
-            .beehiiv-card iframe { width: 100% !important; height: 230px !important; }
+            .beehiiv-card { padding-left: 0.5rem; padding-right: 0.5rem; }
         }
 
         /* ── Streak display ── */
@@ -1531,7 +1535,7 @@
         <p>Join students already using Verba. Be first to know when we launch.</p>
         <div class="beehiiv-wrapper">
             <div class="beehiiv-card">
-                <script async src="https://subscribe-forms.beehiiv.com/embed.js"></script><iframe src="https://subscribe-forms.beehiiv.com/27967354-32d3-4765-a6e6-d813693a2ecf" class="beehiiv-embed" data-test-id="beehiiv-embed" frameborder="0" scrolling="no" style="width: 500px; height: 201px; margin: 0; border-radius: 25px 25px 25px 25px !important; background-color: transparent; box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); max-width: 100%;"></iframe>
+                <script async src="https://subscribe-forms.beehiiv.com/embed.js"></script><iframe src="https://subscribe-forms.beehiiv.com/27967354-32d3-4765-a6e6-d813693a2ecf" class="beehiiv-embed" data-test-id="beehiiv-embed" frameborder="0" scrolling="no" style="width: 100%; height: 260px; margin: 0; border-radius: 25px 25px 25px 25px !important; background-color: transparent; box-shadow: none; max-width: 100%;"></iframe>
             </div>
         </div>
     </div>
