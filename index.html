@@ -864,6 +864,14 @@
             font-weight: 700;
             color: #1e3a2e;
         }
+        .highlight-col.price-land {
+            animation: price-pop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        @keyframes price-pop {
+            0%   { transform: scale(1);    background: linear-gradient(135deg, #e8f5e9 0%, #d4edda 100%); }
+            40%  { transform: scale(1.18); background: linear-gradient(135deg, #c8f5d0 0%, #a8e8b8 100%); }
+            100% { transform: scale(1);    background: linear-gradient(135deg, #e8f5e9 0%, #d4edda 100%); }
+        }
         thead .highlight-col {
             background: linear-gradient(135deg, #2d5a44 0%, #1e3a2e 100%);
             color: white;
@@ -2435,7 +2443,7 @@
         { id: 'price-coaching', end: 100, suffix: '+', duration: 3200, bold: false },
         { id: 'price-apps',     end: 45,  suffix: '',  duration: 3200, bold: false },
         { id: 'price-courses',  end: 12,  suffix: '+', duration: 3200, bold: false },
-        { id: 'price-verba',    end: 6,   suffix: '',  duration: 5000, bold: true  },
+        { id: 'price-verba',    end: 6,   suffix: '',  duration: 6100, bold: true  },
     ];
 
     var table = document.querySelector('.comparison-table table');
@@ -2473,6 +2481,10 @@
                     el.innerHTML = p.bold
                         ? '<strong>$' + p.end + p.suffix + '</strong>'
                         : '$' + p.end + p.suffix;
+                    if (p.bold) {
+                        el.classList.add('price-land');
+                        setTimeout(function () { el.classList.remove('price-land'); }, 1000);
+                    }
                 } else {
                     el.textContent = '$' + val;
                     requestAnimationFrame(tick);
