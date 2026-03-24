@@ -647,6 +647,52 @@
             .feature-flip { height: 320px; }
         }
 
+        /* ── Demo card animated gradient border ── */
+        @property --demo-border-angle {
+            syntax: '<angle>';
+            inherits: false;
+            initial-value: 0deg;
+        }
+        @keyframes demo-border-spin {
+            to { --demo-border-angle: 360deg; }
+        }
+        .demo-card-wrap {
+            display: block;
+            border-radius: 31px;
+            padding: 3px;
+            background: conic-gradient(
+                from var(--demo-border-angle),
+                #1e3a2e 0%,
+                #2d5a44 20%,
+                #4caf7d 45%,
+                #a8d5b5 60%,
+                #ffffff 68%,
+                #a8d5b5 76%,
+                #2d5a44 88%,
+                #1e3a2e 100%
+            );
+            animation: demo-border-spin 4s linear infinite;
+        }
+        .demo-card-wrap.spinning-fast {
+            animation-duration: 2s;
+        }
+        .demo-card-wrap .demo-card {
+            border: none;
+        }
+        .demo-card-wrap .demo-card.recording {
+            border: none;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.07);
+        }
+        @media (max-width: 768px) {
+            .demo-card-wrap { padding: 2px; border-radius: 30px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .demo-card-wrap {
+                animation: none;
+                background: #2d5a44;
+            }
+        }
+
         /* ── Demo Section ── */
         .demo-section {
             padding: 60px 2rem;
@@ -1712,6 +1758,7 @@
         <p class="demo-subtitle">This is a lightweight browser-based preview, not the full Verba product. Speak naturally. It detects filler words in real time, tracks your pace, and flashes when you slip up.</p>
         <p class="browser-note">Speech recognition works best in Chrome or Edge on desktop.</p>
 
+        <div class="demo-card-wrap" id="demoCardWrap">
         <div class="demo-card" id="demoCard">
 
             <div class="visualizer-container" id="visualizer"></div>
@@ -1764,6 +1811,7 @@
                 For the best experience with our live demo, please open this page in Chrome or Edge. On Android, Chrome works great. On iPhone, try Chrome or Safari.
             </div>
         </div>
+        </div><!-- /.demo-card-wrap -->
     </div>
 </section>
 
@@ -3262,6 +3310,21 @@
         }
     }, { threshold: 0.4 });
     obs.observe(section);
+}());
+</script>
+<script>
+/* ── Demo card gradient border: speed up on recording ── */
+(function () {
+    var wrap = document.getElementById('demoCardWrap');
+    var card = document.getElementById('demoCard');
+    if (!wrap || !card) return;
+    new MutationObserver(function () {
+        if (card.classList.contains('recording')) {
+            wrap.classList.add('spinning-fast');
+        } else {
+            wrap.classList.remove('spinning-fast');
+        }
+    }).observe(card, { attributes: true, attributeFilter: ['class'] });
 }());
 </script>
 <script>
