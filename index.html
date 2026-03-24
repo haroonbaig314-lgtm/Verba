@@ -163,6 +163,11 @@
             padding: 0 1rem;
         }
         .beta-banner strong { color: white; font-weight: 700; }
+        .beta-mobile { display: none; }
+        @media (max-width: 767px) {
+            .beta-desktop { display: none; }
+            .beta-mobile { display: inline; }
+        }
 
         /* ── Beta Badge ── */
         .beta-badge {
@@ -1564,7 +1569,10 @@
     </div>
 </div>
 
-<div class="beta-banner"><strong>Verba</strong>&nbsp;is currently in beta, built by freshman students at Northeastern University.</div>
+<div class="beta-banner">
+    <span class="beta-desktop"><strong>Verba</strong>&nbsp;is currently in beta, built by freshman students at Northeastern University.</span>
+    <span class="beta-mobile">Currently in beta, built by freshman students at Northeastern University.</span>
+</div>
 
 <header>
     <nav>
