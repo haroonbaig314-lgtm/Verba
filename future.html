@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Verba - Future Development</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -25,18 +26,42 @@
             scroll-behavior: smooth;
         }
 
-        /* Header - matching main site */
+        /* ── Beta Banner ── */
+        .beta-banner {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 36px;
+            background: #1e3a2e;
+            color: rgba(255,255,255,0.88);
+            font-size: 0.78rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1100;
+            text-align: center;
+            letter-spacing: 0.2px;
+            padding: 0 1rem;
+        }
+        .beta-banner strong { color: white; font-weight: 700; }
+        .beta-mobile { display: none; }
+        @media (max-width: 767px) {
+            .beta-desktop { display: none; }
+            .beta-mobile { display: inline; }
+        }
+
+        /* ── Header ── */
         header {
-            background: rgba(30, 58, 46, 0.95);
+            background: rgba(30, 58, 46, 0.97);
             backdrop-filter: blur(10px);
             color: white;
             padding: 1rem 2rem;
             position: fixed;
             width: 100%;
-            top: 0;
+            top: 36px;
             z-index: 1000;
-            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.15);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
         }
 
         nav {
@@ -49,8 +74,8 @@
 
         .logo {
             font-size: 1.8rem;
-            font-weight: bold;
-            letter-spacing: 2px;
+            font-weight: 800;
+            letter-spacing: 3px;
             text-decoration: none;
             color: white;
         }
@@ -60,19 +85,20 @@
             text-decoration: none;
             margin-left: 2rem;
             font-weight: 500;
+            font-size: 0.95rem;
             transition: opacity 0.3s;
         }
 
         .nav-links a:hover {
-            opacity: 0.8;
+            opacity: 0.75;
         }
 
+        /* ── Hero / Future section ── */
         .future-section {
-            padding: 140px 2rem 100px;
+            padding: 180px 2rem 120px;
             background: linear-gradient(135deg, #1e3a2e 0%, #2d5a44 100%);
             position: relative;
             overflow: hidden;
-            min-height: 100vh;
         }
 
         .future-section::before {
@@ -101,7 +127,7 @@
 
         .future-header {
             text-align: center;
-            margin-bottom: 4rem;
+            margin-bottom: 3.5rem;
         }
 
         .coming-soon-badge {
@@ -125,7 +151,7 @@
             margin-bottom: 1rem;
         }
 
-        .future-header p {
+        .future-header > p {
             font-size: 1.2rem;
             color: rgba(255, 255, 255, 0.8);
             max-width: 700px;
@@ -133,25 +159,121 @@
             line-height: 1.8;
         }
 
+        /* ── Roadmap Timeline ── */
+        .roadmap-timeline {
+            margin: 2.75rem auto 0;
+            max-width: 680px;
+            padding: 0 1rem;
+        }
+
+        .timeline-track {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .timeline-track::before {
+            content: '';
+            position: absolute;
+            top: 9px;
+            left: 10px;
+            right: 10px;
+            height: 2px;
+            background: rgba(255,255,255,0.25);
+            z-index: 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.7rem;
+            position: relative;
+            z-index: 1;
+            flex: 1;
+        }
+
+        .tl-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2.5px solid rgba(255,255,255,0.45);
+            background: transparent;
+            flex-shrink: 0;
+        }
+
+        .tl-dot.filled {
+            background: #a8d5b5;
+            border-color: #a8d5b5;
+            box-shadow: 0 0 12px rgba(168,213,181,0.55);
+        }
+
+        .tl-label {
+            text-align: center;
+            font-size: 0.72rem;
+            color: rgba(255,255,255,0.6);
+            font-weight: 500;
+            line-height: 1.45;
+        }
+
+        .tl-label strong {
+            font-weight: 700;
+            color: rgba(255,255,255,0.9);
+            display: block;
+            font-size: 0.78rem;
+        }
+
+        .timeline-item.active .tl-label,
+        .timeline-item.active .tl-label strong {
+            color: #a8d5b5;
+        }
+
+        /* ── Wave divider at bottom of hero ── */
+        .section-wave {
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            line-height: 0;
+            z-index: 2;
+        }
+
+        .section-wave svg {
+            display: block;
+            width: 100%;
+            height: 72px;
+        }
+
+        /* ── Features grid ── */
+        .features-section {
+            background: #fafafa;
+            padding: 80px 2rem 100px;
+        }
+
+        .features-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
         .features-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 2.5rem;
+            gap: 2rem;
         }
 
         .feature-mockup {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 25px;
+            background: white;
+            border-radius: 20px;
             padding: 2.5rem;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-            transition: all 0.3s ease;
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1.5px solid #f0f0f0;
         }
 
         .feature-mockup:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
-            border-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-6px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.1);
         }
 
         .feature-header {
@@ -162,15 +284,16 @@
         }
 
         .feature-icon {
-            width: 60px;
-            height: 60px;
+            width: 56px;
+            height: 56px;
             background: linear-gradient(135deg, #2d5a44, #1e3a2e);
-            border-radius: 15px;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.8rem;
-            box-shadow: 0 4px 15px rgba(45, 90, 68, 0.4);
+            font-size: 1.6rem;
+            box-shadow: 0 4px 14px rgba(45, 90, 68, 0.3);
+            flex-shrink: 0;
         }
 
         .feature-title {
@@ -178,14 +301,14 @@
         }
 
         .feature-title h3 {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: 700;
             color: #1e3a2e;
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.2rem;
         }
 
         .feature-title .status {
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             color: #2d5a44;
             font-weight: 600;
             text-transform: uppercase;
@@ -196,18 +319,19 @@
             color: #636e72;
             line-height: 1.7;
             margin-bottom: 1.5rem;
+            font-size: 0.97rem;
         }
 
         .feature-preview {
-            background: #f5f3ed;
-            border: 2px solid #e0e0e0;
-            border-radius: 15px;
-            padding: 2rem;
-            margin-top: 1.5rem;
+            background: #f7f9f7;
+            border: 1.5px solid #e8ede9;
+            border-radius: 14px;
+            padding: 1.5rem;
+            margin-top: 1.25rem;
         }
 
         .preview-title {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: #636e72;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -215,16 +339,17 @@
             margin-bottom: 1rem;
         }
 
+        /* Marketplace */
         .marketplace-items {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
+            gap: 0.85rem;
         }
 
         .marketplace-card {
             background: white;
-            border: 1px solid #e0e0e0;
-            border-radius: 10px;
+            border: 1.5px solid #e8ede9;
+            border-radius: 12px;
             padding: 1rem;
             text-align: center;
             transition: all 0.2s;
@@ -232,31 +357,34 @@
 
         .marketplace-card:hover {
             border-color: #2d5a44;
-            transform: scale(1.02);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(45,90,68,0.1);
         }
 
         .marketplace-card .emoji {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
+            font-size: 1.8rem;
+            margin-bottom: 0.4rem;
         }
 
         .marketplace-card .pack-name {
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             font-weight: 600;
             color: #1e3a2e;
             margin-bottom: 0.25rem;
         }
 
         .marketplace-card .pack-price {
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             color: #2d5a44;
-            font-weight: 700;
+            font-weight: 600;
+            letter-spacing: 0.3px;
         }
 
+        /* Voice differentiation */
         .voice-profiles {
             display: flex;
             flex-direction: column;
-            gap: 0.75rem;
+            gap: 0.7rem;
         }
 
         .voice-profile {
@@ -264,9 +392,9 @@
             align-items: center;
             gap: 1rem;
             background: white;
-            border: 1px solid #e0e0e0;
-            border-radius: 10px;
-            padding: 1rem;
+            border: 1.5px solid #e8ede9;
+            border-radius: 12px;
+            padding: 0.9rem 1rem;
             transition: all 0.2s;
         }
 
@@ -275,8 +403,8 @@
         }
 
         .voice-avatar {
-            width: 40px;
-            height: 40px;
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
             background: linear-gradient(135deg, #2d5a44, #3d6a54);
             display: flex;
@@ -284,7 +412,8 @@
             justify-content: center;
             color: white;
             font-weight: 700;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
+            flex-shrink: 0;
         }
 
         .voice-info {
@@ -292,28 +421,30 @@
         }
 
         .voice-name {
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             font-weight: 600;
             color: #1e3a2e;
         }
 
         .voice-stats {
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             color: #636e72;
         }
 
         .voice-waveform {
-            width: 60px;
-            height: 30px;
+            width: 56px;
+            height: 28px;
             background: linear-gradient(90deg, #e0e0e0 0%, #2d5a44 50%, #e0e0e0 100%);
             border-radius: 5px;
             opacity: 0.3;
+            flex-shrink: 0;
         }
 
+        /* Learning modules */
         .learning-modules {
             display: flex;
             flex-direction: column;
-            gap: 0.75rem;
+            gap: 0.7rem;
         }
 
         .module-item {
@@ -321,9 +452,9 @@
             align-items: center;
             gap: 1rem;
             background: white;
-            border: 1px solid #e0e0e0;
-            border-radius: 10px;
-            padding: 1rem;
+            border: 1.5px solid #e8ede9;
+            border-radius: 12px;
+            padding: 0.9rem 1rem;
             transition: all 0.2s;
         }
 
@@ -332,8 +463,8 @@
         }
 
         .module-number {
-            width: 35px;
-            height: 35px;
+            width: 32px;
+            height: 32px;
             background: #2d5a44;
             border-radius: 50%;
             display: flex;
@@ -341,7 +472,8 @@
             justify-content: center;
             color: white;
             font-weight: 700;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
+            flex-shrink: 0;
         }
 
         .module-content {
@@ -349,23 +481,24 @@
         }
 
         .module-title {
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             font-weight: 600;
             color: #1e3a2e;
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.2rem;
         }
 
         .module-duration {
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             color: #636e72;
         }
 
         .progress-bar {
-            width: 60px;
-            height: 6px;
+            width: 56px;
+            height: 5px;
             background: #e0e0e0;
             border-radius: 3px;
             overflow: hidden;
+            flex-shrink: 0;
         }
 
         .progress-fill {
@@ -374,39 +507,40 @@
             border-radius: 3px;
         }
 
+        /* Language grid */
         .language-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 0.75rem;
+            gap: 0.7rem;
         }
 
         .language-option {
             background: white;
-            border: 1px solid #e0e0e0;
-            border-radius: 10px;
-            padding: 1rem;
+            border: 1.5px solid #e8ede9;
+            border-radius: 12px;
+            padding: 0.9rem 0.5rem;
             text-align: center;
             transition: all 0.2s;
-            cursor: pointer;
+            cursor: default;
         }
 
         .language-option:hover {
             border-color: #2d5a44;
-            background: #f5f3ed;
+            background: #f7f9f7;
         }
 
         .language-flag {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
+            font-size: 1.8rem;
+            margin-bottom: 0.4rem;
         }
 
         .language-name {
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             font-weight: 600;
             color: #1e3a2e;
         }
 
-        /* Footer */
+        /* ── Footer ── */
         footer {
             background: #1e3a2e;
             color: white;
@@ -428,116 +562,24 @@
             text-decoration: none;
             margin: 0 1rem;
             opacity: 0.8;
-            transition: all 0.3s;
+            transition: opacity 0.3s;
             font-weight: 500;
         }
 
         .footer-links a:hover {
             opacity: 1;
-            transform: translateY(-2px);
-            display: inline-block;
         }
 
-        @media (max-width: 968px) {
-            .features-grid {
-                grid-template-columns: 1fr;
+        /* ── Scroll entrance animations ── */
+        @media (prefers-reduced-motion: no-preference) {
+            .anim-hidden {
+                opacity: 0;
+                transform: translateY(28px);
+                transition: opacity 0.6s ease-out, transform 0.6s ease-out;
             }
-            .future-header h2 {
-                font-size: 2rem;
-            }
-            .marketplace-items {
-                grid-template-columns: 1fr;
-            }
-            .language-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .nav-links a {
-                font-size: 0.82rem;
-                margin-left: 0.75rem;
-            }
-        }
-
-        @media (max-width: 600px) {
-            .future-section {
-                padding: 110px 1.1rem 70px;
-            }
-            .future-header {
-                margin-bottom: 2.5rem;
-            }
-            .future-header h2 {
-                font-size: 1.75rem;
-            }
-            .future-header p {
-                font-size: 1rem;
-            }
-            .features-grid {
-                gap: 1.5rem;
-            }
-            .feature-mockup {
-                padding: 1.5rem 1.1rem;
-                border-radius: 16px;
-            }
-            .feature-header {
-                gap: 0.75rem;
-                flex-wrap: wrap;
-            }
-            .feature-icon {
-                width: 48px;
-                height: 48px;
-                font-size: 1.4rem;
-                border-radius: 12px;
-                flex-shrink: 0;
-            }
-            .feature-title h3 {
-                font-size: 1.2rem;
-            }
-            .feature-preview {
-                padding: 1.1rem;
-            }
-            /* Voice profiles: constrain waveform so row doesn't overflow */
-            .voice-profile {
-                flex-wrap: wrap;
-                gap: 0.5rem;
-            }
-            .voice-waveform {
-                width: 100%;
-                height: 8px;
-                margin-top: 0.25rem;
-            }
-            /* Marketplace: single column */
-            .marketplace-items {
-                grid-template-columns: 1fr;
-            }
-            /* Language grid: 2 col on small, fall to 1 if very narrow */
-            .language-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 0.5rem;
-            }
-            .language-option {
-                padding: 0.75rem 0.5rem;
-            }
-            .language-flag {
-                font-size: 1.5rem;
-            }
-            .language-name {
-                font-size: 0.78rem;
-            }
-            /* Module items */
-            .module-item {
-                flex-wrap: wrap;
-                gap: 0.5rem;
-            }
-            .progress-bar {
-                width: 100%;
-                margin-top: 0.25rem;
-            }
-            /* Nav: keep links visible but compact */
-            .nav-links a {
-                font-size: 0.75rem;
-                margin-left: 0.5rem;
-            }
-            .logo {
-                font-size: 1.4rem;
+            .anim-visible {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
 
@@ -567,6 +609,58 @@
             from { transform: scaleX(0); }
             to   { transform: scaleX(1); }
         }
+
+        /* ── Responsive ── */
+        @media (max-width: 968px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            .future-header h2 {
+                font-size: 2.2rem;
+            }
+            .marketplace-items {
+                grid-template-columns: 1fr;
+            }
+            .language-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .beta-banner { height: 50px; padding: 0 1rem; font-size: 0.72rem; line-height: 1.35; }
+            header { top: 50px; }
+            .future-section { padding: 175px 1.25rem 100px; }
+        }
+
+        @media (max-width: 600px) {
+            .future-section { padding: 170px 1.1rem 90px; }
+            .future-header { margin-bottom: 2.5rem; }
+            .future-header h2 { font-size: 1.85rem; }
+            .future-header > p { font-size: 1rem; }
+            .features-section { padding: 50px 1.1rem 70px; }
+            .features-grid { gap: 1.25rem; }
+            .feature-mockup { padding: 1.5rem 1.1rem; border-radius: 16px; }
+            .feature-header { gap: 0.75rem; }
+            .feature-icon { width: 46px; height: 46px; font-size: 1.3rem; border-radius: 11px; }
+            .feature-title h3 { font-size: 1.2rem; }
+            .feature-preview { padding: 1rem; }
+            .voice-profile { flex-wrap: wrap; gap: 0.5rem; }
+            .voice-waveform { width: 100%; height: 7px; margin-top: 0.2rem; }
+            .marketplace-items { grid-template-columns: 1fr; }
+            .language-grid { grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
+            .language-option { padding: 0.75rem 0.4rem; }
+            .language-flag { font-size: 1.5rem; }
+            .language-name { font-size: 0.76rem; }
+            .module-item { flex-wrap: wrap; gap: 0.5rem; }
+            .progress-bar { width: 100%; margin-top: 0.2rem; }
+            .nav-links a { font-size: 0.75rem; margin-left: 0.5rem; }
+            .logo { font-size: 1.4rem; }
+            .roadmap-timeline { max-width: 100%; padding: 0; }
+            .tl-label { font-size: 0.62rem; }
+            .tl-label strong { font-size: 0.68rem; }
+            .section-wave svg { height: 44px; }
+        }
+
         @media (max-width: 768px) {
             #page-sweep.reveal { animation-duration: 0.3s; }
             #page-sweep.cover  { animation-duration: 0.3s; }
@@ -578,211 +672,251 @@
 <div id="page-sweep" aria-hidden="true"></div>
 <noscript><style>#page-sweep { display: none; }</style></noscript>
 
-    <header>
-        <nav>
-            <a href="index.html" class="logo">VERBA</a>
-            <div class="nav-links">
-                <a href="index.html">Home</a>
-                <a href="https://www.instagram.com/verbaspeech/" target="_blank">Instagram</a>
-            </div>
-        </nav>
-    </header>
+<div class="beta-banner">
+    <span class="beta-desktop"><strong>Verba</strong>&nbsp;is currently in beta, built by freshman students at Northeastern University.</span>
+    <span class="beta-mobile">Currently in beta, built by freshman students at Northeastern University.</span>
+</div>
 
-    <section class="future-section">
-        <div class="future-container">
-            <div class="future-header">
-                <div class="coming-soon-badge">Our Vision</div>
-                <h2>The Future of Verba</h2>
-                <p>We're building powerful new features to make Verba the ultimate AI speaking coach for everyone, everywhere.</p>
-            </div>
-
-            <div class="features-grid">
-                <!-- Voice Differentiation -->
-                <div class="feature-mockup">
-                    <div class="feature-header">
-                        <div class="feature-icon">👥</div>
-                        <div class="feature-title">
-                            <h3>Voice Differentiation</h3>
-                            <div class="status">Team &amp; Classroom Ready</div>
-                        </div>
-                    </div>
-                    <p class="feature-description">
-                        Track individual progress for multiple users. Perfect for classrooms, study groups, and team presentations. Each voice profile maintains separate analytics and personalized improvement plans.
-                    </p>
-                    <div class="feature-preview">
-                        <div class="preview-title">Student Profiles</div>
-                        <div class="voice-profiles">
-                            <div class="voice-profile">
-                                <div class="voice-avatar">AS</div>
-                                <div class="voice-info">
-                                    <div class="voice-name">Alex Smith</div>
-                                    <div class="voice-stats">12 sessions • 67% improvement</div>
-                                </div>
-                                <div class="voice-waveform"></div>
-                            </div>
-                            <div class="voice-profile">
-                                <div class="voice-avatar">MJ</div>
-                                <div class="voice-info">
-                                    <div class="voice-name">Maria Johnson</div>
-                                    <div class="voice-stats">8 sessions • 54% improvement</div>
-                                </div>
-                                <div class="voice-waveform"></div>
-                            </div>
-                            <div class="voice-profile">
-                                <div class="voice-avatar">TC</div>
-                                <div class="voice-info">
-                                    <div class="voice-name">Tom Chen</div>
-                                    <div class="voice-stats">15 sessions • 82% improvement</div>
-                                </div>
-                                <div class="voice-waveform"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Coach Packs Marketplace -->
-                <div class="feature-mockup">
-                    <div class="feature-header">
-                        <div class="feature-icon">🛍️</div>
-                        <div class="feature-title">
-                            <h3>Coach Packs Marketplace</h3>
-                            <div class="status">Specialized Coaching</div>
-                        </div>
-                    </div>
-                    <p class="feature-description">
-                        Access specialized coaching for every scenario. From job interviews to sales pitches, wedding speeches to TED talks. Downloadable coach packs tailored to your specific needs.
-                    </p>
-                    <div class="feature-preview">
-                        <div class="preview-title">Featured Coach Packs</div>
-                        <div class="marketplace-items">
-                            <div class="marketplace-card">
-                                <div class="emoji">💼</div>
-                                <div class="pack-name">Interview Pro</div>
-                                <div class="pack-price">$4.99</div>
-                            </div>
-                            <div class="marketplace-card">
-                                <div class="emoji">📊</div>
-                                <div class="pack-name">Presentation Master</div>
-                                <div class="pack-price">$4.99</div>
-                            </div>
-                            <div class="marketplace-card">
-                                <div class="emoji">💰</div>
-                                <div class="pack-name">Sales Pitch</div>
-                                <div class="pack-price">$6.99</div>
-                            </div>
-                            <div class="marketplace-card">
-                                <div class="emoji">🎤</div>
-                                <div class="pack-name">Public Speaking</div>
-                                <div class="pack-price">$5.99</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Learning Modules -->
-                <div class="feature-mockup">
-                    <div class="feature-header">
-                        <div class="feature-icon">📚</div>
-                        <div class="feature-title">
-                            <h3>Guided Learning Modules</h3>
-                            <div class="status">Structured Practice</div>
-                        </div>
-                    </div>
-                    <p class="feature-description">
-                        Structured curriculum with progressive lessons. Master one skill at a time with video tutorials, practice exercises, and milestone tracking. From beginner fundamentals to advanced techniques.
-                    </p>
-                    <div class="feature-preview">
-                        <div class="preview-title">Course Curriculum</div>
-                        <div class="learning-modules">
-                            <div class="module-item">
-                                <div class="module-number">1</div>
-                                <div class="module-content">
-                                    <div class="module-title">Eliminating Filler Words</div>
-                                    <div class="module-duration">15 min • 4 exercises</div>
-                                </div>
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 100%"></div>
-                                </div>
-                            </div>
-                            <div class="module-item">
-                                <div class="module-number">2</div>
-                                <div class="module-content">
-                                    <div class="module-title">Pacing & Rhythm Control</div>
-                                    <div class="module-duration">20 min • 5 exercises</div>
-                                </div>
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 60%"></div>
-                                </div>
-                            </div>
-                            <div class="module-item">
-                                <div class="module-number">3</div>
-                                <div class="module-content">
-                                    <div class="module-title">Vocal Clarity & Projection</div>
-                                    <div class="module-duration">18 min • 6 exercises</div>
-                                </div>
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 0%"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Multiple Languages -->
-                <div class="feature-mockup">
-                    <div class="feature-header">
-                        <div class="feature-icon">🌍</div>
-                        <div class="feature-title">
-                            <h3>Multi-Language Support</h3>
-                            <div class="status">Global Accessibility</div>
-                        </div>
-                    </div>
-                    <p class="feature-description">
-                        Practice public speaking in multiple languages. AI coaching adapted for Spanish, French, Mandarin, German, and more. Perfect for non-native speakers and language learners building confidence.
-                    </p>
-                    <div class="feature-preview">
-                        <div class="preview-title">Available Languages</div>
-                        <div class="language-grid">
-                            <div class="language-option">
-                                <div class="language-flag">🇺🇸</div>
-                                <div class="language-name">English</div>
-                            </div>
-                            <div class="language-option">
-                                <div class="language-flag">🇪🇸</div>
-                                <div class="language-name">Spanish</div>
-                            </div>
-                            <div class="language-option">
-                                <div class="language-flag">🇫🇷</div>
-                                <div class="language-name">French</div>
-                            </div>
-                            <div class="language-option">
-                                <div class="language-flag">🇨🇳</div>
-                                <div class="language-name">Mandarin</div>
-                            </div>
-                            <div class="language-option">
-                                <div class="language-flag">🇩🇪</div>
-                                <div class="language-name">German</div>
-                            </div>
-                            <div class="language-option">
-                                <div class="language-flag">🇯🇵</div>
-                                <div class="language-name">Japanese</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        <p>&copy; 2025 Verba. Built by Harrison Cribbins, Haroon Baig, Lucy Ostapovich, and Carleigh Bianco.</p>
-        <div class="footer-links">
+<header>
+    <nav>
+        <a href="index.html" class="logo">VERBA</a>
+        <div class="nav-links">
             <a href="index.html">Home</a>
             <a href="https://www.instagram.com/verbaspeech/" target="_blank">Instagram</a>
-            <a href="https://verba-mvp-c9fs.glide.page/dl/fd1519" target="_blank">Try MVP</a>
         </div>
-    </footer>
+    </nav>
+</header>
+
+<section class="future-section">
+    <div class="future-container">
+        <div class="future-header">
+            <div class="coming-soon-badge">Our Vision</div>
+            <h2>The Future of Verba</h2>
+            <p>We're building powerful new features to make Verba the ultimate AI speaking coach for everyone, everywhere.</p>
+
+            <!-- Roadmap timeline -->
+            <div class="roadmap-timeline" aria-label="Verba development roadmap">
+                <div class="timeline-track">
+                    <div class="timeline-item active">
+                        <div class="tl-dot filled"></div>
+                        <div class="tl-label">Today<strong>Browser Demo</strong></div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="tl-dot"></div>
+                        <div class="tl-label">Next<strong>Full Mobile App</strong></div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="tl-dot"></div>
+                        <div class="tl-label">Then<strong>Coach Packs</strong></div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="tl-dot"></div>
+                        <div class="tl-label">Future<strong>Multi-Language</strong></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wave transition to features section -->
+    <div class="section-wave" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 72" preserveAspectRatio="none">
+            <path fill="#fafafa" d="M0,36L48,34C96,31,192,26,288,29C384,32,480,43,576,46C672,50,768,46,864,40C960,34,1056,26,1152,24C1248,22,1344,27,1392,30L1440,32L1440,72L0,72Z"/>
+        </svg>
+    </div>
+</section>
+
+<section class="features-section">
+    <div class="features-inner">
+        <div class="features-grid">
+            <!-- Voice Differentiation -->
+            <div class="feature-mockup">
+                <div class="feature-header">
+                    <div class="feature-icon">👥</div>
+                    <div class="feature-title">
+                        <h3>Voice Differentiation</h3>
+                        <div class="status">Team &amp; Classroom Ready</div>
+                    </div>
+                </div>
+                <p class="feature-description">
+                    Track individual progress for multiple users. Perfect for classrooms, study groups, and team presentations. Each voice profile maintains separate analytics and personalized improvement plans.
+                </p>
+                <div class="feature-preview">
+                    <div class="preview-title">How it will work</div>
+                    <div class="voice-profiles">
+                        <div class="voice-profile">
+                            <div class="voice-avatar">A</div>
+                            <div class="voice-info">
+                                <div class="voice-name">Student A</div>
+                                <div class="voice-stats">Separate session history &amp; analytics</div>
+                            </div>
+                            <div class="voice-waveform"></div>
+                        </div>
+                        <div class="voice-profile">
+                            <div class="voice-avatar">B</div>
+                            <div class="voice-info">
+                                <div class="voice-name">Student B</div>
+                                <div class="voice-stats">Personalized filler word tracking</div>
+                            </div>
+                            <div class="voice-waveform"></div>
+                        </div>
+                        <div class="voice-profile">
+                            <div class="voice-avatar">C</div>
+                            <div class="voice-info">
+                                <div class="voice-name">Student C</div>
+                                <div class="voice-stats">Individual progress over time</div>
+                            </div>
+                            <div class="voice-waveform"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Coach Packs Marketplace -->
+            <div class="feature-mockup">
+                <div class="feature-header">
+                    <div class="feature-icon">🛍️</div>
+                    <div class="feature-title">
+                        <h3>Coach Packs Marketplace</h3>
+                        <div class="status">Specialized Coaching</div>
+                    </div>
+                </div>
+                <p class="feature-description">
+                    Access specialized coaching for every scenario. From job interviews to sales pitches, wedding speeches to TED talks. Downloadable coach packs tailored to your specific needs.
+                </p>
+                <div class="feature-preview">
+                    <div class="preview-title">Featured Coach Packs</div>
+                    <div class="marketplace-items">
+                        <div class="marketplace-card">
+                            <div class="emoji">💼</div>
+                            <div class="pack-name">Interview Pro</div>
+                            <div class="pack-price">Pricing TBD</div>
+                        </div>
+                        <div class="marketplace-card">
+                            <div class="emoji">📊</div>
+                            <div class="pack-name">Presentation Master</div>
+                            <div class="pack-price">Pricing TBD</div>
+                        </div>
+                        <div class="marketplace-card">
+                            <div class="emoji">💰</div>
+                            <div class="pack-name">Sales Pitch</div>
+                            <div class="pack-price">Pricing TBD</div>
+                        </div>
+                        <div class="marketplace-card">
+                            <div class="emoji">🎤</div>
+                            <div class="pack-name">Public Speaking</div>
+                            <div class="pack-price">Pricing TBD</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Learning Modules -->
+            <div class="feature-mockup">
+                <div class="feature-header">
+                    <div class="feature-icon">📚</div>
+                    <div class="feature-title">
+                        <h3>Guided Learning Modules</h3>
+                        <div class="status">Structured Practice</div>
+                    </div>
+                </div>
+                <p class="feature-description">
+                    Structured curriculum with progressive lessons. Master one skill at a time with video tutorials, practice exercises, and milestone tracking. From beginner fundamentals to advanced techniques.
+                </p>
+                <div class="feature-preview">
+                    <div class="preview-title">Course Curriculum</div>
+                    <div class="learning-modules">
+                        <div class="module-item">
+                            <div class="module-number">1</div>
+                            <div class="module-content">
+                                <div class="module-title">Eliminating Filler Words</div>
+                                <div class="module-duration">15 min • 4 exercises</div>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 100%"></div>
+                            </div>
+                        </div>
+                        <div class="module-item">
+                            <div class="module-number">2</div>
+                            <div class="module-content">
+                                <div class="module-title">Pacing & Rhythm Control</div>
+                                <div class="module-duration">20 min • 5 exercises</div>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 60%"></div>
+                            </div>
+                        </div>
+                        <div class="module-item">
+                            <div class="module-number">3</div>
+                            <div class="module-content">
+                                <div class="module-title">Vocal Clarity & Projection</div>
+                                <div class="module-duration">18 min • 6 exercises</div>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Multiple Languages -->
+            <div class="feature-mockup">
+                <div class="feature-header">
+                    <div class="feature-icon">🌍</div>
+                    <div class="feature-title">
+                        <h3>Multi-Language Support</h3>
+                        <div class="status">Global Accessibility</div>
+                    </div>
+                </div>
+                <p class="feature-description">
+                    Practice public speaking in multiple languages. AI coaching adapted for Spanish, French, Mandarin, German, and more. Perfect for non-native speakers and language learners building confidence.
+                </p>
+                <div class="feature-preview">
+                    <div class="preview-title">Available Languages</div>
+                    <div class="language-grid">
+                        <div class="language-option">
+                            <div class="language-flag">🇺🇸</div>
+                            <div class="language-name">English</div>
+                        </div>
+                        <div class="language-option">
+                            <div class="language-flag">🇪🇸</div>
+                            <div class="language-name">Spanish</div>
+                        </div>
+                        <div class="language-option">
+                            <div class="language-flag">🇫🇷</div>
+                            <div class="language-name">French</div>
+                        </div>
+                        <div class="language-option">
+                            <div class="language-flag">🇨🇳</div>
+                            <div class="language-name">Mandarin</div>
+                        </div>
+                        <div class="language-option">
+                            <div class="language-flag">🇩🇪</div>
+                            <div class="language-name">German</div>
+                        </div>
+                        <div class="language-option">
+                            <div class="language-flag">🇯🇵</div>
+                            <div class="language-name">Japanese</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>&copy; 2025 Verba. Built by Haroon Baig, Harrison Cribbins, Lucy Ostapovich, and Carleigh Bianco.</p>
+    <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="https://www.instagram.com/verbaspeech/" target="_blank">Instagram</a>
+        <a href="https://verba-mvp-c9fs.glide.page/dl/fd1519" target="_blank">Try MVP</a>
+    </div>
+</footer>
+
 <script>
+/* ── Page sweep transition ── */
 (function () {
     var overlay = document.getElementById('page-sweep');
     if (!overlay) return;
@@ -793,7 +927,6 @@
     var isMobile = window.matchMedia('(max-width: 768px)').matches;
     var DURATION = isMobile ? 300 : 400;
 
-    // Only reveal on load if we navigated here from index.html via the sweep
     if (sessionStorage.getItem('verba-sweep') === 'from-index') {
         sessionStorage.removeItem('verba-sweep');
         overlay.style.display = 'block';
@@ -804,7 +937,6 @@
         overlay.style.display = 'none';
     }
 
-    // Intercept index.html link clicks only
     document.addEventListener('click', function (e) {
         var a = e.target.closest('a');
         if (!a) return;
@@ -818,6 +950,49 @@
         void overlay.offsetWidth;
         overlay.classList.add('cover');
         setTimeout(function () { window.location.href = href; }, DURATION);
+    });
+}());
+</script>
+<script>
+/* ── Scroll entrance animations ── */
+(function () {
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!('IntersectionObserver' in window)) return;
+
+    var STAGGER = 0.09;
+
+    var DEFS = [
+        {
+            root: '.future-header',
+            items: '.coming-soon-badge, h2, p, .roadmap-timeline'
+        },
+        {
+            root: '.features-grid',
+            items: '.feature-mockup'
+        }
+    ];
+
+    DEFS.forEach(function (def) {
+        var section = document.querySelector(def.root);
+        if (!section) return;
+        var items = Array.from(section.querySelectorAll(def.items));
+        if (!items.length) return;
+
+        items.forEach(function (el, i) {
+            el.classList.add('anim-hidden');
+            el.style.transitionDelay = (i * STAGGER).toFixed(2) + 's';
+        });
+
+        var obs = new IntersectionObserver(function (entries) {
+            if (entries[0].isIntersecting) {
+                items.forEach(function (el) {
+                    el.classList.add('anim-visible');
+                });
+                obs.disconnect();
+            }
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+        obs.observe(section);
     });
 }());
 </script>
