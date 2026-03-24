@@ -516,6 +516,69 @@
             border-radius: 3px;
         }
 
+        /* Interview Simulator */
+        .interview-question {
+            background: white;
+            border: 1.5px solid #e8ede9;
+            border-radius: 12px;
+            padding: 0.75rem 1rem;
+            font-size: 0.82rem;
+            color: #636e72;
+            margin-bottom: 0.85rem;
+        }
+        .interview-scores {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            margin-bottom: 1rem;
+        }
+        .score-row {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .score-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #1e3a2e;
+            width: 90px;
+            flex-shrink: 0;
+        }
+        .score-bar {
+            flex: 1;
+            height: 5px;
+            background: #e0e0e0;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .score-fill {
+            height: 100%;
+            background: #2d5a44;
+            border-radius: 3px;
+        }
+        .score-pct {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: #2d5a44;
+            width: 36px;
+            text-align: right;
+            flex-shrink: 0;
+        }
+        .interview-categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .category-pill {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: #2d5a44;
+            background: #f0f7f3;
+            border: 1.5px solid #c8ddd0;
+            border-radius: 50px;
+            padding: 0.3rem 0.75rem;
+        }
+
         /* Language grid */
         .language-grid {
             display: grid;
@@ -866,6 +929,47 @@
                                 <div class="progress-fill" style="width: 0%"></div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Interview Simulator -->
+            <div class="feature-mockup">
+                <div class="feature-header">
+                    <div class="feature-title">
+                        <h3>AI Interview Simulator</h3>
+                        <div class="status">Practice Like It Is Real</div>
+                    </div>
+                </div>
+                <p class="feature-description">
+                    Select a job type and Verba asks you real interview questions out loud. You answer naturally and Verba grades your response on filler word usage, speaking pace, and overall clarity. Built specifically for students preparing for internships, full-time roles, and competitive programs.
+                </p>
+                <div class="feature-preview">
+                    <div class="preview-title">Sample Session</div>
+                    <div class="interview-question">Q: Tell me about yourself</div>
+                    <div class="interview-scores">
+                        <div class="score-row">
+                            <span class="score-label">Clarity</span>
+                            <div class="score-bar"><div class="score-fill" style="width: 87%"></div></div>
+                            <span class="score-pct">87%</span>
+                        </div>
+                        <div class="score-row">
+                            <span class="score-label">Pace</span>
+                            <div class="score-bar"><div class="score-fill" style="width: 92%"></div></div>
+                            <span class="score-pct">92%</span>
+                        </div>
+                        <div class="score-row">
+                            <span class="score-label">Filler Words</span>
+                            <div class="score-bar"><div class="score-fill" style="width: 94%"></div></div>
+                            <span class="score-pct">94%</span>
+                        </div>
+                    </div>
+                    <div class="interview-categories">
+                        <span class="category-pill">Finance</span>
+                        <span class="category-pill">Technology</span>
+                        <span class="category-pill">Consulting</span>
+                        <span class="category-pill">Marketing</span>
+                        <span class="category-pill">Healthcare</span>
                     </div>
                 </div>
             </div>
