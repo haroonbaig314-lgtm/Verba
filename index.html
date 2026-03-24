@@ -1372,6 +1372,91 @@
             position: relative; z-index: 1;
         }
 
+        /* ── FAQ ── */
+        .faq {
+            padding: 80px 2rem;
+            background: #fafafa;
+        }
+        .faq-inner {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .faq h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #1e3a2e;
+            text-align: center;
+            margin-bottom: 0.6rem;
+        }
+        .faq-subtitle {
+            text-align: center;
+            color: #636e72;
+            font-size: 1.05rem;
+            margin-bottom: 3rem;
+        }
+        .faq-item {
+            border-bottom: 1px solid #e8e8e8;
+        }
+        .faq-item:first-child {
+            border-top: 1px solid #e8e8e8;
+        }
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 0;
+            cursor: pointer;
+            gap: 1rem;
+            user-select: none;
+        }
+        .faq-question-text {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1e3a2e;
+            line-height: 1.5;
+        }
+        .faq-icon {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            border: 2px solid #2d5a44;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: #2d5a44;
+        }
+        .faq-icon svg {
+            width: 12px;
+            height: 12px;
+            transition: transform 0.3s ease;
+        }
+        .faq-item.open .faq-icon svg {
+            transform: rotate(45deg);
+        }
+        .faq-answer {
+            overflow: hidden;
+            max-height: 0;
+            transition: max-height 0.3s ease;
+        }
+        .faq-item.open .faq-answer {
+            max-height: 400px;
+        }
+        .faq-answer-inner {
+            padding: 0 0 1.25rem 1rem;
+            color: #4a5568;
+            line-height: 1.75;
+            font-size: 0.97rem;
+            border-left: 3px solid #2d5a44;
+        }
+        @media (max-width: 768px) {
+            .faq { padding: 60px 1.5rem; }
+            .faq h2 { font-size: 2rem; }
+            .faq-subtitle { font-size: 0.95rem; margin-bottom: 2rem; }
+            .faq-question-text { font-size: 0.95rem; }
+            .faq-answer-inner { font-size: 0.93rem; }
+        }
+
         /* ── Footer ── */
         footer {
             background: #1e3a2e;
@@ -2144,6 +2229,60 @@
     <p class="pricing-note">Planned pricing: $6/month with freemium option</p>
 </section>
 
+<section class="faq">
+    <div class="faq-inner">
+        <h2>Frequently Asked Questions</h2>
+        <p class="faq-subtitle">Everything you need to know about Verba.</p>
+        <div class="faq-list">
+            <div class="faq-item">
+                <div class="faq-question" role="button" aria-expanded="true">
+                    <span class="faq-question-text">Is Verba free to use?</span>
+                    <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-inner">The browser demo on this page is completely free with no account needed. Our full MVP is also free to try right now. When we launch the full product we're planning $6 a month with a free tier so you can get started without paying anything.</div>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" role="button" aria-expanded="false">
+                    <span class="faq-question-text">Does it work on my phone?</span>
+                    <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-inner">Yes. The browser demo works on Android in Chrome and on iPhone in Safari or Chrome. For the best experience with the live demo we recommend Chrome on desktop or Android. The full MVP linked above works on any mobile device.</div>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" role="button" aria-expanded="false">
+                    <span class="faq-question-text">How is this different from just recording myself?</span>
+                    <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-inner">Recording yourself means watching a video after the fact to catch your mistakes. Verba catches them the moment they happen: your phone vibrates and the screen flashes the instant you say um, uh, or like. That real-time feedback is what actually breaks the habit.</div>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" role="button" aria-expanded="false">
+                    <span class="faq-question-text">Does Verba store my voice or speech data?</span>
+                    <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-inner">The browser demo processes everything locally in your browser, so nothing is sent to any server. Your speech never leaves your device when using the on-page demo.</div>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" role="button" aria-expanded="false">
+                    <span class="faq-question-text">When will the full app launch?</span>
+                    <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-inner">We don't have a fixed date yet. We're focused on building it right rather than building it fast. Join the waitlist above and you'll be the first to know.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <footer>
     <p>&copy; 2025 Verba. Built by Haroon Baig, Harrison Cribbins, Lucy Ostapovich, and Carleigh Bianco.</p>
 </footer>
@@ -2811,6 +2950,10 @@
         {
             root: '.final-cta',
             items: 'h2, p, .cta-buttons'
+        },
+        {
+            root: '.faq',
+            items: 'h2, .faq-subtitle, .faq-list'
         }
     ];
 
@@ -2841,6 +2984,29 @@
         });
 
         obs.observe(section);
+    });
+}());
+</script>
+<script>
+/* ── FAQ accordion ── */
+(function () {
+    var items = Array.from(document.querySelectorAll('.faq-item'));
+    if (!items.length) return;
+    // Open first item by default
+    items[0].classList.add('open');
+    items[0].querySelector('.faq-question').setAttribute('aria-expanded', 'true');
+    items.forEach(function (item) {
+        item.querySelector('.faq-question').addEventListener('click', function () {
+            var isOpen = item.classList.contains('open');
+            items.forEach(function (i) {
+                i.classList.remove('open');
+                i.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+            });
+            if (!isOpen) {
+                item.classList.add('open');
+                item.querySelector('.faq-question').setAttribute('aria-expanded', 'true');
+            }
+        });
     });
 }());
 </script>
