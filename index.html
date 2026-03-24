@@ -653,6 +653,32 @@
         }
         .mic-button:active { transform: scale(0.95); }
         .mic-icon { width: 36px; height: 36px; color: white; }
+        .button-label-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: transparent;
+            flex-shrink: 0;
+            transition: background 0.3s, box-shadow 0.3s;
+        }
+        .status-dot.listening {
+            background: #22c55e;
+            box-shadow: 0 0 0 3px rgba(34,197,94,0.2);
+        }
+        .status-dot.restarting {
+            background: #f59e0b;
+            animation: dot-blink 0.7s ease-in-out infinite;
+        }
+        @keyframes dot-blink {
+            0%, 100% { opacity: 1; }
+            50%       { opacity: 0.25; }
+        }
         .button-label {
             color: #636e72;
             font-size: 0.88rem;
@@ -1352,7 +1378,10 @@
                         <line x1="8" y1="23" x2="16" y2="23"/>
                     </svg>
                 </button>
-                <p class="button-label" id="buttonLabel">Tap to Start</p>
+                <div class="button-label-row">
+                    <span class="status-dot" id="statusDot"></span>
+                    <p class="button-label" id="buttonLabel">Tap to Start</p>
+                </div>
                 <button class="end-session-btn" id="endSessionBtn">End Session</button>
             </div>
             <div class="browser-unsupported" id="browserUnsupported">
@@ -1627,6 +1656,9 @@
     FILLERS.forEach(function (f) { fillerCounts[f] = 0; });
     var currentStreak = 0;
     var bestStreak = 0;
+    var lastActivityTime = 0;
+    var watchdogInterval = null;
+    var isRestarting = false;
 
     // ── Build filler counter cards ──
     var counterContainer = document.getElementById('fillerCounters');
@@ -1665,7 +1697,13 @@
         recognition.interimResults = true;
         recognition.lang = 'en-US';
 
+        recognition.onstart = function () {
+            lastActivityTime = Date.now();
+            setStatusDot('listening');
+        };
+
         recognition.onresult = function (event) {
+            lastActivityTime = Date.now();
             var newFinal = '';
             var interim = '';
             for (var i = event.resultIndex; i < event.results.length; i++) {
@@ -1713,9 +1751,16 @@
         };
 
         recognition.onend = function () {
-            if (isRecording) {
-                try { recognition.start(); } catch (e) {}
-            }
+            if (!isRecording) return;
+            // Restart with 300ms delay; show yellow dot while gap exists
+            setStatusDot('restarting');
+            isRestarting = true;
+            setTimeout(function () {
+                isRestarting = false;
+                if (isRecording) {
+                    try { recognition.start(); } catch (e) {}
+                }
+            }, 300);
         };
     }
 
@@ -1794,6 +1839,29 @@
         if (score >= 60) return '#d97706';
         if (score >= 45) return '#ea580c';
         return '#dc2626';
+    }
+
+    // ── Status dot ──
+    function setStatusDot(state) {
+        var dot = document.getElementById('statusDot');
+        if (dot) dot.className = 'status-dot ' + state;
+    }
+
+    // ── Watchdog: force-restart if silent for >8s ──
+    function startWatchdog() {
+        stopWatchdog();
+        lastActivityTime = Date.now();
+        watchdogInterval = setInterval(function () {
+            if (!isRecording || isRestarting) return;
+            if (Date.now() - lastActivityTime > 8000) {
+                lastActivityTime = Date.now(); // prevent re-trigger next tick
+                try { recognition.stop(); } catch (e) {} // onend handles restart
+            }
+        }, 5000);
+    }
+
+    function stopWatchdog() {
+        if (watchdogInterval) { clearInterval(watchdogInterval); watchdogInterval = null; }
     }
 
     // ── Alert: flash + vibrate ──
@@ -1946,7 +2014,9 @@
         document.getElementById('endSessionBtn').style.display = 'inline-block';
         document.getElementById('demoCard').classList.add('recording');
 
+        isRestarting = false;
         try { recognition.start(); } catch (e) {}
+        startWatchdog();
 
         timerInterval = setInterval(function () {
             sessionDuration++;
@@ -1959,9 +2029,11 @@
 
     function pauseRecording() {
         isRecording = false;
+        stopWatchdog();
         try { recognition.stop(); } catch (e) {}
         clearInterval(timerInterval);
         clearInterval(vizInterval);
+        setStatusDot('');
 
         var btn = document.getElementById('micButton');
         btn.classList.remove('active');
@@ -1974,6 +2046,7 @@
 
     function resumeRecording() {
         isRecording = true;
+        isRestarting = false;
         document.getElementById('demoCard').classList.add('recording');
         var btn = document.getElementById('micButton');
         btn.classList.add('active');
@@ -1981,6 +2054,7 @@
         btn.setAttribute('aria-label', 'Pause recording');
         document.getElementById('buttonLabel').textContent = 'Listening...';
         try { recognition.start(); } catch (e) {}
+        startWatchdog();
         timerInterval = setInterval(function () {
             sessionDuration++;
             document.getElementById('timer').textContent = formatTime(sessionDuration);
@@ -1992,6 +2066,8 @@
     function endSession() {
         if (isRecording) pauseRecording();
         sessionActive = false;
+        stopWatchdog();
+        setStatusDot('');
         document.getElementById('endSessionBtn').style.display = 'none';
         document.getElementById('buttonLabel').textContent = 'Tap to Start';
         showModal();
@@ -2000,6 +2076,9 @@
     function resetDemo() {
         sessionActive = false;
         isRecording = false;
+        isRestarting = false;
+        stopWatchdog();
+        setStatusDot('');
         sessionDuration = 0;
         accumulatedTranscript = '';
         FILLERS.forEach(function (f) { fillerCounts[f] = 0; });
