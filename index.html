@@ -425,7 +425,7 @@
             background: #e53e3e;
             transform: scaleX(0);
             transform-origin: left center;
-            transition: transform 0.4s ease;
+            transition: transform 0.5s ease;
         }
         .strike-word.struck .strike-line { transform: scaleX(1); }
         .problem-solution {
@@ -4162,7 +4162,7 @@
         if (reducedMotion) {
             card.sol.classList.add('visible');
         } else {
-            pendingTimers.push(setTimeout(function () { card.sol.classList.add('visible'); }, 400));
+            pendingTimers.push(setTimeout(function () { card.sol.classList.add('visible'); }, 800));
         }
     }
 
@@ -4184,9 +4184,9 @@
             if (reducedMotion) {
                 cards.forEach(function (card) { animateCard(card); });
             } else {
-                animateCard(cards[0]);
-                pendingTimers.push(setTimeout(function () { animateCard(cards[1]); }, 500));
-                pendingTimers.push(setTimeout(function () { animateCard(cards[2]); }, 1000));
+                pendingTimers.push(setTimeout(function () { animateCard(cards[0]); }, 600));
+                pendingTimers.push(setTimeout(function () { animateCard(cards[1]); }, 1200));
+                pendingTimers.push(setTimeout(function () { animateCard(cards[2]); }, 1800));
             }
         } else if (!isVisible && active) {
             active = false;
