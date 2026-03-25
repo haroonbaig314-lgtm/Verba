@@ -981,11 +981,19 @@
             position: relative;
             z-index: 3;
         }
-        /* ── Mic + segment meter row ── */
+        /* ── Mic + segment meter layout ── */
         .mic-and-meter {
-            display: flex;
+            position: relative;
+            display: inline-flex;   /* shrinks to mic-viz-wrap width so parent flex centers it */
             align-items: center;
-            gap: 14px;
+            justify-content: center;
+        }
+        /* Seg-meter floats right of mic button without affecting centering */
+        .mic-and-meter .seg-meter {
+            position: absolute;
+            left: calc(100% + 12px);
+            top: 50%;
+            transform: translateY(-50%);
         }
         /* ── Vertical segment level meter ── */
         .seg-meter {
@@ -1013,6 +1021,8 @@
         }
         @media (max-width: 768px) {
             .mic-viz-wrap { width: 120px; height: 120px; }
+            .seg-meter-bar { width: 14px; }
+            .mic-and-meter .seg-meter { left: calc(100% + 8px); }
         }
         @media (prefers-reduced-motion: reduce) {
             .mic-ring { transition: none; }
