@@ -3913,41 +3913,65 @@
 }());
 </script>
 <script>
+/* ── Page sweep transition ── */
 (function () {
     var overlay = document.getElementById('page-sweep');
     if (!overlay) return;
-    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        overlay.style.display = 'none';
-        return;
-    }
+
+    // ── Cleanup: reset any stale state immediately on load ──
+    overlay.style.display = 'none';
+    overlay.classList.remove('cover', 'reveal');
+
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
     var isMobile = window.matchMedia('(max-width: 768px)').matches;
     var DURATION = isMobile ? 300 : 400;
+    var TARGET = 'future.html';
 
-    // Only reveal on load if we navigated here from future.html via the sweep
-    if (sessionStorage.getItem('verba-sweep') === 'from-future') {
-        sessionStorage.removeItem('verba-sweep');
+    // ── Incoming reveal: URL param is set by the outgoing page ──
+    var params = new URLSearchParams(window.location.search);
+    if (params.get('sweep') === '1') {
+        history.replaceState(null, '', window.location.pathname);
         overlay.style.display = 'block';
+        // Double rAF ensures the browser has fully painted before animating
         requestAnimationFrame(function () {
-            overlay.classList.add('reveal');
+            requestAnimationFrame(function () {
+                overlay.classList.add('reveal');
+                // Hide after animation so overlay cannot block interactions
+                overlay.addEventListener('animationend', function onEnd() {
+                    overlay.removeEventListener('animationend', onEnd);
+                    overlay.style.display = 'none';
+                    overlay.classList.remove('reveal');
+                });
+                // Safety: hide even if animationend does not fire
+                setTimeout(function () {
+                    overlay.style.display = 'none';
+                    overlay.classList.remove('reveal');
+                }, DURATION + 150);
+            });
         });
-    } else {
-        overlay.style.display = 'none';
     }
 
-    // Intercept future.html link clicks only
+    // ── Outgoing: sweep in, then navigate with URL param ──
     document.addEventListener('click', function (e) {
-        var a = e.target.closest('a');
+        var a = e.target.closest('a[href]');
         if (!a) return;
         var href = a.getAttribute('href');
         if (!href || a.target === '_blank' || href.indexOf('http') === 0 || href.indexOf('#') === 0) return;
-        if (href !== 'future.html') return;
+        if (href !== TARGET) return;
         e.preventDefault();
-        sessionStorage.setItem('verba-sweep', 'from-index');
-        overlay.style.display = 'block';
-        overlay.classList.remove('reveal');
+        overlay.classList.remove('cover', 'reveal');
         void overlay.offsetWidth;
+        overlay.style.display = 'block';
         overlay.classList.add('cover');
-        setTimeout(function () { window.location.href = href; }, DURATION);
+        var navigated = false;
+        function navigate() {
+            if (navigated) return;
+            navigated = true;
+            window.location.href = TARGET + '?sweep=1';
+        }
+        setTimeout(navigate, DURATION);
+        setTimeout(navigate, 600); // safety: force navigate if animation hangs
     });
 }());
 </script>
