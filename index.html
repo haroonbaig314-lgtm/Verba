@@ -228,7 +228,7 @@
 
         /* ── Hero ── */
         .hero {
-            background: linear-gradient(to bottom, #1a3c2e 0%, #2d5a3d 55%, #e8f2ec 100%);
+            background: radial-gradient(ellipse 120% 80% at 50% 0%, #1a3c2e 0%, #2d6a4f 40%, #a8d5b5 70%, #f0f7f2 100%);
             color: white;
             padding: 240px 2rem 300px;
             text-align: center;
@@ -259,9 +259,9 @@
             height: 200px;
             z-index: 2;
             pointer-events: none;
-            /* CSS mask fades hills to transparent at their base — works at any zoom level */
-            -webkit-mask-image: linear-gradient(to bottom, black 0%, black 60%, transparent 100%);
-            mask-image: linear-gradient(to bottom, black 0%, black 60%, transparent 100%);
+            /* Mask fades hills top→bottom: mostly opaque at peak, fully transparent at base */
+            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
         }
         .hero-hills-back,
         .hero-hills-front {
@@ -1742,7 +1742,7 @@
             .beta-banner { height: 50px; padding: 0 1rem; font-size: 0.72rem; line-height: 1.35; }
             header { top: 50px; }
             .hero { padding: 200px 1.5rem 240px; }
-            .hero-hills { height: 120px; }
+            .hero-hills { height: 150px; }
             .nav-links a { font-size: 0.8rem; margin-left: 0.75rem; }
             .cta-buttons { flex-direction: column; align-items: center; }
             .btn { width: 100%; max-width: 300px; text-align: center; }
@@ -2063,13 +2063,13 @@
         </div>
     </div>
     <div class="hero-hills" aria-hidden="true">
-        <!-- Back hills: taller, spread, 60% opacity -->
+        <!-- Back hills: muted light green, wider gentle rolls -->
         <svg class="hero-hills-back" viewBox="0 0 1440 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0 200 L0 155 C180 120,360 165,540 135 C720 105,900 45,1080 60 C1260 75,1380 125,1440 135 L1440 200 Z" fill="#2d5a3d" fill-opacity="0.6"/>
+            <path d="M0 200 L0 150 C200 110,380 160,560 130 C740 100,920 40,1100 55 C1280 70,1380 120,1440 130 L1440 200 Z" fill="#c8e6d0"/>
         </svg>
-        <!-- Front hills: more detail, 80% opacity -->
+        <!-- Front hills: very light green, softer foreground ridge -->
         <svg class="hero-hills-front" viewBox="0 0 1440 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0 200 L0 175 C140 150,300 185,480 160 C660 135,780 85,960 95 C1140 105,1300 155,1440 145 L1440 200 Z" fill="#1a3c2e" fill-opacity="0.8"/>
+            <path d="M0 200 L0 170 C160 145,320 180,500 155 C680 130,800 80,980 90 C1160 100,1320 150,1440 140 L1440 200 Z" fill="#e0f2e8"/>
         </svg>
     </div>
 </section>
