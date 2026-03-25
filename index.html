@@ -228,9 +228,10 @@
 
         /* ── Hero ── */
         .hero {
-            background: radial-gradient(ellipse 140% 100% at 50% 0%, #1a3c2e 0%, #2d6a4f 35%, #4a9968 58%, #8cc4a0 74%, #c8e8d4 86%, #e8f5ee 93%, #ffffff 100%);
+            background: radial-gradient(ellipse 140% 80% at 50% 0%, #1a3c2e 0%, #2d6a4f 30%, #4a9968 50%, #8cc4a0 65%, #c8e8d4 76%, #e8f5ee 85%, #ffffff 94%);
             color: white;
-            padding: 240px 2rem 420px;
+            min-height: 100vh;
+            padding: 180px 2rem 760px;
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -241,15 +242,15 @@
         /* ── Hero mountain silhouettes ── */
         .hero-trees {
             position: absolute;
-            bottom: 0;
+            bottom: 230px;
             left: 0;
             width: 100%;
-            height: 380px;
+            height: 400px;
             overflow: visible;
             pointer-events: none;
             z-index: 2;
-            -webkit-mask-image: linear-gradient(to bottom, black 0%, black 40%, transparent 100%);
-            mask-image: linear-gradient(to bottom, black 0%, black 40%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 0%, black 55%, transparent 100%);
+            mask-image: linear-gradient(to bottom, black 0%, black 55%, transparent 100%);
         }
         .hero-content {
             max-width: 800px;
@@ -1727,8 +1728,8 @@
             .hero .hero-desc { font-size: 1rem; }
             .beta-banner { height: 50px; padding: 0 1rem; font-size: 0.72rem; line-height: 1.35; }
             header { top: 50px; }
-            .hero { padding: 200px 1.5rem 280px; }
-            .hero-trees { height: 220px; }
+            .hero { padding: 160px 1.5rem 460px; }
+            .hero-trees { height: 260px; bottom: 140px; }
             .nav-links a { font-size: 0.8rem; margin-left: 0.75rem; }
             .cta-buttons { flex-direction: column; align-items: center; }
             .btn { width: 100%; max-width: 300px; text-align: center; }
