@@ -516,6 +516,13 @@
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
         }
+        .feature-icon {
+            width: 28px;
+            height: 28px;
+            color: #2d5a44;
+            margin-bottom: 1rem;
+            flex-shrink: 0;
+        }
         .feature-card {
             background: white;
             padding: 2.5rem;
@@ -529,22 +536,20 @@
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #2d5a44, #3d6a54);
+            height: 3px;
+            background: linear-gradient(90deg, #2d5a44, #52a87a);
             border-radius: 20px 20px 0 0;
-            opacity: 0;
-            transition: opacity 0.4s;
+            opacity: 1;
         }
-        .feature-card:hover::before { opacity: 1; }
         .feature-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(45, 90, 68, 0.15);
+            box-shadow: 0 20px 48px rgba(45, 90, 68, 0.18), 0 0 0 1px rgba(45,90,68,0.12);
             border-color: #2d5a44;
         }
         .feature-card h3 {
-            font-size: 1.3rem;
+            font-size: 1.35rem;
             margin-bottom: 0.75rem;
-            font-weight: 700;
+            font-weight: 800;
             color: #1e3a2e;
         }
         .feature-card p { line-height: 1.8; color: #636e72; font-size: 0.95rem; }
@@ -552,7 +557,7 @@
         /* ── Feature card 3D flip ── */
         .feature-flip {
             perspective: 1000px;
-            height: 300px;
+            height: 380px;
         }
         .feature-card-inner {
             position: relative;
@@ -580,7 +585,6 @@
             -webkit-backface-visibility: hidden;
         }
         .feature-flip .feature-card:hover { transform: none; }
-        .feature-flip .feature-card:hover::before { opacity: 0; }
         /* Back face */
         .feature-back {
             position: absolute;
@@ -593,14 +597,42 @@
             padding: 2rem;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            overflow-y: auto;
+            justify-content: flex-start;
+            overflow: hidden;
+        }
+        .feature-back-num {
+            position: absolute;
+            bottom: -0.25rem;
+            right: 0.75rem;
+            font-size: 7rem;
+            font-weight: 800;
+            color: rgba(255,255,255,0.07);
+            line-height: 1;
+            letter-spacing: -4px;
+            pointer-events: none;
+            user-select: none;
+        }
+        .feature-back h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: rgba(255,255,255,0.6);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 0.75rem;
         }
         .feature-back p {
             color: rgba(255,255,255,0.92);
-            font-size: 0.9rem;
-            line-height: 1.7;
+            font-size: 0.95rem;
+            line-height: 1.8;
             margin: 0;
+        }
+        .flip-back-hint {
+            margin-top: auto;
+            padding-top: 1rem;
+            font-size: 0.65rem;
+            color: rgba(255,255,255,0.35);
+            letter-spacing: 0.05em;
+            text-align: center;
         }
         .flip-hint {
             font-size: 0.68rem;
@@ -638,7 +670,7 @@
         @media (max-width: 768px) {
             .flip-hint { font-size: 0; }
             .flip-hint::after { content: 'tap to learn more'; font-size: 0.68rem; }
-            .feature-flip { height: 360px; }
+            .feature-flip { height: 400px; }
         }
 
         /* ── Demo card animated gradient border ── */
@@ -2113,72 +2145,119 @@
             <div class="feature-flip">
                 <div class="feature-card-inner">
                     <div class="feature-card feature-front">
+                        <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                            <line x1="12" y1="19" x2="12" y2="23"/>
+                            <line x1="8" y1="23" x2="16" y2="23"/>
+                        </svg>
                         <h3>Real-Time Feedback</h3>
                         <p>Instant detection of filler words and pacing issues as you speak, with gentle haptic cues to help you self-correct.</p>
                         <span class="flip-hint">hover to learn more</span>
                     </div>
                     <div class="feature-back">
+                        <span class="feature-back-num">01</span>
+                        <h4>How it works</h4>
                         <p>While you speak, Verba listens. The moment you say um, uh, or like, your phone vibrates and the screen flashes, so you catch it as it happens, not after.</p>
+                        <span class="flip-back-hint">tap to flip back</span>
                     </div>
                 </div>
             </div>
             <div class="feature-flip">
                 <div class="feature-card-inner">
                     <div class="feature-card feature-front">
+                        <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <line x1="18" y1="20" x2="18" y2="10"/>
+                            <line x1="12" y1="20" x2="12" y2="4"/>
+                            <line x1="6" y1="20" x2="6" y2="14"/>
+                            <line x1="2" y1="20" x2="22" y2="20"/>
+                        </svg>
                         <h3>Personalized Analytics</h3>
                         <p>Track your progress over time with detailed insights on your speaking patterns and improvement areas.</p>
                         <span class="flip-hint">hover to learn more</span>
                     </div>
                     <div class="feature-back">
+                        <span class="feature-back-num">02</span>
+                        <h4>Your data</h4>
                         <p>After each session you get your filler count, words per minute, and a coaching note based on what you actually said, not generic advice.</p>
+                        <span class="flip-back-hint">tap to flip back</span>
                     </div>
                 </div>
             </div>
             <div class="feature-flip">
                 <div class="feature-card-inner">
                     <div class="feature-card feature-front">
+                        <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                        </svg>
                         <h3>AI-Powered Coaching</h3>
                         <p>Powered by AI to provide tailored feedback specific to your speaking style and goals.</p>
                         <span class="flip-hint">hover to learn more</span>
                     </div>
                     <div class="feature-back">
+                        <span class="feature-back-num">03</span>
+                        <h4>Under the hood</h4>
                         <p>Our full MVP uses Whisper to transcribe your speech and GPT to analyze it. The browser demo gives you real-time detection right on this page.</p>
+                        <span class="flip-back-hint">tap to flip back</span>
                     </div>
                 </div>
             </div>
             <div class="feature-flip">
                 <div class="feature-card-inner">
                     <div class="feature-card feature-front">
+                        <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="2" y1="12" x2="22" y2="12"/>
+                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                        </svg>
                         <h3>Multi-Language Support</h3>
                         <p>Practice in your language. Verba currently supports 11 languages including English, Spanish, Arabic, and Mandarin. Select your language before you start and Verba listens and coaches in that language.</p>
                         <span class="flip-hint">hover to learn more</span>
                     </div>
                     <div class="feature-back">
+                        <span class="feature-back-num">04</span>
+                        <h4>11 languages</h4>
                         <p>Switch languages instantly from the selector in the demo. Filler word detection is tuned for each language, including right-to-left support for Arabic. More languages coming.</p>
+                        <span class="flip-back-hint">tap to flip back</span>
                     </div>
                 </div>
             </div>
             <div class="feature-flip">
                 <div class="feature-card-inner">
                     <div class="feature-card feature-front">
+                        <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+                            <line x1="12" y1="18" x2="12.01" y2="18"/>
+                        </svg>
                         <h3>Mobile-First Design</h3>
                         <p>Practice anywhere, anytime. Verba fits in your pocket and works seamlessly on any mobile device.</p>
                         <span class="flip-hint">hover to learn more</span>
                     </div>
                     <div class="feature-back">
-                        <p>Built for your phone. The mic button is thumb-friendly, the stats are readable at a glance, and the haptic buzz works on any Android or iPhone.</p>
+                        <span class="feature-back-num">05</span>
+                        <h4>Built for your phone</h4>
+                        <p>The mic button is thumb-friendly, the stats are readable at a glance, and the haptic buzz works on any Android or iPhone.</p>
+                        <span class="flip-back-hint">tap to flip back</span>
                     </div>
                 </div>
             </div>
             <div class="feature-flip">
                 <div class="feature-card-inner">
                     <div class="feature-card feature-front">
+                        <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="12" y1="8" x2="12" y2="12"/>
+                            <line x1="12" y1="16" x2="12.01" y2="16"/>
+                        </svg>
                         <h3>Affordable Access</h3>
                         <p>At just $6/month with a planned freemium model, get professional coaching at a fraction of traditional costs.</p>
                         <span class="flip-hint">hover to learn more</span>
                     </div>
                     <div class="feature-back">
+                        <span class="feature-back-num">06</span>
+                        <h4>The difference</h4>
                         <p>Most speaking coaches charge $100 an hour. We're building Verba to cost $6 a month, or free for basic use. Good feedback shouldn't be expensive.</p>
+                        <span class="flip-back-hint">tap to flip back</span>
                     </div>
                 </div>
             </div>
