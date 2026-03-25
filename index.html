@@ -4184,9 +4184,9 @@
             if (reducedMotion) {
                 cards.forEach(function (card) { animateCard(card); });
             } else {
-                pendingTimers.push(setTimeout(function () { animateCard(cards[0]); }, 600));
-                pendingTimers.push(setTimeout(function () { animateCard(cards[1]); }, 1200));
-                pendingTimers.push(setTimeout(function () { animateCard(cards[2]); }, 1800));
+                pendingTimers.push(setTimeout(function () { animateCard(cards[0]); }, 1200));
+                pendingTimers.push(setTimeout(function () { animateCard(cards[1]); }, 2000));
+                pendingTimers.push(setTimeout(function () { animateCard(cards[2]); }, 2800));
             }
         } else if (!isVisible && active) {
             active = false;
