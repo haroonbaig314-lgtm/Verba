@@ -525,15 +525,7 @@
             position: relative;
             box-shadow: 0 2px 10px rgba(0,0,0,0.06);
         }
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #2d5a44, #52a87a);
-            border-radius: 20px 20px 0 0;
-            opacity: 1;
-        }
+        .feature-card::before { content: none; }
         .feature-card:hover {
             transform: translateY(-8px);
             box-shadow: 0 20px 48px rgba(45, 90, 68, 0.18), 0 0 0 1px rgba(45,90,68,0.12);
