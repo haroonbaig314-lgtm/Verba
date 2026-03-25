@@ -626,7 +626,8 @@
             .feature-flip.flipped .feature-front { opacity: 0; }
         }
         @media (max-width: 768px) {
-            .flip-hint { display: none; }
+            .flip-hint { font-size: 0; }
+            .flip-hint::after { content: 'tap to learn more'; font-size: 0.68rem; }
             .feature-flip { height: 360px; }
         }
 
