@@ -228,7 +228,17 @@
 
         /* ── Hero ── */
         .hero {
-            background: linear-gradient(135deg, #1e3a2e 0%, #2d5a44 50%, #3d6a54 100%);
+            /* Radial gradient: dark green at top-centre, dissolves to #f8f8f6 at the bottom
+               so it meets the problem section seamlessly with no hard cut or separate overlay.
+               The wide ellipse (400% × 200%) keeps all white text in the dark zone through
+               the button level; only the 180px bottom padding fades to off-white. */
+            background: radial-gradient(ellipse 400% 200% at 50% 0%,
+                #1e3a2e 0%,
+                #2d5a44 20%,
+                #3d6a54 42%,
+                #3d6a54 78%,
+                #8ec5ab 90%,
+                #f8f8f6 100%);
             color: white;
             padding: 240px 2rem 180px;
             text-align: center;
@@ -241,23 +251,8 @@
             left: 0;
             right: 0;
             height: 180%;
-            background: linear-gradient(135deg, #1e3a2e 0%, #2d5a44 50%, #3d6a54 100%);
+            background: transparent;
             will-change: transform;
-        }
-        /* Gradient fade from hero into problem section.
-           z-index:2 places this above .hero-bg (z-index:auto, step 6 paint order)
-           and above .hero-content (z-index:1) — but document order means
-           .hero-content still paints on top within the same positive-z group. */
-        .hero::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 120px;
-            background: linear-gradient(to bottom, rgba(248,248,246,0), #f8f8f6);
-            z-index: 2;
-            pointer-events: none;
         }
         .hero::after {
             content: '';
