@@ -239,49 +239,40 @@
             height: 72px;
         }
 
-        /* ── Hero animated waves ── */
-        .hero-waves {
+        /* ── Hero waveform bars ── */
+        .hero-waveform {
             position: absolute;
             left: 0;
             right: 0;
             bottom: 88px;
-            height: 140px;
-            overflow: hidden;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+            padding: 0 1rem;
             pointer-events: none;
             z-index: 0;
+            overflow: hidden;
         }
-        .hero-wave-track {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 200%;
-            height: 100%;
+        .hero-waveform-bar {
+            width: 3px;
+            border-radius: 2px;
+            background: white;
+            opacity: 0.12;
+            flex-shrink: 0;
+            transform-origin: center;
+            animation: waveform-pulse var(--dur, 1.8s) ease-in-out infinite alternate;
+            animation-delay: var(--delay, 0s);
         }
-        .hero-wave-track svg {
-            width: 100%;
-            height: 100%;
-        }
-        .hero-wave-1 {
-            opacity: 0.13;
-            animation: hero-wave-scroll 12s linear infinite;
-        }
-        .hero-wave-2 {
-            opacity: 0.08;
-            animation: hero-wave-scroll 18s linear infinite reverse;
-        }
-        .hero-wave-3 {
-            opacity: 0.10;
-            animation: hero-wave-scroll 8s linear infinite;
-        }
-        @keyframes hero-wave-scroll {
-            from { transform: translateX(0); }
-            to   { transform: translateX(-50%); }
+        @keyframes waveform-pulse {
+            from { transform: scaleY(0.2); }
+            to   { transform: scaleY(1); }
         }
         @media (prefers-reduced-motion: reduce) {
-            .hero-wave-1, .hero-wave-2, .hero-wave-3 { animation: none; }
+            .hero-waveform-bar { animation: none; transform: scaleY(0.5); }
         }
         @media (max-width: 768px) {
-            .hero-waves { height: 100px; bottom: 60px; opacity: 0.6; }
+            .hero-waveform { height: 90px; bottom: 70px; }
         }
 
         /* ── Hero ── */
@@ -954,7 +945,7 @@
             box-shadow: 0 8px 30px rgba(220, 38, 38, 0.1);
         }
 
-        /* Visualizer (legacy bar row — hidden, replaced by mic ring viz) */
+        /* Visualizer (legacy bar row — hidden) */
         .visualizer-container {
             display: none;
         }
@@ -964,28 +955,60 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 200px;
-            height: 200px;
+            width: 140px;
+            height: 140px;
         }
-        #micVizCanvas {
+        .mic-ring {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            top: 50%; left: 50%;
+            width: 104px; height: 104px;
+            margin-top: -52px; margin-left: -52px;
+            border-radius: 50%;
+            border: 2.5px solid #2d5a44;
             pointer-events: none;
-            width: 200px;
-            height: 200px;
+            z-index: 2;
+            opacity: 0;
+            transform: scale(1);
+            transition: transform 100ms ease, opacity 100ms ease;
         }
         .mic-viz-wrap .mic-button {
             position: relative;
-            z-index: 1;
+            z-index: 3;
+        }
+        /* ── Volume meter ── */
+        .vol-meter-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 2px;
+        }
+        .vol-meter-track {
+            width: 120px;
+            height: 4px;
+            background: #e5e7eb;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .vol-meter-fill {
+            height: 100%;
+            width: 0%;
+            background: #2d5a44;
+            border-radius: 2px;
+            transition: width 80ms ease;
+        }
+        .vol-meter-label {
+            font-size: 0.62rem;
+            color: #9ca3af;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            font-weight: 600;
         }
         @media (max-width: 768px) {
-            .mic-viz-wrap { width: 160px; height: 160px; }
-            #micVizCanvas { width: 160px; height: 160px; }
+            .mic-viz-wrap { width: 120px; height: 120px; }
         }
         @media (prefers-reduced-motion: reduce) {
-            #micVizCanvas { display: none; }
+            .mic-ring { transition: none; }
         }
         /* Legacy visualizer (kept for hidden div ── */
         .visualizer-container-hidden {
@@ -2046,26 +2069,7 @@
         </div>
     </div>
     <!-- Animated sound wave background -->
-    <div class="hero-waves" aria-hidden="true">
-        <!-- Layer 1: wavelength 480px, amplitude 18, speed 12s -->
-        <div class="hero-wave-track hero-wave-1">
-            <svg viewBox="0 0 2880 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-                <path d="M 0,40 C 86,22 154,22 240,40 C 326,58 394,58 480,40 C 566,22 634,22 720,40 C 806,58 874,58 960,40 C 1046,22 1114,22 1200,40 C 1286,58 1354,58 1440,40 C 1526,22 1594,22 1680,40 C 1766,58 1834,58 1920,40 C 2006,22 2074,22 2160,40 C 2246,58 2314,58 2400,40 C 2486,22 2554,22 2640,40 C 2726,58 2794,58 2880,40" fill="none" stroke="white" stroke-width="2"/>
-            </svg>
-        </div>
-        <!-- Layer 2: wavelength 360px, amplitude 12, speed 18s reversed -->
-        <div class="hero-wave-track hero-wave-2">
-            <svg viewBox="0 0 2880 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-                <path d="M 0,50 C 65,38 115,38 180,50 C 245,62 295,62 360,50 C 425,38 475,38 540,50 C 605,62 655,62 720,50 C 785,38 835,38 900,50 C 965,62 1015,62 1080,50 C 1145,38 1195,38 1260,50 C 1325,62 1375,62 1440,50 C 1505,38 1555,38 1620,50 C 1685,62 1735,62 1800,50 C 1865,38 1915,38 1980,50 C 2045,62 2095,62 2160,50 C 2225,38 2275,38 2340,50 C 2405,62 2455,62 2520,50 C 2585,38 2635,38 2700,50 C 2765,62 2815,62 2880,50" fill="none" stroke="white" stroke-width="1.5"/>
-            </svg>
-        </div>
-        <!-- Layer 3: wavelength 720px, amplitude 25, speed 8s -->
-        <div class="hero-wave-track hero-wave-3">
-            <svg viewBox="0 0 2880 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-                <path d="M 0,30 C 130,5 230,5 360,30 C 490,55 590,55 720,30 C 850,5 950,5 1080,30 C 1210,55 1310,55 1440,30 C 1570,5 1670,5 1800,30 C 1930,55 2030,55 2160,30 C 2290,5 2390,5 2520,30 C 2650,55 2750,55 2880,30" fill="none" stroke="white" stroke-width="1.5"/>
-            </svg>
-        </div>
-    </div>
+    <div class="hero-waveform" aria-hidden="true" id="heroWaveform"></div>
     <!-- Wave transition to problem section -->
     <div class="section-wave" aria-hidden="true">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 72" preserveAspectRatio="none">
@@ -2269,7 +2273,7 @@
 
             <div class="demo-buttons">
                 <div class="mic-viz-wrap">
-                    <canvas id="micVizCanvas" aria-hidden="true"></canvas>
+                    <div class="mic-ring" id="micRing" aria-hidden="true"></div>
                     <button class="mic-button" id="micButton" aria-label="Start recording">
                         <svg class="mic-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
@@ -2278,6 +2282,12 @@
                             <line x1="8" y1="23" x2="16" y2="23"/>
                         </svg>
                     </button>
+                </div>
+                <div class="vol-meter-wrap" id="volMeterWrap">
+                    <div class="vol-meter-track">
+                        <div class="vol-meter-fill" id="volMeterFill"></div>
+                    </div>
+                    <span class="vol-meter-label">Input Level</span>
                 </div>
                 <div class="button-label-row">
                     <span class="status-dot" id="statusDot"></span>
@@ -3400,6 +3410,28 @@
 }());
 </script>
 <script>
+/* ── Hero waveform bars ── */
+(function () {
+    var container = document.getElementById('heroWaveform');
+    if (!container) return;
+    var isMobile = window.matchMedia('(max-width: 768px)').matches;
+    var barCount = isMobile ? 60 : 120;
+    var frag = document.createDocumentFragment();
+    for (var i = 0; i < barCount; i++) {
+        var bar = document.createElement('div');
+        bar.className = 'hero-waveform-bar';
+        var t = i / barCount;
+        var envelope = 0.25 + 0.75 * Math.pow(Math.abs(Math.sin(t * Math.PI * 4)), 0.5);
+        var noise = 0.35 + 0.65 * Math.random();
+        var h = Math.max(8, Math.min(100, Math.round(envelope * noise * 100)));
+        var dur = (1.2 + Math.random() * 2.2).toFixed(2);
+        var delay = (-Math.random() * 3).toFixed(2);
+        bar.style.cssText = 'height:' + h + '%;--dur:' + dur + 's;--delay:' + delay + 's;';
+        frag.appendChild(bar);
+    }
+    container.appendChild(frag);
+}());
+
 /* ── Demo info tooltip ── */
 (function () {
     var btn = document.getElementById('demoInfoBtn');
@@ -4008,46 +4040,27 @@
 }());
 </script>
 <script>
-/* ── Mic ring visualizer: real Web Audio API ── */
+/* ── Mic ring + volume meter: real Web Audio API ── */
 (function () {
-    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (!window.AudioContext && !window.webkitAudioContext) return;
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return;
 
-    var canvas = document.getElementById('micVizCanvas');
-    var card   = document.getElementById('demoCard');
-    if (!canvas || !card) return;
-
-    var isMobile = window.matchMedia('(max-width: 768px)').matches;
-    var SIZE     = isMobile ? 160 : 200;
-    var BAR_W    = isMobile ? 3 : 4;
-    var MIN_H    = isMobile ? 6 : 8;
-    var MAX_H    = isMobile ? 28 : 40;
-    var INNER_R  = isMobile ? 46 : 52; // gap from center to bar base (mobile btn radius=42, add 4px clearance)
-    var NUM_BARS = 12;
-
-    var dpr = window.devicePixelRatio || 1;
-    canvas.width  = SIZE * dpr;
-    canvas.height = SIZE * dpr;
-    canvas.style.width  = SIZE + 'px';
-    canvas.style.height = SIZE + 'px';
-    var ctx = canvas.getContext('2d');
-    ctx.scale(dpr, dpr);
-    var CX = SIZE / 2, CY = SIZE / 2;
-
-    // Smoothed bar heights (persisted across frames)
-    var heights = new Array(NUM_BARS).fill(0);
-    var idlePhase = 0;
+    var ring = document.getElementById('micRing');
+    var fill = document.getElementById('volMeterFill');
+    var card = document.getElementById('demoCard');
+    if (!ring || !fill || !card) return;
 
     var audioCtx = null, analyser = null, micStream = null, rafId = null;
     var isActive = false;
+    var smoothVol = 0;
 
     function setup(stream) {
         var AC = window.AudioContext || window.webkitAudioContext;
         audioCtx = new AC();
         analyser = audioCtx.createAnalyser();
-        analyser.fftSize = 256;
-        analyser.smoothingTimeConstant = 0.75;
+        analyser.fftSize = 1024;
+        analyser.smoothingTimeConstant = 0.6;
         var source = audioCtx.createMediaStreamSource(stream);
         source.connect(analyser);
         micStream = stream;
@@ -4057,68 +4070,46 @@
 
     function teardown() {
         isActive = false;
-        // Let draw() animate bars to zero, then it stops itself
-    }
-
-    function drawBar(angle, h) {
-        ctx.save();
-        ctx.translate(CX, CY);
-        ctx.rotate(angle);
-        var x = -BAR_W / 2;
-        var y = -(INNER_R + h);
-        ctx.beginPath();
-        var r = BAR_W / 2;
-        if (ctx.roundRect) {
-            ctx.roundRect(x, y, BAR_W, h, [r, r, 0, 0]);
-        } else {
-            // Fallback: arc top, rect body
-            ctx.arc(x + r, y + r, r, Math.PI, 0);
-            ctx.lineTo(x + BAR_W, y + h);
-            ctx.lineTo(x, y + h);
-            ctx.closePath();
-        }
-        ctx.fill();
-        ctx.restore();
+        // draw() will animate smoothVol to zero, then stop and clean up
     }
 
     function draw() {
-        ctx.clearRect(0, 0, SIZE, SIZE);
-
-        var freqData = null;
+        var rms = 0;
         if (isActive && analyser) {
-            freqData = new Uint8Array(analyser.frequencyBinCount);
-            analyser.getByteFrequencyData(freqData);
-        }
-
-        idlePhase += 0.04;
-        var idlePulse = (Math.sin(idlePhase) * 0.5 + 0.5) * 4; // 0–4px gentle sway
-
-        var allZero = true;
-        for (var i = 0; i < NUM_BARS; i++) {
-            var target;
-            if (isActive && freqData) {
-                var binsPerBar = Math.floor(freqData.length / NUM_BARS);
-                var sum = 0;
-                for (var j = 0; j < binsPerBar; j++) sum += freqData[i * binsPerBar + j];
-                var avg = sum / binsPerBar; // 0–255
-                target = MIN_H + idlePulse + (avg / 255) * (MAX_H - MIN_H);
-                heights[i] += (target - heights[i]) * 0.35; // fast attack
-            } else {
-                heights[i] *= 0.88; // smooth decay to zero
+            var tdData = new Uint8Array(analyser.fftSize);
+            analyser.getByteTimeDomainData(tdData);
+            var sum = 0;
+            for (var i = 0; i < tdData.length; i++) {
+                var v = (tdData[i] - 128) / 128;
+                sum += v * v;
             }
-            if (heights[i] > 0.5) allZero = false;
+            rms = Math.sqrt(sum / tdData.length);
         }
 
-        ctx.fillStyle = '#2d5a44';
-        for (var i = 0; i < NUM_BARS; i++) {
-            var angle = (i / NUM_BARS) * Math.PI * 2 - Math.PI / 2;
-            drawBar(angle, Math.max(0, heights[i]));
+        // Smooth: fast attack (0.3), slow decay (0.08)
+        var lerpFactor = isActive ? (rms > smoothVol ? 0.35 : 0.12) : 0.08;
+        smoothVol += (rms - smoothVol) * lerpFactor;
+
+        if (!prefersReduced) {
+            // Ring: scale 1.0 at silence → ~1.45 at loud speech (rms ≈ 0.3)
+            var scale = 1 + smoothVol * 1.5;
+            // Opacity: 0 at silence → 0.85 at loud (rms ≈ 0.17 saturates)
+            var opacity = Math.min(0.85, smoothVol * 5);
+            ring.style.transform = 'scale(' + scale.toFixed(3) + ')';
+            ring.style.opacity   = opacity.toFixed(3);
         }
 
-        if (isActive || !allZero) {
+        // Volume bar: rms 0–0.25 mapped to 0–100%
+        var pct = Math.min(100, smoothVol * 400);
+        fill.style.width = pct.toFixed(1) + '%';
+
+        if (isActive || smoothVol > 0.001) {
             rafId = requestAnimationFrame(draw);
         } else {
-            // Fully decayed — clean up audio resources
+            // Fully decayed — reset UI and release audio resources
+            ring.style.transform = 'scale(1)';
+            ring.style.opacity   = '0';
+            fill.style.width     = '0%';
             if (audioCtx) { try { audioCtx.close(); } catch (e) {} audioCtx = null; }
             if (micStream) { micStream.getTracks().forEach(function (t) { t.stop(); }); micStream = null; }
             analyser = null;
@@ -4131,7 +4122,7 @@
         if (recording && !isActive && !audioCtx) {
             navigator.mediaDevices.getUserMedia({ audio: true, video: false })
                 .then(setup)
-                .catch(function () {}); // silently skip if denied
+                .catch(function () {});
         } else if (!recording && isActive) {
             teardown();
         }
