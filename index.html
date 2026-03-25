@@ -2100,6 +2100,7 @@
             pointer-events: none;
             transform-origin: right center;
             will-change: transform;
+            transform: translateZ(0);
             display: none;
         }
         #page-sweep.reveal {
@@ -2110,16 +2111,16 @@
             animation: page-sweep-in 0.4s cubic-bezier(0.76, 0, 0.24, 1) forwards;
         }
         @keyframes page-sweep-out {
-            from { transform: scaleX(1); }
-            to   { transform: scaleX(0); }
+            from { transform: scaleX(1) translateZ(0); }
+            to   { transform: scaleX(0) translateZ(0); }
         }
         @keyframes page-sweep-in {
-            from { transform: scaleX(0); }
-            to   { transform: scaleX(1); }
+            from { transform: scaleX(0) translateZ(0); }
+            to   { transform: scaleX(1) translateZ(0); }
         }
         @media (max-width: 768px) {
-            #page-sweep.reveal { animation-duration: 0.3s; }
-            #page-sweep.cover  { animation-duration: 0.3s; }
+            #page-sweep.reveal { animation-duration: 0.25s; }
+            #page-sweep.cover  { animation-duration: 0.25s; }
         }
     </style>
 </head>
@@ -4170,31 +4171,15 @@
         }
     }
 
-    function reset() {
-        // Cancel any in-flight stagger timers
-        pendingTimers.forEach(function (id) { clearTimeout(id); });
-        pendingTimers = [];
-        cards.forEach(function (card) {
-            if (card.strike) card.strike.classList.remove('struck');
-            if (card.sol)    card.sol.classList.remove('visible');
-        });
-    }
-
-    var active = false;
     var obs = new IntersectionObserver(function (entries) {
-        var isVisible = entries[0].isIntersecting;
-        if (isVisible && !active) {
-            active = true;
-            if (reducedMotion) {
-                cards.forEach(function (card) { animateCard(card); });
-            } else {
-                pendingTimers.push(setTimeout(function () { animateCard(cards[0]); }, 1200));
-                pendingTimers.push(setTimeout(function () { animateCard(cards[1]); }, 2000));
-                pendingTimers.push(setTimeout(function () { animateCard(cards[2]); }, 2800));
-            }
-        } else if (!isVisible && active) {
-            active = false;
-            reset();
+        if (!entries[0].isIntersecting) return;
+        obs.disconnect(); // fire once only
+        if (reducedMotion) {
+            cards.forEach(function (card) { animateCard(card); });
+        } else {
+            pendingTimers.push(setTimeout(function () { animateCard(cards[0]); }, 1200));
+            pendingTimers.push(setTimeout(function () { animateCard(cards[1]); }, 2000));
+            pendingTimers.push(setTimeout(function () { animateCard(cards[2]); }, 2800));
         }
     }, { threshold: 0.4 });
     obs.observe(section);

@@ -736,6 +736,7 @@
             pointer-events: none;
             transform-origin: right center;
             will-change: transform;
+            transform: translateZ(0);
             display: none;
         }
         #page-sweep.reveal {
@@ -746,12 +747,12 @@
             animation: page-sweep-in 0.4s cubic-bezier(0.76, 0, 0.24, 1) forwards;
         }
         @keyframes page-sweep-out {
-            from { transform: scaleX(1); }
-            to   { transform: scaleX(0); }
+            from { transform: scaleX(1) translateZ(0); }
+            to   { transform: scaleX(0) translateZ(0); }
         }
         @keyframes page-sweep-in {
-            from { transform: scaleX(0); }
-            to   { transform: scaleX(1); }
+            from { transform: scaleX(0) translateZ(0); }
+            to   { transform: scaleX(1) translateZ(0); }
         }
 
         /* ── Responsive ── */
@@ -809,8 +810,8 @@
         }
 
         @media (max-width: 768px) {
-            #page-sweep.reveal { animation-duration: 0.3s; }
-            #page-sweep.cover  { animation-duration: 0.3s; }
+            #page-sweep.reveal { animation-duration: 0.25s; }
+            #page-sweep.cover  { animation-duration: 0.25s; }
         }
     </style>
 </head>
