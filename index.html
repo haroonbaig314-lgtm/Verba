@@ -228,17 +228,7 @@
 
         /* ── Hero ── */
         .hero {
-            /* Radial gradient: dark green at top-centre, dissolves to #f8f8f6 at the bottom
-               so it meets the problem section seamlessly with no hard cut or separate overlay.
-               The wide ellipse (400% × 200%) keeps all white text in the dark zone through
-               the button level; only the 180px bottom padding fades to off-white. */
-            background: radial-gradient(ellipse 400% 200% at 50% 0%,
-                #1e3a2e 0%,
-                #2d5a44 20%,
-                #3d6a54 42%,
-                #3d6a54 78%,
-                #8ec5ab 90%,
-                #f8f8f6 100%);
+            background: linear-gradient(to bottom, #1a3c2e 0%, #1a3c2e 60%, #f8f8f6 100%);
             color: white;
             padding: 240px 2rem 180px;
             text-align: center;
@@ -253,20 +243,6 @@
             height: 180%;
             background: transparent;
             will-change: transform;
-        }
-        .hero::after {
-            content: '';
-            position: absolute;
-            width: 500px; height: 500px;
-            background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
-            top: -200px; right: -200px;
-            border-radius: 50%;
-            animation: float 20s infinite ease-in-out;
-        }
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            33% { transform: translate(30px, -30px) rotate(120deg); }
-            66% { transform: translate(-20px, 20px) rotate(240deg); }
         }
         .hero-content {
             max-width: 800px;
