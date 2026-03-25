@@ -870,6 +870,77 @@
             margin-bottom: 2.5rem;
             font-weight: 500;
         }
+        /* ── Demo info tooltip ── */
+        .demo-heading-wrap {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 0.4rem;
+            margin-bottom: 0;
+        }
+        .demo-info-wrap { position: relative; display: inline-flex; align-items: center; padding-bottom: 6px; }
+        .demo-info-btn {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 1.5px solid #2d5a44;
+            background: transparent;
+            color: #2d5a44;
+            font-size: 0.7rem;
+            font-weight: 700;
+            font-family: inherit;
+            line-height: 1;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.65;
+            transition: opacity 0.2s, background 0.2s;
+            flex-shrink: 0;
+        }
+        .demo-info-btn:hover, .demo-info-btn:focus-visible {
+            opacity: 1;
+            background: rgba(45,90,68,0.08);
+            outline: none;
+        }
+        .demo-info-tooltip {
+            position: absolute;
+            top: calc(100% + 10px);
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            background: #1e3a2e;
+            color: rgba(255,255,255,0.88);
+            font-size: 0.82rem;
+            line-height: 1.65;
+            padding: 0.9rem 1.1rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 28px rgba(0,0,0,0.28);
+            z-index: 200;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.18s ease, visibility 0.18s ease;
+            text-align: left;
+            pointer-events: none;
+        }
+        .demo-info-tooltip::before {
+            content: '';
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-bottom-color: #1e3a2e;
+        }
+        .demo-info-tooltip.visible {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+        @media (max-width: 480px) {
+            .demo-info-tooltip { width: 250px; font-size: 0.79rem; left: auto; right: -8px; transform: none; }
+            .demo-info-tooltip::before { left: auto; right: 11px; transform: none; }
+        }
         .demo-card {
             background: #fafafa;
             border: 2px solid #e0e0e0;
@@ -2133,7 +2204,13 @@
 <section class="demo-section" id="demo">
     <div class="demo-container">
         <div class="demo-badge">Browser Demo</div>
-        <h2>Try it <span class="highlight">Live</span></h2>
+        <div class="demo-heading-wrap">
+            <h2>Try it <span class="highlight">Live</span></h2>
+            <span class="demo-info-wrap">
+                <button class="demo-info-btn" id="demoInfoBtn" type="button" aria-label="Filler detection accuracy info">i</button>
+                <span class="demo-info-tooltip" id="demoInfoTooltip" role="tooltip">Filler word detection depends on your browser's speech recognition engine. Chrome and Edge on desktop give the best results. On mobile or in Safari, some words like "um" and "uh" may not be transcribed since browsers often filter out non-words automatically. If you are not seeing your fillers detected, try speaking clearly in Chrome on a desktop or laptop.</span>
+            </span>
+        </div>
         <p class="demo-subtitle">This is a lightweight browser-based preview, not the full Verba product. Speak naturally. It detects filler words in real time, tracks your pace, and flashes when you slip up.</p>
         <p class="browser-note">Speech recognition works best in Chrome or Edge on desktop.</p>
 
@@ -3320,6 +3397,27 @@
 
         obs.observe(section);
     });
+}());
+</script>
+<script>
+/* ── Demo info tooltip ── */
+(function () {
+    var btn = document.getElementById('demoInfoBtn');
+    var tip = document.getElementById('demoInfoTooltip');
+    if (!btn || !tip) return;
+    var isHovering = false;
+    var isClicked = false;
+    function show() { tip.classList.add('visible'); }
+    function hide() { tip.classList.remove('visible'); }
+    btn.addEventListener('mouseenter', function () { isHovering = true; show(); });
+    btn.addEventListener('mouseleave', function () { isHovering = false; if (!isClicked) hide(); });
+    btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        isClicked = !isClicked;
+        if (isClicked) { show(); } else if (!isHovering) { hide(); }
+    });
+    document.addEventListener('click', function () { isClicked = false; if (!isHovering) hide(); });
+    tip.addEventListener('click', function (e) { e.stopPropagation(); });
 }());
 </script>
 <script>
