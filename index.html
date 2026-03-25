@@ -239,6 +239,51 @@
             height: 72px;
         }
 
+        /* ── Hero animated waves ── */
+        .hero-waves {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 88px;
+            height: 140px;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .hero-wave-track {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 200%;
+            height: 100%;
+        }
+        .hero-wave-track svg {
+            width: 100%;
+            height: 100%;
+        }
+        .hero-wave-1 {
+            opacity: 0.13;
+            animation: hero-wave-scroll 12s linear infinite;
+        }
+        .hero-wave-2 {
+            opacity: 0.08;
+            animation: hero-wave-scroll 18s linear infinite reverse;
+        }
+        .hero-wave-3 {
+            opacity: 0.10;
+            animation: hero-wave-scroll 8s linear infinite;
+        }
+        @keyframes hero-wave-scroll {
+            from { transform: translateX(0); }
+            to   { transform: translateX(-50%); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .hero-wave-1, .hero-wave-2, .hero-wave-3 { animation: none; }
+        }
+        @media (max-width: 768px) {
+            .hero-waves { height: 100px; bottom: 60px; opacity: 0.6; }
+        }
+
         /* ── Hero ── */
         .hero {
             background: linear-gradient(135deg, #1e3a2e 0%, #2d5a44 50%, #3d6a54 100%);
@@ -1927,6 +1972,27 @@
         <div class="cta-buttons">
             <a href="https://verba-mvp-c9fs.glide.page/dl/fd1519" class="btn btn-primary" target="_blank" rel="noopener" data-magnetic>Try the MVP</a>
             <a href="https://www.instagram.com/verbaspeech/" class="btn btn-secondary" target="_blank">Follow @verbaspeech</a>
+        </div>
+    </div>
+    <!-- Animated sound wave background -->
+    <div class="hero-waves" aria-hidden="true">
+        <!-- Layer 1: wavelength 480px, amplitude 18, speed 12s -->
+        <div class="hero-wave-track hero-wave-1">
+            <svg viewBox="0 0 2880 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                <path d="M 0,40 C 86,22 154,22 240,40 C 326,58 394,58 480,40 C 566,22 634,22 720,40 C 806,58 874,58 960,40 C 1046,22 1114,22 1200,40 C 1286,58 1354,58 1440,40 C 1526,22 1594,22 1680,40 C 1766,58 1834,58 1920,40 C 2006,22 2074,22 2160,40 C 2246,58 2314,58 2400,40 C 2486,22 2554,22 2640,40 C 2726,58 2794,58 2880,40" fill="none" stroke="white" stroke-width="2"/>
+            </svg>
+        </div>
+        <!-- Layer 2: wavelength 360px, amplitude 12, speed 18s reversed -->
+        <div class="hero-wave-track hero-wave-2">
+            <svg viewBox="0 0 2880 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                <path d="M 0,50 C 65,38 115,38 180,50 C 245,62 295,62 360,50 C 425,38 475,38 540,50 C 605,62 655,62 720,50 C 785,38 835,38 900,50 C 965,62 1015,62 1080,50 C 1145,38 1195,38 1260,50 C 1325,62 1375,62 1440,50 C 1505,38 1555,38 1620,50 C 1685,62 1735,62 1800,50 C 1865,38 1915,38 1980,50 C 2045,62 2095,62 2160,50 C 2225,38 2275,38 2340,50 C 2405,62 2455,62 2520,50 C 2585,38 2635,38 2700,50 C 2765,62 2815,62 2880,50" fill="none" stroke="white" stroke-width="1.5"/>
+            </svg>
+        </div>
+        <!-- Layer 3: wavelength 720px, amplitude 25, speed 8s -->
+        <div class="hero-wave-track hero-wave-3">
+            <svg viewBox="0 0 2880 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                <path d="M 0,30 C 130,5 230,5 360,30 C 490,55 590,55 720,30 C 850,5 950,5 1080,30 C 1210,55 1310,55 1440,30 C 1570,5 1670,5 1800,30 C 1930,55 2030,55 2160,30 C 2290,5 2390,5 2520,30 C 2650,55 2750,55 2880,30" fill="none" stroke="white" stroke-width="1.5"/>
+            </svg>
         </div>
     </div>
     <!-- Wave transition to problem section -->
