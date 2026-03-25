@@ -1706,9 +1706,9 @@
 
         /* ── Responsive ── */
         @media (max-width: 768px) {
-            .hero h1 { font-size: 3.8rem; letter-spacing: -1.5px; }
-            .hero .tagline { font-size: 1.6rem; }
-            .hero .hero-desc { font-size: 1rem; }
+            .hero h1 { font-size: 3.5rem; letter-spacing: -1.5px; }
+            .hero .tagline { font-size: 1.25rem; }
+            .hero .hero-desc { font-size: 0.95rem; }
             header { top: 0; }
             .hero { padding: 0 1.5rem 0; }
             .hero-content { padding-top: 160px; }
@@ -1716,6 +1716,12 @@
             .nav-links a { font-size: 0.8rem; margin-left: 0.75rem; }
             .cta-buttons { flex-direction: column; align-items: center; }
             .btn { width: 100%; max-width: 300px; text-align: center; }
+            /* Problem & features: reduce card internal padding */
+            .problem-card { padding: 1.75rem 1.5rem; }
+            .feature-card { padding: 1.75rem 1.5rem; }
+            /* Force single-column grids explicitly */
+            .problem-grid { grid-template-columns: 1fr; }
+            .features-grid { grid-template-columns: 1fr; }
             .problem, .features, .comparison, .testimonials, .final-cta {
                 padding: 70px 1.5rem;
             }
@@ -1725,17 +1731,22 @@
             }
             .demo-section h2 { font-size: 2rem; }
             .final-cta h2 { font-size: 2.2rem; }
+            .final-cta > p:not(.pricing-note) { font-size: 1rem; }
             .demo-card { padding: 1.5rem 1rem; }
             .stats-row { gap: 1.25rem; }
             .timer, .wpm-value, .words-value { font-size: 1.8rem; }
-            .filler-counters { gap: 0.6rem; }
-            .filler-counter-card { flex: 1; width: auto; }
+            /* Filler counters: allow wrap for 4-word languages */
+            .filler-counters { gap: 0.6rem; flex-wrap: wrap; justify-content: center; }
+            .filler-counter-card { flex: 1; min-width: 0; width: auto; }
             .filler-counter-number { font-size: 1.75rem; }
             .filler-counter-label { font-size: 0.68rem; letter-spacing: 0.5px; }
             .transcript-box { font-size: 0.9rem; padding: 1rem 1.1rem; max-height: 150px; }
             .end-session-btn { width: 100%; padding: 0.9rem; border-radius: 14px; }
             .browser-note { font-size: 0.76rem; padding: 0.4rem 0.9rem; }
-            .testimonial-card { min-width: 290px; max-width: 290px; }
+            /* Language selector: prevent overflow */
+            .lang-select { min-width: 0; width: 100%; }
+            .lang-select-row { width: 100%; }
+            .testimonial-card { min-width: 270px; max-width: 270px; }
             .modal-card { padding: 1.75rem; }
             .modal-card h3 { font-size: 1.5rem; }
             .modal-stat-value { font-size: 1.6rem; }
@@ -1744,18 +1755,26 @@
                 position: sticky; left: 0;
                 background: white; z-index: 1;
             }
+            footer { padding: 2.5rem 1.25rem; }
+            footer p { font-size: 0.85rem; }
         }
         @media (max-width: 480px) {
-            .hero h1 { font-size: 2.8rem; letter-spacing: -1px; }
+            .hero h1 { font-size: 2.6rem; letter-spacing: -1px; }
+            .hero .tagline { font-size: 1.1rem; }
+            .hero .hero-desc { font-size: 0.9rem; }
+            /* Problem & feature cards: tighter padding at 390px */
+            .problem-card { padding: 1.25rem 1rem; }
+            .feature-card { padding: 1.25rem 1rem; }
             /* Demo section - 390px iPhone layout */
             .demo-card { padding: 1.25rem 0.875rem; }
             .stats-row { gap: 0.75rem; }
             .timer, .wpm-value, .words-value { font-size: 1.5rem; }
             .stat-label { font-size: 0.62rem; letter-spacing: 0.8px; }
+            /* Filler counters: min-width:0 critical for flex shrink to work */
             .filler-counters { gap: 0.5rem; }
+            .filler-counter-card { min-width: 0; padding: 0.75rem 0.25rem; }
             .filler-counter-number { font-size: 1.5rem; }
             .filler-counter-label { font-size: 0.65rem; }
-            .filler-counter-card { padding: 0.75rem 0.25rem; }
             .transcript-box { min-height: 75px; max-height: 120px; font-size: 0.88rem; padding: 0.875rem 1rem; }
             .mic-button { width: 84px; height: 84px; animation-duration: 3s; }
             @keyframes mic-idle-glow {
@@ -1775,6 +1794,11 @@
             /* Score - smaller on mobile, still prominent */
             .score-value { font-size: 3rem; }
             .score-display { margin-bottom: 1.25rem; padding-bottom: 1.25rem; }
+            /* Language selector: full width row */
+            .lang-select { font-size: 1rem; min-width: 0; width: auto; }
+            /* FAQ: more compact spacing */
+            .faq-question { padding: 1rem 0; }
+            .faq-answer-inner { padding: 0 0 1rem 0.75rem; }
         }
         /* ── Email Capture ── */
         .email-capture {
