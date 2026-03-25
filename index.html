@@ -897,19 +897,6 @@
             font-weight: 700;
             margin: 0;
         }
-        .disclaimer-close {
-            background: none;
-            border: none;
-            color: rgba(255,255,255,0.65);
-            font-size: 1.6rem;
-            line-height: 1;
-            cursor: pointer;
-            padding: 0;
-            font-family: inherit;
-            transition: color 0.15s;
-            flex-shrink: 0;
-        }
-        .disclaimer-close:hover { color: white; }
         .disclaimer-body {
             padding: 1.5rem 1.5rem 1.25rem;
             color: #374151;
@@ -2019,7 +2006,6 @@
     <div class="disclaimer-card">
         <div class="disclaimer-header">
             <h3 id="disclaimerTitle">Before You Start</h3>
-            <button class="disclaimer-close" id="disclaimerClose" aria-label="Close">&times;</button>
         </div>
         <div class="disclaimer-body">
             <p>Filler word detection depends on your browser's speech recognition engine. Chrome and Edge on desktop give the best results. On mobile or in Safari, words like "um" and "uh" may not always be detected since some browsers filter out non-words automatically.</p>
@@ -3462,23 +3448,10 @@
 /* ── Disclaimer modal (shown on first mic click) ── */
 (function () {
     var overlay    = document.getElementById('disclaimerOverlay');
-    var closeBtn   = document.getElementById('disclaimerClose');
     var confirmBtn = document.getElementById('disclaimerConfirm');
-    if (!overlay || !closeBtn || !confirmBtn) return;
+    if (!overlay || !confirmBtn) return;
 
     function hide() { overlay.classList.remove('visible'); }
-
-    closeBtn.addEventListener('click', hide);
-
-    // Click outside card dismisses
-    overlay.addEventListener('click', function (e) {
-        if (e.target === overlay) hide();
-    });
-
-    // ESC key dismisses
-    document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && overlay.classList.contains('visible')) hide();
-    });
 
     confirmBtn.addEventListener('click', function () {
         try { localStorage.setItem('verba_disclaimer_seen', '1'); } catch (e) {}
