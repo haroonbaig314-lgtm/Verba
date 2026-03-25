@@ -11,7 +11,7 @@
     <style>
         /* ── Reset & Base ── */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
+        html { scroll-behavior: smooth; background: #ffffff; }
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             line-height: 1.6;
@@ -228,9 +228,9 @@
 
         /* ── Hero ── */
         .hero {
-            background: radial-gradient(ellipse 140% 100% at 50% 0%, #1a3c2e 0%, #2d6a4f 35%, #4a9968 58%, #8cc4a0 74%, #c8e8d4 86%, #e8f5ee 93%, #f8f8f6 100%);
+            background: radial-gradient(ellipse 140% 100% at 50% 0%, #1a3c2e 0%, #2d6a4f 35%, #4a9968 58%, #8cc4a0 74%, #c8e8d4 86%, #e8f5ee 93%, #ffffff 100%);
             color: white;
-            padding: 240px 2rem 310px;
+            padding: 240px 2rem 420px;
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -238,18 +238,18 @@
         .hero-bg {
             display: none;
         }
-        /* ── Hero tree silhouettes ── */
+        /* ── Hero mountain silhouettes ── */
         .hero-trees {
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 280px;
+            height: 380px;
             overflow: visible;
             pointer-events: none;
             z-index: 2;
-            -webkit-mask-image: linear-gradient(to bottom, black 0%, black 50%, transparent 100%);
-            mask-image: linear-gradient(to bottom, black 0%, black 50%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 0%, black 40%, transparent 100%);
+            mask-image: linear-gradient(to bottom, black 0%, black 40%, transparent 100%);
         }
         .hero-content {
             max-width: 800px;
@@ -695,7 +695,7 @@
         /* ── How It Works ── */
         .how-it-works {
             padding: 80px 2rem;
-            background: #f8f8f6;
+            background: #ffffff;
         }
         .how-it-works-inner {
             max-width: 1100px;
@@ -1321,7 +1321,7 @@
         /* ── Comparison ── */
         .comparison {
             padding: 100px 2rem;
-            background: #f8f8f6;
+            background: #ffffff;
         }
         .comparison-inner { max-width: 1100px; margin: 0 auto; }
         .comparison h2 {
@@ -1727,8 +1727,8 @@
             .hero .hero-desc { font-size: 1rem; }
             .beta-banner { height: 50px; padding: 0 1rem; font-size: 0.72rem; line-height: 1.35; }
             header { top: 50px; }
-            .hero { padding: 200px 1.5rem 220px; }
-            .hero-trees { height: 180px; }
+            .hero { padding: 200px 1.5rem 280px; }
+            .hero-trees { height: 220px; }
             .nav-links a { font-size: 0.8rem; margin-left: 0.75rem; }
             .cta-buttons { flex-direction: column; align-items: center; }
             .btn { width: 100%; max-width: 300px; text-align: center; }
@@ -2048,37 +2048,27 @@
             <a href="https://www.instagram.com/verbaspeech/" class="btn btn-secondary" target="_blank">Follow @verbaspeech</a>
         </div>
     </div>
-    <!-- Illustrated tree silhouettes — three depth layers, masked to fade at base -->
-    <svg class="hero-trees" viewBox="0 0 1440 280" preserveAspectRatio="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
-        <!-- Layer 1: distant treeline, ~80px from bottom -->
-        <path d="M0 280 L0 195
-            C80 188,140 200,200 192 C250 185,290 172,330 168
-            C370 164,400 178,450 185 C500 190,540 195,590 188
-            C630 182,660 168,700 162 C740 156,775 168,820 175
-            C860 181,900 188,950 182 C990 176,1020 162,1060 158
-            C1100 154,1140 168,1190 175 C1240 181,1300 192,1380 196
-            L1440 198 L1440 280 Z"
-            fill="#4a9968" fill-opacity="0.35"/>
-        <!-- Layer 2: mid treeline, ~120px from bottom -->
-        <path d="M0 280 L0 158
-            C70 148,130 165,200 152 C255 142,295 128,340 134
-            C380 140,415 152,460 145 C505 138,540 122,585 128
-            C630 134,665 148,720 142 C765 136,800 120,845 126
-            C890 132,930 145,980 138 C1020 131,1055 118,1100 124
-            C1145 130,1195 142,1260 148 C1320 152,1390 145,1440 142
-            L1440 280 Z"
-            fill="#2d6a4f" fill-opacity="0.5"/>
-        <!-- Layer 3: foreground trees, ~160px from bottom, tallest and darkest -->
-        <path d="M0 280 L0 128
-            C50 118,85 132,125 122 C155 114,178 100,205 95
-            C232 90,255 105,285 115 C315 122,350 128,395 120
-            C430 113,460 100,495 96 C528 92,555 106,590 112
-            C625 118,660 124,700 115 C738 107,768 94,800 100
-            C832 106,862 118,905 122 C940 125,975 116,1010 108
-            C1045 100,1075 92,1108 97 C1138 102,1168 115,1210 120
-            C1248 124,1290 115,1335 108 C1368 103,1410 112,1440 118
-            L1440 280 Z"
-            fill="#1a3c2e" fill-opacity="0.7"/>
+    <!-- Mountain silhouettes — distant back range + dramatic front peaks -->
+    <svg class="hero-trees" viewBox="0 0 1440 380" preserveAspectRatio="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+        <!-- Back/distant range: softer, lower profile -->
+        <path d="M0 380 L0 240
+            C80 225,160 210,240 195 C310 182,370 170,440 162
+            C510 154,570 160,640 155 C710 150,780 158,860 162
+            C930 166,1000 155,1080 148 C1150 142,1230 150,1320 155
+            C1370 158,1410 155,1440 152
+            L1440 380 Z"
+            fill="#c8e8d4"/>
+        <!-- Front range: dramatic large peak on left, jagged smaller peaks right -->
+        <path d="M0 380 L0 310
+            C30 295,60 275,95 255 C130 235,165 205,200 175
+            C225 152,245 115,270 78 C285 58,300 42,318 55
+            C338 72,355 108,385 145 C415 180,445 200,490 188
+            C530 177,558 160,595 168 C630 175,658 188,695 178
+            C730 168,760 150,800 158 C838 165,870 180,915 172
+            C958 164,995 148,1040 155 C1082 162,1120 175,1170 168
+            C1218 161,1268 148,1330 152 C1375 155,1415 150,1440 148
+            L1440 380 Z"
+            fill="#a8d4b5"/>
     </svg>
 </section>
 
