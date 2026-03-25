@@ -228,9 +228,9 @@
 
         /* ── Hero ── */
         .hero {
-            background: radial-gradient(ellipse 120% 80% at 50% 0%, #1a3c2e 0%, #2d6a4f 40%, #a8d5b5 70%, #f0f7f2 100%);
+            background: radial-gradient(ellipse 100% 100% at 50% -20%, #1a4a2e 0%, #2d7a4f 25%, #5aaa78 50%, #a8d4b5 70%, #dff0e5 85%, #f5faf6 95%, #f8f8f6 100%);
             color: white;
-            padding: 240px 2rem 300px;
+            padding: 240px 2rem 320px;
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -250,21 +250,19 @@
             position: relative;
             z-index: 3;
         }
-        /* ── Hero hill silhouettes ── */
+        /* ── Hero mountain silhouettes ── */
         .hero-hills {
             position: absolute;
             bottom: 0;
             left: 0;
             right: 0;
-            height: 200px;
+            height: 300px;
             z-index: 2;
             pointer-events: none;
-            /* Mask fades hills top→bottom: mostly opaque at peak, fully transparent at base */
-            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
-            mask-image: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 0%, black 40%, transparent 100%);
+            mask-image: linear-gradient(to bottom, black 0%, black 40%, transparent 100%);
         }
-        .hero-hills-back,
-        .hero-hills-front {
+        .hero-hills > svg {
             position: absolute;
             bottom: 0;
             left: 0;
@@ -1742,7 +1740,8 @@
             .beta-banner { height: 50px; padding: 0 1rem; font-size: 0.72rem; line-height: 1.35; }
             header { top: 50px; }
             .hero { padding: 200px 1.5rem 240px; }
-            .hero-hills { height: 150px; }
+            .hero-hills { height: 180px; }
+            .hero { padding: 200px 1.5rem 260px; }
             .nav-links a { font-size: 0.8rem; margin-left: 0.75rem; }
             .cta-buttons { flex-direction: column; align-items: center; }
             .btn { width: 100%; max-width: 300px; text-align: center; }
@@ -2063,13 +2062,26 @@
         </div>
     </div>
     <div class="hero-hills" aria-hidden="true">
-        <!-- Back hills: muted light green, wider gentle rolls -->
-        <svg class="hero-hills-back" viewBox="0 0 1440 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0 200 L0 150 C200 110,380 160,560 130 C740 100,920 40,1100 55 C1280 70,1380 120,1440 130 L1440 200 Z" fill="#c8e6d0"/>
-        </svg>
-        <!-- Front hills: very light green, softer foreground ridge -->
-        <svg class="hero-hills-front" viewBox="0 0 1440 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0 200 L0 170 C160 145,320 180,500 155 C680 130,800 80,980 90 C1160 100,1320 150,1440 140 L1440 200 Z" fill="#e0f2e8"/>
+        <svg viewBox="0 0 1440 300" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+            <!-- Back layer: distant rolling mountains, one tall peak left-of-center, smaller peaks right -->
+            <path d="M0 300 L0 220
+                C80 210,140 230,200 215
+                C260 200,300 170,380 140
+                C440 115,480 95,540 100
+                C600 105,640 130,700 145
+                C760 160,820 180,900 175
+                C980 170,1040 150,1120 160
+                C1200 170,1300 200,1440 195
+                L1440 300 Z"
+                fill="#7dbf95" fill-opacity="0.5"/>
+            <!-- Front layer: foreground hills, shorter and wider, closer -->
+            <path d="M0 300 L0 255
+                C100 245,200 260,320 248
+                C440 236,520 215,640 220
+                C760 225,860 245,1000 238
+                C1140 231,1280 245,1440 240
+                L1440 300 Z"
+                fill="#3d8a5a" fill-opacity="0.7"/>
         </svg>
     </div>
 </section>
