@@ -206,12 +206,28 @@
             border: 2.5px solid rgba(255,255,255,0.45);
             background: transparent;
             flex-shrink: 0;
+            position: relative;
         }
 
         .tl-dot.filled {
             background: #a8d5b5;
             border-color: #a8d5b5;
-            box-shadow: 0 0 12px rgba(168,213,181,0.55);
+            box-shadow: 0 0 0 3px rgba(168,213,181,0.2), 0 0 16px rgba(168,213,181,0.5);
+        }
+
+        .tl-dot.filled::after {
+            content: '';
+            position: absolute;
+            inset: -6px;
+            border-radius: 50%;
+            border: 1.5px solid rgba(168,213,181,0.55);
+            animation: tl-ring-pulse 2.2s ease-out infinite;
+        }
+
+        @keyframes tl-ring-pulse {
+            0%   { opacity: 0.8; transform: scale(0.85); }
+            65%  { opacity: 0;   transform: scale(1.65); }
+            100% { opacity: 0;   transform: scale(1.65); }
         }
 
         .tl-label {
@@ -236,6 +252,67 @@
         .timeline-item.active .tl-label,
         .timeline-item.active .tl-label strong {
             color: #a8d5b5;
+        }
+
+        .timeline-item.active .tl-label {
+            font-weight: 600;
+        }
+
+        /* Progress fill — animated shimmer from node 1 partway toward node 2 */
+        .timeline-track::after {
+            content: '';
+            position: absolute;
+            top: 9px;
+            left: 10px;
+            width: calc(22% - 10px);
+            height: 2px;
+            background: linear-gradient(
+                90deg,
+                #a8d5b5 0%,
+                rgba(168,213,181,0.9) 40%,
+                rgba(255,255,255,0.7) 55%,
+                rgba(168,213,181,0.9) 70%,
+                rgba(168,213,181,0.2) 100%
+            );
+            background-size: 200% 100%;
+            animation: progress-shimmer 2.8s ease-in-out infinite;
+            z-index: 1;
+            border-radius: 1px;
+        }
+
+        @keyframes progress-shimmer {
+            0%   { background-position: 100% center; }
+            100% { background-position: -100% center; }
+        }
+
+        /* Hover description */
+        .tl-desc {
+            display: block;
+            font-size: 0.63rem;
+            color: rgba(255,255,255,0.5);
+            font-style: italic;
+            line-height: 1.4;
+            text-align: center;
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+            transition: opacity 0.25s ease, max-height 0.25s ease;
+            margin-top: 0;
+        }
+
+        @media (hover: hover) and (pointer: fine) {
+            .timeline-item:hover .tl-desc {
+                opacity: 1;
+                max-height: 3rem;
+                margin-top: 0.3rem;
+            }
+            .timeline-item:hover .tl-dot {
+                border-color: rgba(255,255,255,0.75);
+                transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            }
+            .timeline-item:hover .tl-dot.filled {
+                box-shadow: 0 0 0 3px rgba(168,213,181,0.35), 0 0 22px rgba(168,213,181,0.65);
+            }
         }
 
         /* ── Wave divider at bottom of hero ── */
@@ -762,19 +839,19 @@
                 <div class="timeline-track">
                     <div class="timeline-item active">
                         <div class="tl-dot filled"></div>
-                        <div class="tl-label">Today<strong>Browser Demo</strong></div>
+                        <div class="tl-label">Today<strong>Browser Demo</strong><span class="tl-desc">Try Verba in your browser, right now</span></div>
                     </div>
                     <div class="timeline-item">
                         <div class="tl-dot"></div>
-                        <div class="tl-label">Next<strong>Native Mobile App</strong></div>
+                        <div class="tl-label">Next<strong>Native Mobile App</strong><span class="tl-desc">Full iOS &amp; Android app with offline support</span></div>
                     </div>
                     <div class="timeline-item">
                         <div class="tl-dot"></div>
-                        <div class="tl-label">Then<strong>Voice Differentiation + Coach Packs</strong></div>
+                        <div class="tl-label">Then<strong>Voice Differentiation + Coach Packs</strong><span class="tl-desc">Speaker ID and specialist coaching packs</span></div>
                     </div>
                     <div class="timeline-item">
                         <div class="tl-dot"></div>
-                        <div class="tl-label">Future<strong>AI Interview Simulator</strong></div>
+                        <div class="tl-label">Future<strong>AI Interview Simulator</strong><span class="tl-desc">Practice real interviews with AI feedback</span></div>
                     </div>
                 </div>
             </div>
