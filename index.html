@@ -622,7 +622,12 @@
             transform-style: preserve-3d;
             transition: transform 0.6s ease-in-out;
         }
-        .feature-flip:hover .feature-card-inner,
+        /* Hover only on genuine pointer devices — prevents sticky-hover on iOS overriding JS toggle */
+        @media (hover: hover) and (pointer: fine) {
+            .feature-flip:hover .feature-card-inner {
+                transform: rotateY(180deg);
+            }
+        }
         .feature-flip.flipped .feature-card-inner {
             transform: rotateY(180deg);
         }
@@ -668,7 +673,9 @@
         }
         @media (prefers-reduced-motion: reduce) {
             .feature-card-inner { transition: none; }
-            .feature-flip:hover .feature-card-inner,
+            @media (hover: hover) and (pointer: fine) {
+                .feature-flip:hover .feature-card-inner { transform: none; }
+            }
             .feature-flip.flipped .feature-card-inner { transform: none; }
             .feature-back {
                 transform: none;
@@ -682,9 +689,11 @@
                 -webkit-backface-visibility: visible;
                 transition: opacity 0.2s ease;
             }
-            .feature-flip:hover .feature-back,
-            .feature-flip.flipped .feature-back { opacity: 1; }
-            .feature-flip:hover .feature-front,
+            @media (hover: hover) and (pointer: fine) {
+                .feature-flip:hover .feature-back  { opacity: 1; }
+                .feature-flip:hover .feature-front { opacity: 0; }
+            }
+            .feature-flip.flipped .feature-back  { opacity: 1; }
             .feature-flip.flipped .feature-front { opacity: 0; }
         }
         @media (max-width: 768px) {
@@ -4182,9 +4191,16 @@
 /* ── Feature card flip: tap to flip on touch devices ── */
 (function () {
     if (!window.matchMedia('(hover: none)').matches) return; // desktop uses CSS :hover
-    document.querySelectorAll('.feature-flip').forEach(function (card) {
+    var cards = Array.from(document.querySelectorAll('.feature-flip'));
+    cards.forEach(function (card) {
         card.addEventListener('click', function () {
-            card.classList.toggle('flipped');
+            var isFlipped = card.classList.contains('flipped');
+            // Unflip all cards first
+            cards.forEach(function (c) { c.classList.remove('flipped'); });
+            // If this card wasn't already flipped, flip it now
+            if (!isFlipped) {
+                card.classList.add('flipped');
+            }
         });
     });
 }());
