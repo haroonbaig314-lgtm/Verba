@@ -145,30 +145,6 @@
         }
 
         /* ── Beta Banner ── */
-        .beta-banner {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1001;
-            background: #111827;
-            color: rgba(255,255,255,0.72);
-            text-align: center;
-            font-size: 0.78rem;
-            font-weight: 500;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            letter-spacing: 0.2px;
-            padding: 0 1rem;
-        }
-        .beta-banner strong { color: white; font-weight: 700; }
-        .beta-mobile { display: none; }
-        @media (max-width: 767px) {
-            .beta-desktop { display: none; }
-            .beta-mobile { display: inline; }
-        }
-
         /* ── Beta Badge ── */
         .beta-badge {
             display: inline-block;
@@ -195,7 +171,7 @@
             padding: 1rem 2rem;
             position: fixed;
             width: 100%;
-            top: 36px;
+            top: 0;
             z-index: 1000;
             box-shadow: none;
             border-bottom: none;
@@ -1736,8 +1712,7 @@
             .hero h1 { font-size: 3.8rem; letter-spacing: -1.5px; }
             .hero .tagline { font-size: 1.6rem; }
             .hero .hero-desc { font-size: 1rem; }
-            .beta-banner { height: 50px; padding: 0 1rem; font-size: 0.72rem; line-height: 1.35; }
-            header { top: 50px; }
+            header { top: 0; }
             .hero { padding: 0 1.5rem 0; }
             .hero-content { padding-top: 160px; }
             .hero-trees { height: 260px; bottom: 140px; }
@@ -2025,10 +2000,6 @@
         <div class="coaching-note" id="coachingNote">Analyzing your session...</div>
         <button class="close-modal-btn" id="closeModal">Close &amp; Reset</button>
     </div>
-</div>
-
-<div class="beta-banner">
-    <strong>Verba</strong>&nbsp;is currently in beta.
 </div>
 
 <header>
