@@ -2270,7 +2270,7 @@
                     </div>
                     <div class="button-label-row">
                         <span class="status-dot" id="statusDot"></span>
-                        <p class="button-label" id="buttonLabel">Tap to Start</p>
+                        <p class="button-label" id="buttonLabel"></p>
                     </div>
                 </div>
                 <button class="end-session-btn" id="endSessionBtn">End Session</button>
@@ -3149,7 +3149,7 @@
         stopWatchdog();
         setStatusDot('');
         document.getElementById('endSessionBtn').style.display = 'none';
-        document.getElementById('buttonLabel').textContent = 'Tap to Start';
+        document.getElementById('buttonLabel').textContent = '';
         showModal();
     }
 
@@ -3170,7 +3170,7 @@
         document.getElementById('wpmDisplay').textContent = '--';
         document.getElementById('wpmDisplay').style.color = '#9ca3af';
         document.getElementById('wordsDisplay').textContent = '0';
-        document.getElementById('buttonLabel').textContent = 'Tap to Start';
+        document.getElementById('buttonLabel').textContent = '';
         document.getElementById('endSessionBtn').style.display = 'none';
         document.getElementById('demoCard').classList.remove('recording');
 
