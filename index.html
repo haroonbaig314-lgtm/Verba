@@ -189,14 +189,21 @@
 
         /* ── Header ── */
         header {
-            background: rgba(30, 58, 46, 0.97);
-            backdrop-filter: blur(10px);
+            background: transparent;
+            backdrop-filter: none;
             color: white;
             padding: 1rem 2rem;
             position: fixed;
             width: 100%;
             top: 36px;
             z-index: 1000;
+            box-shadow: none;
+            border-bottom: none;
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+        }
+        header.nav-scrolled {
+            background: rgba(30, 58, 46, 0.97);
+            backdrop-filter: blur(10px);
             box-shadow: 0 2px 20px rgba(0,0,0,0.15);
             border-bottom: 1px solid rgba(255,255,255,0.08);
         }
@@ -4199,6 +4206,23 @@
             openCell = null;
         }
     });
+}());
+
+/* ── Transparent nav: becomes solid once scrolled past hero ── */
+(function () {
+    var header = document.querySelector('header');
+    var hero = document.querySelector('.hero');
+    if (!header || !hero) return;
+    function onScroll() {
+        var heroBottom = hero.getBoundingClientRect().bottom + (window.scrollY || window.pageYOffset);
+        if ((window.scrollY || window.pageYOffset) > heroBottom - header.offsetHeight) {
+            header.classList.add('nav-scrolled');
+        } else {
+            header.classList.remove('nav-scrolled');
+        }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
 }());
 </script>
 </body>
