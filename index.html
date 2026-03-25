@@ -3424,7 +3424,10 @@
     }
 
     function buildNote(totalFillers, avgWPM, words, duration) {
-        if (words < 8) {
+        if (words < 5) {
+            return 'We didn\'t detect any speech. Make sure your microphone is working and try speaking clearly into it.';
+        }
+        if (duration < 30) {
             return 'Your session was very short. Try speaking for at least 30 seconds to get meaningful feedback.';
         }
 
