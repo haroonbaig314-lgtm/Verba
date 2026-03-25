@@ -230,12 +230,13 @@
         .hero {
             background-image: url('hero-bg.png');
             background-size: cover;
-            background-position: top center;
+            background-position: 0 0;
             background-attachment: scroll;
             background-color: #1a3c2e;
             color: white;
             min-height: 100vh;
-            padding: 180px 2rem 760px;
+            padding: 0 2rem 760px;
+            margin-top: 0;
             text-align: center;
             position: relative;
             -webkit-mask-image: linear-gradient(to bottom, black 0%, black 75%, transparent 100%);
@@ -252,6 +253,7 @@
             margin: 0 auto;
             position: relative;
             z-index: 3;
+            padding-top: 180px;
         }
         .hero h1 {
             font-size: 7rem;
@@ -1723,7 +1725,8 @@
             .hero .hero-desc { font-size: 1rem; }
             .beta-banner { height: 50px; padding: 0 1rem; font-size: 0.72rem; line-height: 1.35; }
             header { top: 50px; }
-            .hero { padding: 160px 1.5rem 460px; }
+            .hero { padding: 0 1.5rem 460px; }
+            .hero-content { padding-top: 160px; }
             .hero-trees { height: 260px; bottom: 140px; }
             .nav-links a { font-size: 0.8rem; margin-left: 0.75rem; }
             .cta-buttons { flex-direction: column; align-items: center; }
