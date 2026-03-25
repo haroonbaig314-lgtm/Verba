@@ -228,21 +228,38 @@
 
         /* ── Hero ── */
         .hero {
-            background: radial-gradient(ellipse 100% 100% at 50% -20%, #1a4a2e 0%, #2d7a4f 25%, #5aaa78 50%, #a8d4b5 70%, #dff0e5 85%, #f5faf6 95%, #f8f8f6 100%);
+            background-image: url('hero-bg.jpg');
+            background-size: cover;
+            background-position: center center;
             color: white;
             padding: 240px 2rem 320px;
             text-align: center;
             position: relative;
             overflow: hidden;
         }
-        .hero-bg {
+        /* Dark overlay so text stays readable over the photo */
+        .hero::before {
+            content: '';
             position: absolute;
-            top: -40%;
+            inset: 0;
+            background: rgba(10, 30, 15, 0.55);
+            z-index: 1;
+            pointer-events: none;
+        }
+        /* Bottom fade into the problem section */
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
             left: 0;
             right: 0;
-            height: 180%;
-            background: transparent;
-            will-change: transform;
+            height: 100px;
+            background: linear-gradient(to bottom, transparent, #f8f8f6);
+            z-index: 2;
+            pointer-events: none;
+        }
+        .hero-bg {
+            display: none;
         }
         .hero-content {
             max-width: 800px;
