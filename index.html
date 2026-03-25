@@ -228,7 +228,7 @@
 
         /* ── Hero ── */
         .hero {
-            background: radial-gradient(ellipse 120% 80% at 50% 0%, #1a3c2e 0%, #2d5a3d 55%, #e8f0ea 100%);
+            background: linear-gradient(to bottom, #1a3c2e 0%, #2d5a3d 55%, #e8f2ec 100%);
             color: white;
             padding: 240px 2rem 300px;
             text-align: center;
@@ -251,25 +251,26 @@
             z-index: 3;
         }
         /* ── Hero hill silhouettes ── */
-        .hero-hills-back {
+        .hero-hills {
             position: absolute;
             bottom: 0;
             left: 0;
-            width: 100%;
-            height: 180px;
-            display: block;
+            right: 0;
+            height: 200px;
             z-index: 2;
             pointer-events: none;
+            /* CSS mask fades hills to transparent at their base — works at any zoom level */
+            -webkit-mask-image: linear-gradient(to bottom, black 0%, black 60%, transparent 100%);
+            mask-image: linear-gradient(to bottom, black 0%, black 60%, transparent 100%);
         }
+        .hero-hills-back,
         .hero-hills-front {
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 120px;
+            height: 100%;
             display: block;
-            z-index: 3;
-            pointer-events: none;
         }
         .hero h1 {
             font-size: 7rem;
@@ -1741,8 +1742,7 @@
             .beta-banner { height: 50px; padding: 0 1rem; font-size: 0.72rem; line-height: 1.35; }
             header { top: 50px; }
             .hero { padding: 200px 1.5rem 240px; }
-            .hero-hills-back { height: 110px; }
-            .hero-hills-front { height: 75px; }
+            .hero-hills { height: 120px; }
             .nav-links a { font-size: 0.8rem; margin-left: 0.75rem; }
             .cta-buttons { flex-direction: column; align-items: center; }
             .btn { width: 100%; max-width: 300px; text-align: center; }
@@ -2062,26 +2062,16 @@
             <a href="https://www.instagram.com/verbaspeech/" class="btn btn-secondary" target="_blank">Follow @verbaspeech</a>
         </div>
     </div>
-    <!-- Back hill layer — deeper, taller -->
-    <svg class="hero-hills-back" viewBox="0 0 1440 180" preserveAspectRatio="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-            <linearGradient id="hillGradBack" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#2d5a3d"/>
-                <stop offset="100%" stop-color="#f8f8f6"/>
-            </linearGradient>
-        </defs>
-        <path d="M0 180 L0 145 C100 130,200 155,320 135 C440 115,550 65,680 70 C810 75,920 130,1060 120 C1200 110,1320 95,1440 110 L1440 180 Z" fill="url(#hillGradBack)"/>
-    </svg>
-    <!-- Front hill layer — lighter green, shorter, creates depth -->
-    <svg class="hero-hills-front" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-            <linearGradient id="hillGradFront" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#3d7a52"/>
-                <stop offset="100%" stop-color="#f8f8f6"/>
-            </linearGradient>
-        </defs>
-        <path d="M0 120 L0 95 C140 70,260 100,400 80 C540 60,660 25,800 35 C940 45,1080 90,1220 75 C1340 63,1400 68,1440 72 L1440 120 Z" fill="url(#hillGradFront)"/>
-    </svg>
+    <div class="hero-hills" aria-hidden="true">
+        <!-- Back hills: taller, spread, 60% opacity -->
+        <svg class="hero-hills-back" viewBox="0 0 1440 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 200 L0 155 C180 120,360 165,540 135 C720 105,900 45,1080 60 C1260 75,1380 125,1440 135 L1440 200 Z" fill="#2d5a3d" fill-opacity="0.6"/>
+        </svg>
+        <!-- Front hills: more detail, 80% opacity -->
+        <svg class="hero-hills-front" viewBox="0 0 1440 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 200 L0 175 C140 150,300 185,480 160 C660 135,780 85,960 95 C1140 105,1300 155,1440 145 L1440 200 Z" fill="#1a3c2e" fill-opacity="0.8"/>
+        </svg>
+    </div>
 </section>
 
 <section class="problem">
