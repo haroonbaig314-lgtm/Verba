@@ -250,26 +250,6 @@
             position: relative;
             z-index: 3;
         }
-        /* ── Hero mountain silhouettes ── */
-        .hero-hills {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 300px;
-            z-index: 2;
-            pointer-events: none;
-            -webkit-mask-image: linear-gradient(to bottom, black 0%, black 40%, transparent 100%);
-            mask-image: linear-gradient(to bottom, black 0%, black 40%, transparent 100%);
-        }
-        .hero-hills > svg {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
         .hero h1 {
             font-size: 7rem;
             margin-bottom: 1.5rem;
@@ -1740,7 +1720,6 @@
             .beta-banner { height: 50px; padding: 0 1rem; font-size: 0.72rem; line-height: 1.35; }
             header { top: 50px; }
             .hero { padding: 200px 1.5rem 240px; }
-            .hero-hills { height: 180px; }
             .hero { padding: 200px 1.5rem 260px; }
             .nav-links a { font-size: 0.8rem; margin-left: 0.75rem; }
             .cta-buttons { flex-direction: column; align-items: center; }
@@ -2060,29 +2039,6 @@
             <a href="https://verba-mvp-c9fs.glide.page/dl/fd1519" class="btn btn-primary" target="_blank" rel="noopener" data-magnetic>Try the MVP</a>
             <a href="https://www.instagram.com/verbaspeech/" class="btn btn-secondary" target="_blank">Follow @verbaspeech</a>
         </div>
-    </div>
-    <div class="hero-hills" aria-hidden="true">
-        <svg viewBox="0 0 1440 300" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
-            <!-- Back layer: distant rolling mountains, one tall peak left-of-center, smaller peaks right -->
-            <path d="M0 300 L0 220
-                C80 210,140 230,200 215
-                C260 200,300 170,380 140
-                C440 115,480 95,540 100
-                C600 105,640 130,700 145
-                C760 160,820 180,900 175
-                C980 170,1040 150,1120 160
-                C1200 170,1300 200,1440 195
-                L1440 300 Z"
-                fill="#7dbf95" fill-opacity="0.5"/>
-            <!-- Front layer: foreground hills, shorter and wider, closer -->
-            <path d="M0 300 L0 255
-                C100 245,200 260,320 248
-                C440 236,520 215,640 220
-                C760 225,860 245,1000 238
-                C1140 231,1280 245,1440 240
-                L1440 300 Z"
-                fill="#3d8a5a" fill-opacity="0.7"/>
-        </svg>
     </div>
 </section>
 
