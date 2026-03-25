@@ -211,6 +211,11 @@
 
         /* ── Hero ── */
         .hero {
+            background-image: url('hero-bg.jpg');
+            background-size: cover;
+            background-position: center 60%;
+            background-repeat: no-repeat;
+            background-attachment: scroll;
             background-color: #ffffff;
             color: white;
             min-height: 100vh;
@@ -218,20 +223,9 @@
             margin-top: 0;
             text-align: center;
             position: relative;
-            overflow: hidden;
         }
         .hero-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 130%;
-            background-image: url('hero-bg.jpg');
-            background-size: cover;
-            background-position: center 60%;
-            background-repeat: no-repeat;
-            will-change: transform;
-            z-index: 0;
+            display: none;
         }
         .hero-trees {
             display: none;
@@ -1720,7 +1714,6 @@
             .hero .hero-desc { font-size: 0.95rem; }
             header { top: 0; }
             .hero { padding: 0 1.5rem 0; }
-            .hero-bg { height: 100%; will-change: auto; }
             .hero-content { padding-top: 160px; }
             .hero-trees { height: 260px; bottom: 140px; }
             .nav-links a { font-size: 0.8rem; margin-left: 0.75rem; }
@@ -3649,40 +3642,6 @@
             shine.style.opacity = '0';
         });
     });
-}());
-</script>
-<script>
-(function () {
-    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    if (window.matchMedia('(max-width: 768px)').matches) return;
-
-    var heroBg = document.querySelector('.hero-bg');
-    var hero   = document.querySelector('.hero');
-    if (!heroBg || !hero) return;
-
-    var heroBottom = 0;
-    var ticking    = false;
-
-    function measure() {
-        heroBottom = hero.offsetTop + hero.offsetHeight;
-    }
-
-    function update() {
-        var scrollY = window.scrollY || window.pageYOffset;
-        if (scrollY < heroBottom) {
-            heroBg.style.transform = 'translateY(' + (scrollY * 0.4) + 'px)';
-        }
-        ticking = false;
-    }
-
-    measure();
-    window.addEventListener('resize', measure, { passive: true });
-    window.addEventListener('scroll', function () {
-        if (!ticking) {
-            requestAnimationFrame(update);
-            ticking = true;
-        }
-    }, { passive: true });
 }());
 </script>
 <script>
