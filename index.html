@@ -228,35 +228,12 @@
 
         /* ── Hero ── */
         .hero {
-            background-image: url('hero-bg.jpg');
-            background-size: cover;
-            background-position: center center;
+            background: radial-gradient(ellipse 140% 100% at 50% 0%, #1a3c2e 0%, #2d6a4f 30%, #5a9e72 55%, #a8d4b5 72%, #daeee2 85%, #f2faf5 93%, #f8f8f6 100%);
             color: white;
-            padding: 240px 2rem 320px;
+            padding: 240px 2rem 180px;
             text-align: center;
             position: relative;
             overflow: hidden;
-        }
-        /* Dark overlay so text stays readable over the photo */
-        .hero::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: rgba(10, 30, 15, 0.55);
-            z-index: 1;
-            pointer-events: none;
-        }
-        /* Bottom fade into the problem section */
-        .hero::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 100px;
-            background: linear-gradient(to bottom, transparent, #f8f8f6);
-            z-index: 2;
-            pointer-events: none;
         }
         .hero-bg {
             display: none;
@@ -1737,8 +1714,7 @@
             .hero .hero-desc { font-size: 1rem; }
             .beta-banner { height: 50px; padding: 0 1rem; font-size: 0.72rem; line-height: 1.35; }
             header { top: 50px; }
-            .hero { padding: 200px 1.5rem 240px; }
-            .hero { padding: 200px 1.5rem 260px; }
+            .hero { padding: 200px 1.5rem 140px; }
             .nav-links a { font-size: 0.8rem; margin-left: 0.75rem; }
             .cta-buttons { flex-direction: column; align-items: center; }
             .btn { width: 100%; max-width: 300px; text-align: center; }
