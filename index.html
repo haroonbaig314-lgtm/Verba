@@ -1976,12 +1976,45 @@
             #page-sweep.reveal { animation-duration: 0.3s; }
             #page-sweep.cover  { animation-duration: 0.3s; }
         }
+
+        /* ── Splash screen ── */
+        #splash {
+            position: fixed;
+            inset: 0;
+            background: #1a3c2e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+            pointer-events: none;
+        }
+        #splash-logo {
+            font-family: 'Inter', sans-serif;
+            font-size: 5rem;
+            font-weight: 800;
+            letter-spacing: 6px;
+            color: #ffffff;
+            opacity: 0;
+            animation: splash-in 0.3s ease forwards;
+        }
+        @keyframes splash-in {
+            from { opacity: 0; transform: scale(0.96); }
+            to   { opacity: 1; transform: scale(1); }
+        }
+        #splash.splash-out {
+            animation: splash-fade-out 0.4s ease forwards;
+        }
+        @keyframes splash-fade-out {
+            from { opacity: 1; }
+            to   { opacity: 0; }
+        }
     </style>
 </head>
 <body>
 
+<div id="splash" aria-hidden="true"><span id="splash-logo">VERBA</span></div>
 <div id="page-sweep" aria-hidden="true"></div>
-<noscript><style>#page-sweep { display: none; }</style></noscript>
+<noscript><style>#page-sweep { display: none; } #splash { display: none; }</style></noscript>
 
 <!-- Screen flash overlay (filler detection) -->
 <div id="filler-flash"></div>
@@ -4199,6 +4232,29 @@
     }
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
+}());
+</script>
+<script>
+(function () {
+    var splash = document.getElementById('splash');
+    if (!splash) return;
+    // Skip if reduced motion or already played this session
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        splash.parentNode.removeChild(splash);
+        return;
+    }
+    if (sessionStorage.getItem('verba_splash_shown')) {
+        splash.parentNode.removeChild(splash);
+        return;
+    }
+    sessionStorage.setItem('verba_splash_shown', '1');
+    // After 800ms start fade-out, remove from DOM after it completes
+    setTimeout(function () {
+        splash.classList.add('splash-out');
+        setTimeout(function () {
+            if (splash.parentNode) splash.parentNode.removeChild(splash);
+        }, 400);
+    }, 800);
 }());
 </script>
 </body>
