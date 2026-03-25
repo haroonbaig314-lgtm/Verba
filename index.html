@@ -2098,15 +2098,22 @@
             background: #1e3a2e;
             z-index: 99999;
             pointer-events: none;
+            opacity: 0;
             transform-origin: right center;
             will-change: transform;
+            -webkit-transform: translateZ(0);
             transform: translateZ(0);
-            display: none;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            -webkit-perspective: 1000;
+            perspective: 1000;
         }
         #page-sweep.reveal {
+            opacity: 1;
             animation: page-sweep-out 0.4s cubic-bezier(0.76, 0, 0.24, 1) forwards;
         }
         #page-sweep.cover {
+            opacity: 1;
             transform-origin: left center;
             animation: page-sweep-in 0.4s cubic-bezier(0.76, 0, 0.24, 1) forwards;
         }
@@ -4088,37 +4095,30 @@
     var overlay = document.getElementById('page-sweep');
     if (!overlay) return;
 
-    // ── Cleanup: reset any stale state immediately on load ──
-    overlay.style.display = 'none';
+    // Reset any stale class state on load — no display toggling, opacity handles visibility
     overlay.classList.remove('cover', 'reveal');
 
     if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     var isMobile = window.matchMedia('(max-width: 768px)').matches;
-    var DURATION = isMobile ? 300 : 400;
+    var DURATION = isMobile ? 250 : 400;
     var TARGET = 'future.html';
 
     // ── Incoming reveal: URL param is set by the outgoing page ──
     var params = new URLSearchParams(window.location.search);
     if (params.get('sweep') === '1') {
         history.replaceState(null, '', window.location.pathname);
-        overlay.style.display = 'block';
-        // Double rAF ensures the browser has fully painted before animating
+        // Single rAF gives the browser one frame to register DOM state before animating
         requestAnimationFrame(function () {
-            requestAnimationFrame(function () {
-                overlay.classList.add('reveal');
-                // Hide after animation so overlay cannot block interactions
-                overlay.addEventListener('animationend', function onEnd() {
-                    overlay.removeEventListener('animationend', onEnd);
-                    overlay.style.display = 'none';
-                    overlay.classList.remove('reveal');
-                });
-                // Safety: hide even if animationend does not fire
-                setTimeout(function () {
-                    overlay.style.display = 'none';
-                    overlay.classList.remove('reveal');
-                }, DURATION + 150);
+            overlay.classList.add('reveal');
+            overlay.addEventListener('animationend', function onEnd() {
+                overlay.removeEventListener('animationend', onEnd);
+                overlay.classList.remove('reveal');
             });
+            // Safety: remove class even if animationend does not fire
+            setTimeout(function () {
+                overlay.classList.remove('reveal');
+            }, DURATION + 150);
         });
     }
 
@@ -4131,17 +4131,18 @@
         if (href !== TARGET) return;
         e.preventDefault();
         overlay.classList.remove('cover', 'reveal');
-        void overlay.offsetWidth;
-        overlay.style.display = 'block';
-        overlay.classList.add('cover');
-        var navigated = false;
-        function navigate() {
-            if (navigated) return;
-            navigated = true;
-            window.location.href = TARGET + '?sweep=1';
-        }
-        setTimeout(navigate, DURATION);
-        setTimeout(navigate, 600); // safety: force navigate if animation hangs
+        void overlay.offsetWidth; // force reflow so animation restarts cleanly
+        requestAnimationFrame(function () {
+            overlay.classList.add('cover');
+            var navigated = false;
+            function navigate() {
+                if (navigated) return;
+                navigated = true;
+                window.location.href = TARGET + '?sweep=1';
+            }
+            setTimeout(navigate, DURATION);
+            setTimeout(navigate, 600); // safety: navigate if animation hangs
+        });
     });
 }());
 </script>
