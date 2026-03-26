@@ -3231,8 +3231,13 @@
         if (recognition) recognition.lang = langCode;
         var box = document.getElementById('transcript');
         if (box) {
-            if (langCode === 'ar-SA') { box.setAttribute('dir', 'rtl'); }
-            else                       { box.removeAttribute('dir'); }
+            if (langCode === 'ar-SA') {
+                box.setAttribute('dir', 'rtl');
+                box.style.textAlign = 'right';
+            } else {
+                box.setAttribute('dir', 'ltr');
+                box.style.textAlign = 'left';
+            }
         }
     }
 
