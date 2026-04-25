@@ -1333,6 +1333,47 @@
             .lang-select { font-size: 1rem; min-width: 0; width: 100%; }
         }
 
+        /* ── Custom Word Input ── */
+        .custom-word-wrap {
+            margin: 0.75rem 0 0;
+            text-align: left;
+        }
+        .custom-word-label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #4b7a62;
+            letter-spacing: 0.2px;
+            margin-bottom: 0.4rem;
+        }
+        .custom-word-optional {
+            font-weight: 400;
+            color: #9ca3af;
+        }
+        .custom-word-input {
+            width: 100%;
+            padding: 0.55rem 0.85rem;
+            border: 1.5px solid #d0d7d2;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            color: #1e3a2e;
+            background: #fff;
+            transition: border-color 0.2s, opacity 0.2s;
+            outline: none;
+        }
+        .custom-word-input::placeholder { color: #9ca3af; }
+        .custom-word-input:focus { border-color: #2d5a44; }
+        .custom-word-wrap.locked .custom-word-input {
+            opacity: 0.45;
+            cursor: not-allowed;
+            pointer-events: none;
+            background: #f3f4f6;
+        }
+        @media (max-width: 768px) {
+            .custom-word-input { font-size: 1rem; padding: 0.65rem 0.9rem; }
+        }
+
         /* Demo Buttons */
         .demo-buttons {
             display: flex;
@@ -2449,6 +2490,11 @@
                 </div>
             </div>
 
+            <div class="custom-word-wrap" id="customWordWrap">
+                <label class="custom-word-label" for="customWordInput">Track a custom word <span class="custom-word-optional">(optional)</span></label>
+                <input type="text" class="custom-word-input" id="customWordInput" placeholder="e.g. basically, right, you know" maxlength="40" autocomplete="off" autocorrect="off" spellcheck="false">
+            </div>
+
             <div class="demo-buttons">
                 <div class="mic-col">
                     <div class="mic-viz-wrap">
@@ -2857,6 +2903,8 @@
     var lastActivityTime = 0;
     var watchdogInterval = null;
     var isRestarting = false;
+    var customWord = '';        // normalized lowercase custom word active in current session
+    var customWordLabel = '';   // display label (uppercased) for the counter tile
 
     // ── Build filler counter cards ──
     var counterContainer = document.getElementById('fillerCounters');
@@ -2868,9 +2916,10 @@
             var card = document.createElement('div');
             card.className = 'filler-counter-card';
             card.id = 'card-' + id;
+            var label = (customWord && filler === customWord) ? customWordLabel : (cfg.labels[i] || filler.toUpperCase());
             card.innerHTML =
                 '<div class="filler-counter-number" id="count-' + id + '">0</div>' +
-                '<div class="filler-counter-label">' + cfg.labels[i] + '</div>';
+                '<div class="filler-counter-label">' + label + '</div>';
             counterContainer.appendChild(card);
         });
     }
@@ -3251,6 +3300,19 @@
     function lockLangSelector()   { var w = document.getElementById('langSelectorWrap'); if (w) w.classList.add('locked'); }
     function unlockLangSelector() { var w = document.getElementById('langSelectorWrap'); if (w) w.classList.remove('locked'); }
 
+    function lockCustomWordInput() {
+        var w = document.getElementById('customWordWrap');
+        var inp = document.getElementById('customWordInput');
+        if (w) w.classList.add('locked');
+        if (inp) inp.disabled = true;
+    }
+    function unlockCustomWordInput() {
+        var w = document.getElementById('customWordWrap');
+        var inp = document.getElementById('customWordInput');
+        if (w) w.classList.remove('locked');
+        if (inp) inp.disabled = false;
+    }
+
     // ── Recording control ──
     var MIC_SVG_OFF = '<svg class="mic-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">' +
         '<path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>' +
@@ -3289,6 +3351,18 @@
         document.getElementById('endSessionBtn').style.display = 'inline-block';
         document.getElementById('demoCard').classList.add('recording');
         lockLangSelector();
+
+        // Read custom word input and add to filler list for this session
+        var cwInput = document.getElementById('customWordInput');
+        customWord = cwInput ? cwInput.value.trim().toLowerCase() : '';
+        customWordLabel = customWord ? customWord.toUpperCase() : '';
+        if (customWord) {
+            FILLERS.push(customWord);
+            fillerCounts[customWord] = 0;
+        }
+        buildCounterCards();
+        lockCustomWordInput();
+
         showDots();
 
         isRestarting = false;
@@ -3361,6 +3435,11 @@
         setStatusDot('');
         sessionDuration = 0;
         accumulatedTranscript = '';
+        // Restore base fillers (drops custom word from previous session)
+        customWord = '';
+        customWordLabel = '';
+        FILLERS = LANG_CONFIG[currentLang].fillers.slice();
+        fillerCounts = {};
         FILLERS.forEach(function (f) { fillerCounts[f] = 0; });
         currentStreak = 0;
         bestStreak = 0;
@@ -3380,8 +3459,10 @@
         btn.setAttribute('aria-label', 'Start recording');
 
         unlockLangSelector();
+        unlockCustomWordInput();
         hideDots();
         renderTranscript('', '');
+        buildCounterCards();
         renderCounters();
         animateViz();
     }
@@ -3489,10 +3570,17 @@
             }
         }
 
-        if (fillerNote && paceNote) {
-            return fillerNote + ' ' + paceNote;
+        // Append custom word count if it was tracked and detected but wasn't already the top filler
+        var customNote = '';
+        if (customWord && fillerCounts[customWord] > 0 && topFiller !== customWord) {
+            var cCount = fillerCounts[customWord];
+            customNote = ' Your tracked word \u201c' + customWord + '\u201d came up ' + cCount + ' time' + (cCount !== 1 ? 's' : '') + '.';
         }
-        return fillerNote || paceNote;
+
+        if (fillerNote && paceNote) {
+            return fillerNote + ' ' + paceNote + customNote;
+        }
+        return (fillerNote || paceNote) + customNote;
     }
 
     // ── Event listeners ──
