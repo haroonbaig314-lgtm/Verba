@@ -1350,8 +1350,15 @@
             font-weight: 400;
             color: #9ca3af;
         }
+        .custom-word-row {
+            display: flex;
+            align-items: stretch;
+            gap: 0.5rem;
+        }
         .custom-word-input {
-            width: 100%;
+            flex: 1;
+            min-width: 0;
+            min-height: 44px;
             padding: 0.55rem 0.85rem;
             border: 1.5px solid #d0d7d2;
             border-radius: 10px;
@@ -1364,14 +1371,38 @@
         }
         .custom-word-input::placeholder { color: #9ca3af; }
         .custom-word-input:focus { border-color: #2d5a44; }
+        .custom-word-btn {
+            flex-shrink: 0;
+            min-height: 44px;
+            padding: 0 1.1rem;
+            background: #fff;
+            border: 1.5px solid #2d5a44;
+            border-radius: 10px;
+            color: #2d5a44;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background 0.15s, color 0.15s, border-color 0.15s;
+        }
+        .custom-word-btn:hover { background: #2d5a44; color: #fff; }
+        .custom-word-btn:active { background: #1e3a2e; border-color: #1e3a2e; color: #fff; }
         .custom-word-wrap.locked .custom-word-input {
             opacity: 0.45;
             cursor: not-allowed;
             pointer-events: none;
             background: #f3f4f6;
         }
+        .custom-word-wrap.locked .custom-word-btn {
+            opacity: 0.45;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
         @media (max-width: 768px) {
-            .custom-word-input { font-size: 1rem; padding: 0.65rem 0.9rem; }
+            .custom-word-row { flex-direction: column; gap: 0.5rem; }
+            .custom-word-input { width: 100%; font-size: 1rem; padding: 0.65rem 0.9rem; min-height: 44px; }
+            .custom-word-btn { width: 100%; min-height: 44px; font-size: 1rem; }
         }
 
         /* Demo Buttons */
@@ -2492,7 +2523,10 @@
 
             <div class="custom-word-wrap" id="customWordWrap">
                 <label class="custom-word-label" for="customWordInput">Track a custom word <span class="custom-word-optional">(optional)</span></label>
-                <input type="text" class="custom-word-input" id="customWordInput" placeholder="e.g. basically, right, you know" maxlength="40" autocomplete="off" autocorrect="off" spellcheck="false">
+                <div class="custom-word-row">
+                    <input type="text" class="custom-word-input" id="customWordInput" placeholder="e.g. basically, right, you know" maxlength="40" autocomplete="off" autocorrect="off" spellcheck="false">
+                    <button type="button" class="custom-word-btn" id="customWordAddBtn">Add</button>
+                </div>
             </div>
 
             <div class="demo-buttons">
@@ -3312,14 +3346,18 @@
     function lockCustomWordInput() {
         var w = document.getElementById('customWordWrap');
         var inp = document.getElementById('customWordInput');
+        var btn = document.getElementById('customWordAddBtn');
         if (w) w.classList.add('locked');
         if (inp) inp.disabled = true;
+        if (btn) btn.disabled = true;
     }
     function unlockCustomWordInput() {
         var w = document.getElementById('customWordWrap');
         var inp = document.getElementById('customWordInput');
+        var btn = document.getElementById('customWordAddBtn');
         if (w) w.classList.remove('locked');
         if (inp) inp.disabled = false;
+        if (btn) { btn.disabled = false; btn.textContent = 'Add'; btn.style.background = ''; btn.style.color = ''; }
     }
 
     // ── Recording control ──
@@ -3610,6 +3648,22 @@
     });
 
     document.getElementById('endSessionBtn').addEventListener('click', endSession);
+
+    var addWordBtn = document.getElementById('customWordAddBtn');
+    if (addWordBtn) {
+        addWordBtn.addEventListener('click', function () {
+            var inp = document.getElementById('customWordInput');
+            if (!inp || !inp.value.trim()) return;
+            addWordBtn.textContent = '\u2713 Added';
+            addWordBtn.style.background = '#2d5a44';
+            addWordBtn.style.color = '#fff';
+            setTimeout(function () {
+                addWordBtn.textContent = 'Add';
+                addWordBtn.style.background = '';
+                addWordBtn.style.color = '';
+            }, 1500);
+        });
+    }
 
     document.getElementById('closeModal').addEventListener('click', function () {
         document.getElementById('modalOverlay').classList.remove('visible');
