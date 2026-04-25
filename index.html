@@ -2009,9 +2009,6 @@
                 0%, 100% { filter: drop-shadow(0 0 3px rgba(45,90,68,0.4)); }
                 50%       { filter: drop-shadow(0 0 10px rgba(45,90,68,0.55)); }
             }
-            /* Streak tile - full width, no min-width constraint */
-            .streak-card { min-width: 0; width: 100%; box-sizing: border-box; }
-            .streak-text { font-size: 0.92rem; }
             /* Modal - fits phone screen without horizontal scroll */
             .modal-overlay { padding: 1rem; overflow-y: auto; align-items: flex-start; }
             .modal-card { padding: 1.5rem 1.25rem; max-height: none; width: 100%; box-sizing: border-box; margin: auto; }
@@ -2087,46 +2084,6 @@
         @media (max-width: 600px) {
             .beehiiv-card { padding-left: 0.5rem; padding-right: 0.5rem; }
         }
-
-        /* ── Streak display ── */
-        .streak-display {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 1.1rem;
-        }
-        .streak-card {
-            background: white;
-            border: 1.5px solid #e8e8e8;
-            border-radius: 10px;
-            padding: 0.65rem 1.25rem;
-            text-align: center;
-            transition: border-color 0.2s, background 0.2s;
-            min-width: 180px;
-        }
-        .streak-card.active {
-            border-color: #86efac;
-            background: #f0fdf4;
-        }
-        .streak-emoji {
-            font-size: 1.2rem;
-            line-height: 1;
-            margin-bottom: 0.15rem;
-        }
-        .streak-text {
-            font-size: 1rem;
-            font-weight: 800;
-            color: #1e3a2e;
-            line-height: 1;
-        }
-        .streak-card.active .streak-text { color: #16a34a; }
-        @keyframes streak-shake {
-            0%, 100% { transform: translateX(0); }
-            20%       { transform: translateX(-5px); }
-            40%       { transform: translateX(5px); }
-            60%       { transform: translateX(-4px); }
-            80%       { transform: translateX(4px); }
-        }
-        .streak-card.shake { animation: streak-shake 0.4s ease; }
 
         /* ── Session score ── */
         .score-display {
@@ -2489,13 +2446,6 @@
             </div>
 
             <div class="filler-counters" id="fillerCounters"></div>
-
-            <div class="streak-display">
-                <div class="streak-card" id="streakCard">
-<div class="streak-text" id="streakText">Current: 0 | Best: 0</div>
-                    <div class="filler-counter-label">Sentence Streak</div>
-                </div>
-            </div>
 
             <div class="transcript-box" id="transcript">
                 <div class="typing-dots" id="typingDots" aria-hidden="true"><span></span><span></span><span></span></div><span id="transcript-placeholder" class="transcript-placeholder">Waiting for speech input...</span><span id="transcript-final"></span><span id="transcript-interim" class="interim-text"></span>
@@ -2939,8 +2889,6 @@
     var accumulatedTranscript = '';
     var fillerCounts = {};
     FILLERS.forEach(function (f) { fillerCounts[f] = 0; });
-    var currentStreak = 0;
-    var bestStreak = 0;
     var dotsEl = document.getElementById('typingDots');
     var typingDotsTimer = null;
     var lastActivityTime = 0;
@@ -3025,14 +2973,8 @@
 
             if (detected) {
                 triggerFillerAlert();
-                currentStreak = 0;
-                shakeStreak();
-            } else if (newFinal) {
-                currentStreak++;
-                if (currentStreak > bestStreak) bestStreak = currentStreak;
             }
             incremented.forEach(function (f) { popCounter(f); });
-            renderStreak();
 
             renderTranscript(accumulatedTranscript, interim);
             renderCounters();
@@ -3097,25 +3039,6 @@
             result = result.replace(re, '<span class="filler-highlight">$1</span>');
         });
         return result;
-    }
-
-    // ── Streak ──
-    function renderStreak() {
-        var textEl = document.getElementById('streakText');
-        var card   = document.getElementById('streakCard');
-        if (textEl) textEl.textContent = 'Current: ' + currentStreak + ' | Best: ' + bestStreak;
-        if (card) {
-            if (currentStreak > 0) card.classList.add('active');
-            else card.classList.remove('active');
-        }
-    }
-
-    function shakeStreak() {
-        var card = document.getElementById('streakCard');
-        if (!card) return;
-        card.classList.remove('shake');
-        void card.offsetWidth;
-        card.classList.add('shake');
     }
 
     // ── Score ──
@@ -3488,9 +3411,6 @@
         FILLERS = LANG_CONFIG[currentLang].fillers.slice();
         fillerCounts = {};
         FILLERS.forEach(function (f) { fillerCounts[f] = 0; });
-        currentStreak = 0;
-        bestStreak = 0;
-        renderStreak();
 
         document.getElementById('timer').textContent = '0:00';
         document.getElementById('wpmDisplay').textContent = '--';
