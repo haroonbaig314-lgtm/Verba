@@ -2897,6 +2897,7 @@
     var isRestarting = false;
     var customWord = '';        // normalized lowercase custom word active in current session
     var customWordLabel = '';   // display label (uppercased) for the counter tile
+    var buzzerAC = null;
 
     // ── Build filler counter cards ──
     var counterContainer = document.getElementById('fillerCounters');
@@ -3093,6 +3094,21 @@
         if (watchdogInterval) { clearInterval(watchdogInterval); watchdogInterval = null; }
     }
 
+    // ── Desktop buzz via Web Audio API ──
+    function playBuzzSound() {
+        if (!buzzerAC || buzzerAC.state !== 'running') return;
+        var osc = buzzerAC.createOscillator();
+        var gain = buzzerAC.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.value = 180;
+        gain.gain.setValueAtTime(0.18, buzzerAC.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, buzzerAC.currentTime + 0.18);
+        osc.connect(gain);
+        gain.connect(buzzerAC.destination);
+        osc.start();
+        osc.stop(buzzerAC.currentTime + 0.18);
+    }
+
     // ── Alert: flash + vibrate ──
     function triggerFillerAlert() {
         var flash = document.getElementById('filler-flash');
@@ -3106,6 +3122,10 @@
         box.classList.add('filler-pulse');
 
         if (navigator.vibrate) navigator.vibrate([80, 30, 80]);
+
+        if (!window.matchMedia('(hover: none)').matches) {
+            playBuzzSound();
+        }
     }
 
     function popCounter(filler) {
@@ -3553,6 +3573,13 @@
 
     // ── Event listeners ──
     document.getElementById('micButton').addEventListener('click', function () {
+        if (!buzzerAC) {
+            var AC = window.AudioContext || window.webkitAudioContext;
+            if (AC) buzzerAC = new AC();
+        } else if (buzzerAC.state === 'suspended') {
+            buzzerAC.resume();
+        }
+
         if (!sessionActive && !isRecording) {
             var seen = false;
             try { seen = !!localStorage.getItem('verba_disclaimer_seen'); } catch (e) { seen = true; }
